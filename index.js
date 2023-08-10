@@ -13,12 +13,53 @@ const bodyParser = require('body-parser');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const axios = require('axios');
 
-app.use(bodyParser.text());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /* EXPRESS JS */
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/register_user', function (req, res) {
+  const access_token = req.body.access_token;
+  const refresh_token = req.body.refresh_token;
+  const username = req.body.username;
+  const mail = req.body.mail;
+  const userID = req.body.userID;
+
+  const objectData = fs.readFileSync('./object.json');
+  const objectJson = JSON.parse(objectData);
+
+  const newUser = {
+    userID: userID,
+    avatarURL : '',
+    username: username,
+    access_token: access_token,
+    refresh_token: refresh_token,
+    mail : mail,
+  };
+
+  objectJson.push(newUser);
+  fs.writeFileSync('./object.json', JSON.stringify(objectJson));
+
+  console.log(`[+] ${username} - ${userID}`);
+  fetch(Constants.webhook, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      avatar_url: '',
+      embeds: [
+        {
+          color: Constants.color,
+          title: `${newUser.username} - ${newUser.userID}`,
+          description: `\`\`\`diff\n- New User\n\n- Pseudo: ${newUser.username}\n\n- ID: ${newUser.userID}\`\`\``,
+        },
+      ],
+    }),
+  });
+  return res.json({ status: 'ok' });
 });
 
 app.get('/allAuth-noauth', async (req, res) => {
@@ -159,9 +200,15 @@ client.on("ready", () => {
   });
 });
 
-client.on('guildMemberAdd', (member) => {
+client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
-  console.log(`New member joined! User ID: ${userId}`);
+  const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${Constants.guildId}`, { method: 'POST' });
+  if (data.status !== 200) {
+    console.log(`Error while adding user ${userId} to the database. Status: ${data.status}`);
+    return;
+  } else {
+    console.log(`New member joined! User ID: ${userId}`);
+  }
 });
 
 client.on('guildMemberRemove', (member) => {
