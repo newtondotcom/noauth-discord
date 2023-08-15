@@ -11,6 +11,8 @@ const Constants = {
   guildId: '978694633213280256',
   color : 1752220,
   webhook : 'https://discord.com/api/webhooks/1138932963464192070/naN-uxPR1AEU9fBX_tJTv7RIJOzBl9YLpsfohH-otcceLHlSSI7ttxi2I7ndXgGZuUg-',
+  name : "RRSHOP",
+  password : "password",
 };
 
 module.exports = Constants;
