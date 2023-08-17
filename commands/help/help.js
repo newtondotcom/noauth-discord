@@ -16,9 +16,9 @@ module.exports = {
             components: [],
             // color : https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
             embeds: [{
-                color: constants.color,
+                color: 0xff8000 ,
                 title: `NOAuth Dashboard`,
-                description: '<:join:997096856431640586> **0auth2**\n`joinall`, `Users`, `Links`\n\n<:join:997096856431640586> **Prefix** `;`\n<:info:997096855143989329> *Message sent to users when they authorized:*\n```Hi, welcome 🎁```',
+                description: '**Prefix :** `;` or `/`\n**Bring all users :** `joinall`\n **Users list :** `users`\n **Bot links :** `Links`\n **Create a verification message :** `button`\n **whitelist user :** `wl`\n **Check whitelisted users:** `listwl`\n **Make your bot leave a server :** `leave`',
             }]
         });
     },
