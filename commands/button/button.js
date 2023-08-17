@@ -1,6 +1,6 @@
 const { SlashCommandBuilder,ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const {  } = require('discord.js');
-const Constants = require('../../constants');
+const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -59,7 +59,7 @@ module.exports = {
 
         const button = new ButtonBuilder()
             .setLabel('Authenticate here')
-            .setURL(Constants.authLink)
+            .setURL(constants.authLink)
             .setStyle(5);
 
         const actionRow = new ActionRowBuilder()

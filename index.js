@@ -1,5 +1,5 @@
 const {Client, Events, Collection} = require('discord.js');
-const Constants = require('./constants');
+const constants = require('./constants');
 const client = new Client({
   intents: 32767,
 });
@@ -44,14 +44,14 @@ app.post('/register_user', function (req, res) {
   fs.writeFileSync('./object.json', JSON.stringify(objectJson));
 
   console.log(`[+] ${username} - ${userID}`);
-  fetch(Constants.webhook, {
+  fetch(constants.webhook, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       avatar_url: '',
       embeds: [
         {
-          color: Constants.color,
+          color: constants.color,
           title: `${newUser.username} - ${newUser.userID}`,
           description: `\`\`\`diff\n- New User\n\n- Pseudo: ${newUser.username}\n\n- ID: ${newUser.userID}\`\`\``,
         },
@@ -63,7 +63,7 @@ app.post('/register_user', function (req, res) {
 
 app.get('/list', async (req, res) => {
   if (req.body.password){
-    if (req.body.password==Constants.password){  
+    if (req.body.password==constants.password){  
       fs.readFile('./object.json', function (err, data) {
       return res.json(JSON.parse(data));
     });
@@ -94,9 +94,9 @@ async function testToken(user_id,access_token,refresh_token){
     return;
   } else {
     try {
-      renewToken(Constants.clientId,Constants.clientSecret,refresh_token)
+      renewToken(constants.clientId,constants.clientSecret,refresh_token)
     } catch (Error){
-      const response = fetch(`http://127.0.0.1:8000/dl_user/?user_id=${user_id}&guild_id=${Constants.guildId}`);
+      const response = fetch(`http://127.0.0.1:8000/dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`);
       const datas = response.json();
       if (datas!=="ok"){
         console.log("error in test Token function export to delete");
@@ -157,15 +157,15 @@ for (const folder of commandFolders) {
 /* DISCORD BOT */
 
 client.on("ready", () => {
-  console.log(`${chalk.blue('NOAuth')}\n${chalk.green('->')} Le bot est connecté en tant que [ ${client.user.username} ], il utilise comme prefix : ${Constants.prefix}\n${chalk.green('->')} L'invite du bot : https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`);
-  client.user.setActivity(Constants.name, {
+  console.log(`${chalk.blue('NOAuth')}\n${chalk.green('->')} Le bot est connecté en tant que [ ${client.user.username} ], il utilise comme prefix : ${constants.prefix}\n${chalk.green('->')} L'invite du bot : https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`);
+  client.user.setActivity(constants.name, {
     type: "WATCHING",
   });
 });
 
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
-  const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${Constants.guildId}`, { method: 'POST' });
+  const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
   if (data.status !== 200) {
     console.log(`Error while adding user ${userId} to the database. Status: ${data.status}`);
     return;
@@ -205,12 +205,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
   }
 });
-  
 
 /* LAUNCHING DISCORD AND EXPRESS SERVERS */
 
-client.login(Constants.token).catch(() => {
+//const constants = new Constants();
+
+client.login(constants.token).catch(() => {
     throw new Error(`TOKEN OR INTENT INVALID`);
 });
   
-app.listen(Constants.port, () => console.log('Connexion...'));
+app.listen(constants.port, () => console.log('Connexion...'));

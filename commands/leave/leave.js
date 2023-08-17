@@ -1,6 +1,6 @@
 const { SlashCommandBuilder,ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const {  } = require('discord.js');
-const Constants = require('../../constants');
+const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +19,7 @@ module.exports = {
         await interaction.reply({
             embeds: [{
                 description: `I have left the server with ID: ${server}`,
-                color: Constants.color
+                color: constants.color
             }]
         });
     },

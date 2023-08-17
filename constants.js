@@ -1,7 +1,7 @@
-const Constants = {
+const constants = {
   token: "MTEzMjY4MTg1MDUyODIwMjc4Mg.GnYENS.GfLGZeMMX8vsVEOdVgnqqkwlw4YXjqbivD5-UA",
   prefix: ";",
-  owners: ["423151303057735681"],
+  owners: ["423151303057735681","982703621479206952"],
   authLink: "https://discord.com/api/oauth2/authorize?client_id=1132681850528202782&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&response_type=code&scope=guilds%20guilds.join%20identify%20email",
   port : 5000,
   clientId: '1132681850528202782',
@@ -15,9 +15,4 @@ const Constants = {
   password : "password",
 };
 
-module.exports = Constants;
-
-
-/*
-Show the button to get the role : -createreactionrole
-*/
+module.exports = constants;

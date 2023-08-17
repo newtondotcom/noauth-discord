@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const db = require('quick.db');
-const Constants = require('../../constants');
+const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ module.exports = {
         
     async execute(interaction) {
         
-        if (db.get(`wl_${interaction.user.id}`) !== true && !Constants.owners.includes(interaction.user.id)) {
+        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
@@ -27,7 +27,7 @@ module.exports = {
           embeds: [{
             title: "Whitelisted Users",
             description: `${content}`,
-            color: Constants.color,
+            color: constants.color,
           }]
         });
 

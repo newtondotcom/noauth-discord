@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const Constants = require('../../constants');
+const constants = require('../../constants');
 const db = require('quick.db');
 
 module.exports = {
@@ -31,14 +31,14 @@ module.exports = {
                 interaction.channel.send({
                   embeds: [{
                     description: `**${userToRemove.username}** has been removed from the whitelist`,
-                    color: Constants.color
+                    color: constants.color
                   }]
                 });
               } else {
                 interaction.channel.send({
                   embeds: [{
                     description: `**${userToRemove.username}** was not whitelisted`,
-                    color: Constants.color
+                    color: constants.color
                   }]
                 });
               }
@@ -49,14 +49,14 @@ module.exports = {
                 interaction.channel.send({
                   embeds: [{
                     description: `**${userToAdd.username}** has been added to the whitelist`,
-                    color: Constants.color
+                    color: constants.color
                   }]
                 });
               } else {
                 interaction.channel.send({
                   embeds: [{
                     description: `**${userToAdd.username}** is already whitelisted`,
-                    color: Constants.color
+                    color: constants.color
                   }]
                 });
               }   

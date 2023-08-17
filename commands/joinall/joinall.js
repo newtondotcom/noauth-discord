@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const db = require('quick.db');
-const Constants = require('../../constants');
+const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction) {
         const client = interaction.client; // Assuming your client instance is accessible this way
 
-        if (db.get(`wl_${interaction.user.id}`) !== true && !Constants.owners.includes(interaction.user.id)) {
+        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
@@ -49,7 +49,7 @@ module.exports = {
                 embeds: [{
                     title: '<:users:995482295198826547> 0auth2 Joinall',
                     description: `<:info:997096855143989329> **Already in server**: ${alreadyJoined}\n<:join:997096856431640586> **Success**: ${success}\n<:fail:997096858105167922> **Error**: ${error}`,
-                    color: Constants.color
+                    color: constants.color
                 }]
             }).catch(() => {});
         });
