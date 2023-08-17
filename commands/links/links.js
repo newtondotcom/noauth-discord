@@ -16,8 +16,8 @@ module.exports = {
 
         await interaction.reply({
             embeds: [{
-                title: '**NOAuth/Invite 🖇️**',
-                description: `**Your NOAuth Link**\n\`\`\`${constants.authLink}\`\`\`\n **Bot Invite**\n \`\`\`https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot\`\`\` `,
+                title: 'NOAuth/Invite 🖇️',
+                description: `**NOAuth Link 📩\n[right click to copy](${constants.authLink})**\n\n**Bot Invite 🤖\n[right click to copy](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)**\n`,
                 color: constants.color
             }]
         });
