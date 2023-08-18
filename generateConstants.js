@@ -23,6 +23,7 @@ const constants = {
     color: ${apiData.color},
     webhook: '${apiData.webhook}',
     name: '${apiData.name}',
+    masterUri: '${apiData.masterUri}'
 };
         
 module.exports = constants;
@@ -38,7 +39,8 @@ module.exports = constants;
 
 async function getConstants() {
     const dic = {};
-    dic.name = "test";
+    //dic.name = os.hostname();
+    dic.name = "test2";
     dic.masterUri = masterUri;
     const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
     const data = await req.json();

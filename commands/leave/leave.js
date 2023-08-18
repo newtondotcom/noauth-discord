@@ -5,7 +5,7 @@ const constants = require('../../constants');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('leave')
-        .setDescription('Display Embed with Link Button')        
+        .setDescription('Leave a server specified by ID')        
         .addStringOption(option =>
             option.setName('server')
                 .setDescription('Paste the server ID here')

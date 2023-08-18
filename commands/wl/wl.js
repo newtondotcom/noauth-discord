@@ -5,7 +5,7 @@ const db = require('quick.db');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('wl')
-        .setDescription('Manage whitelist!')
+        .setDescription('Manage NOAuth whitelist !')
         .addStringOption(option =>
             option.setName('action')
                 .setDescription('Select an action')
