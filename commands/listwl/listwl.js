@@ -26,7 +26,7 @@ module.exports = {
         interaction.channel.send({
           embeds: [{
             title: "Whitelisted Users",
-            description: `${content}`,
+            description: `**${content}**`,
             color: constants.color,
           }]
         });

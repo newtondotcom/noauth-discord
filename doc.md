@@ -57,5 +57,3 @@ The Discord OAuth2 Bot supports the following commands:
 If you encounter any issues or have questions about using the Discord OAuth2 Bot, feel free to contact us on the [official Discord Server](https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=8&scope=bot).
 
 Enjoy using the Discord NOAuth bot to manage your server and enhance your Discord experience!
-
-caca
