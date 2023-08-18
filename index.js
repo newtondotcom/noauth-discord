@@ -1,8 +1,8 @@
 const {Client, Events, Collection} = require('discord.js');
-const constants = require('./constants');
 const client = new Client({
   intents: 32767,
 });
+const constants = require('./constants');
 const chalk = require('chalk');
 const fs = require('node:fs');
 const path = require('node:path');
