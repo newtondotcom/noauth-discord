@@ -149,12 +149,21 @@ client.on("messageCreate", async (message) => {
   if (!message.guild || message.author.bot) return;
 });
 
+const help = require('./functions');
+
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot')
+  if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot'){
     const commandI = interaction.values[0];
     try {
-    const command = interaction.client.commands.get(commandI);
-    await command.execute(interaction);
+      switch (commandI) {
+        case 'help':
+          await help2.help2(interaction);
+          break;
+        case 'managecustom':
+          await interaction.reply({
+            components: [],
+          });
+      }
     } catch (error) {
       console.error(error);
     }
