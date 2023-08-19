@@ -1,4 +1,4 @@
-const { SlashCommandBuilder,ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder,  Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const constants = require('../../constants');
 
 module.exports = {
@@ -7,15 +7,39 @@ module.exports = {
         .setDescription('List all the servers the bot is in (with their id) !'),
     async execute(interaction) {
         const selectMenu = new StringSelectMenuBuilder()
-        .setPlaceholder('Choose a game !')
-        .addOptions(
-            new StringSelectMenuOptionBuilder()
-              .setLabel('Option 1')
-              .setValue('help')
+            .setPlaceholder('Select an option')
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('🔴 Custom button')
+                    .setValue('managecustom'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('🔘 Spawn the button')
+                    .setValue('button'),
+            )
+            .addOptions(
+              new StringSelectMenuOptionBuilder()
+                  .setLabel('🖇️ About your bot')
+                  .setValue('managebot'),
           )
-        .setCustomId('selectCommand');
+          .addOptions(
+            new StringSelectMenuOptionBuilder()
+                .setLabel('🧑 Manage users')
+                .setValue('manageuser'),
+        )
+        .addOptions(
+          new StringSelectMenuOptionBuilder()
+              .setLabel('🧑 Manage wl')
+              .setValue('managewl'),
+      )
+            .setCustomId('selectCommand');
   
-      const row = new ActionRowBuilder().addComponents(selectMenu);
-      await interaction.reply({ content: 'Choose a game !', components: [row] });
+        const row = new ActionRowBuilder().addComponents(selectMenu);
+        try{
+          await interaction.update({ content: 'Choose a game !', components: [row] });
+        } catch(error){
+        await interaction.reply({ content: 'Choose a game !', components: [row] });
+        }
     },
 };

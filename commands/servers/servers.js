@@ -9,10 +9,10 @@ module.exports = {
         const serverList = [];
 
         interaction.client.guilds.cache.forEach(guild => {
-            serverList.push(`${guild.name} | ${guild.id}`);
+            serverList.push(`\`${guild.name}\` | \`${guild.id}\``);
         });
 
-        const description =  " 🔶 " + serverList.join('\n \n 🔶 ');
+        const description =  " 🔶  " + serverList.join('\n \n 🔶 ');
         await interaction.reply({
             embeds: [{
                 title: 'Server List of NOAuth',
