@@ -7,7 +7,7 @@ module.exports = {
         .setDescription('List all the servers the bot is in (with their id) !'),
     async execute(interaction) {
         const modal = new ModalBuilder()
-            .setCustomId('customButton')
+            .setCustomId('custombuttontext')
             .setTitle('Final step');
 
         // Create TextInputBuilders
