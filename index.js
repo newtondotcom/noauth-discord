@@ -150,7 +150,7 @@ client.on("messageCreate", async (message) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.customId === 'selectCommand') {
+  if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot')
     const commandI = interaction.values[0];
     try {
     const command = interaction.client.commands.get(commandI);
@@ -160,7 +160,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
   }
 
+  if (interaction.customId === 'custombuttontext') {
+    const name = interaction.fields.getTextInputValue('name');
+    const title = interaction.fields.getTextInputValue('title');
+    const description = interaction.fields.getTextInputValue('description');
+    const footer = interaction.fields.getTextInputValue('footer');
+    console.log(name, title, description, footer);
+  }
 
+  if (interaction.customId === 'custombuttongraphic') {
+    const image = interaction.fields.getImageInputValue('image');
+    const color = interaction.fields.getColorInputValue('color');
+    console.log(image, color);
+  }
 
   if (!interaction.isChatInputCommand()) return;
 
