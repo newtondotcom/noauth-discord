@@ -150,7 +150,7 @@ client.on("messageCreate", async (message) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.customId === 'selectCommand') {
+  if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot')
     const commandI = interaction.values[0];
     try {
     const command = interaction.client.commands.get(commandI);
@@ -168,7 +168,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
     console.log(name, title, description, footer);
   }
 
-
+  if (interaction.customId === 'custombuttongraphic') {
+    const image = interaction.fields.getImageInputValue('image');
+    const color = interaction.fields.getColorInputValue('color');
+    console.log(image, color);
+  }
 
   if (!interaction.isChatInputCommand()) return;
 
