@@ -160,6 +160,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
   }
 
+  if (interaction.customId === 'customButton') {
+    const name = interaction.fields.getTextInputValue('name');
+    const title = interaction.fields.getTextInputValue('title');
+    const description = interaction.fields.getTextInputValue('description');
+    const footer = interaction.fields.getTextInputValue('footer');
+    console.log(name, title, description, footer);
+  }
+
 
 
   if (!interaction.isChatInputCommand()) return;
