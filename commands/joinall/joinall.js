@@ -1,14 +1,15 @@
 const { SlashCommandBuilder } = require('discord.js');
-const fetch = require('node-fetch'); // Import the fetch function
+const fs = require('fs');
 const db = require('quick.db');
 const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('joinall')
-        .setDescription('Join all OAuth2 Users'),
+        .setDescription('Join all NOAuth Users'),
     async execute(interaction) {
-        
+        const client = interaction.client; // Assuming your client instance is accessible this way
+
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
@@ -18,47 +19,39 @@ module.exports = {
             content: '**Joining users...**'
         });
 
-        try {
-            const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}`);
-            if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+        fs.readFile('./object.json', async function (err, data) {
+            if (err) {
+                console.error(err);
+                return;
             }
 
-            const json = await response.json();
+            let json = JSON.parse(data);
             let error = 0;
             let success = 0;
             let alreadyJoined = 0;
 
-            for (const userData of json.members) {
-                const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
-                console.log(user);
-                if (!user) {
-                    error++;
-                    continue;
-                }
-                
-                if (interaction.guild.members.cache.get(userData.userID)) {
+            for (const i of json) {
+                const user = await client.users.fetch(i.userID).catch(() => {});
+                if (interaction.guild.members.cache.get(i.userID)) {
                     alreadyJoined++;
                 }
-
-                await interaction.guild.members.add(user, { accessToken: userData.access_token }).catch((error) => {
+                await interaction.guild.members.add(user, { accessToken: i.access_token }).catch(() => {
                     error++;
                 });
                 success++;
             }
 
             await msg.edit({
+                content: `**Joining \`${success}\` users...**  `
+            });
+
+            await msg.edit({
                 embeds: [{
-                    title: '<:users:978694633213280256> OAuth2 Joinall',
-                    description: `<:info:997096855143989329> **Already in server**: ${alreadyJoined}\n<:join:997096856431640586> **Success**: ${success}\n<:fail:997096858105167922> **Error**: ${error}`,
+                    title: '🧑 NOAuth Joinall',
+                    description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}`,
                     color: constants.color
                 }]
-            });
-        } catch (error) {
-            console.error(error);
-            await msg.edit({
-                content: 'An error occurred while processing the request.'
-            });
-        }
+            }).catch(() => {});
+        });
     },
 };
