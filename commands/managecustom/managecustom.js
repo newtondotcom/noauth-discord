@@ -10,12 +10,12 @@ module.exports = {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🖋️ TEXTE')
+                    .setLabel('🖋️ Text')
                     .setValue('custombuttontext'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🖼️ IMAGE')
+                    .setLabel('🖼️ Graphic')
                     .setValue('button'),
             )
             .addOptions(

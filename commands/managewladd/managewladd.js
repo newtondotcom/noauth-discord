@@ -3,7 +3,7 @@ const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('custombuttontext')
+        .setName('managewladd')
         .setDescription('List all the servers the bot is in (with their id) !'),
     async execute(interaction) {
         const modal = new ModalBuilder()
@@ -13,7 +13,7 @@ module.exports = {
         // Create TextInputBuilders
         const name = new TextInputBuilder()
             .setCustomId('id')
-            .setLabel("What's the name?")
+            .setLabel("What's the ID?")
             .setStyle(TextInputStyle.Short);
 
         // Create ActionRowBuilders and add TextInputBuilders to them

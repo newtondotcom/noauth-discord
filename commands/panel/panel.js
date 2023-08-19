@@ -4,7 +4,7 @@ const constants = require('../../constants');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('panel')
-        .setDescription('List all the servers the bot is in (with their id) !'),
+        .setDescription('caca'),
     async execute(interaction) {
         const selectMenu = new StringSelectMenuBuilder()
             .setPlaceholder('Select an option')
@@ -20,7 +20,7 @@ module.exports = {
             )
             .addOptions(
               new StringSelectMenuOptionBuilder()
-                  .setLabel('🖇️ About your bot')
+                  .setLabel('🤖 About your bot')
                   .setValue('managebot'),
           )
           .addOptions(
@@ -37,9 +37,20 @@ module.exports = {
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
         try{
-          await interaction.update({ content: 'Choose a game !', components: [row] });
-        } catch(error){
-        await interaction.reply({ content: 'Choose a game !', components: [row] });
+          await interaction.update({ content: '', components: [row],
+            embeds: [{
+                color: 0xff8000 ,
+                title: `NOAuth Dashboard`,
+                description: '**NO RESELL** \n \`MADE BY NWT\`',}]
+        });
+            } catch(error){
+            await interaction.reply({ content: '', components: [row],
+                embeds: [{
+                    color: 0xff8000 ,
+                    title: `NOAuth Dashboard`,
+                    description: '**NO RESELL** \n \`MADE BY NWT\`',
+            }]
+        });
         }
     },
 };

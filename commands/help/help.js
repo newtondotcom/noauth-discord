@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder} = require('discord.js');
 const constants = require('../../constants');
 const db = require('quick.db');
 
@@ -7,7 +7,6 @@ module.exports = {
         .setName('help')
         .setDescription('Display Help Information'),
     async execute(interaction) {
-
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
             return;

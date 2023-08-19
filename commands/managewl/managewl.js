@@ -3,35 +3,29 @@ const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('manageuser')
+        .setName('managewl')
         .setDescription('List all the servers the bot is in (with their id) !'),
     async execute(interaction) {
         const selectMenu = new StringSelectMenuBuilder()
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('📃 User list')
-                    .setValue('users'),
+                    .setLabel('➕ Add')
+                    .setValue('managewladd'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🎣 Join')
-                    .setValue('join'),
+                    .setLabel('🗑️ Remove')
+                    .setValue('managewlremove'),
             )
             .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('🛶 joinall')
-                    .setValue('joinall'),
-            )
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setLabel('⏪ Go back')
-                    .setValue('panel'),
-            )
-            
-            .setCustomId('selectUser');
+              new StringSelectMenuOptionBuilder()
+                  .setLabel('⏪ Go back')
+                  .setValue('panel'),
+          )
+            .setCustomId('selectBot');
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: '', components: [row] });
+        await interaction.update({ content: 'Choose a game !', components: [row] });
     },
 };
