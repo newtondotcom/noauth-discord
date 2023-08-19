@@ -17,37 +17,8 @@ module.exports = {
                 icon_url: 'https://i.imgur.com/AfFp7pu.png',
                 url: 'https://discord.js.org',
             },
-            description: 'Some description here',
+            description: 'Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre',
             thumbnail: {
-                url: 'https://i.imgur.com/AfFp7pu.png',
-            },
-            fields: [
-                {
-                    name: 'Regular field title',
-                    value: 'Some value here',
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                    inline: false,
-                },
-                {
-                    name: 'Inline field title',
-                    value: 'Some value here',
-                    inline: true,
-                },
-                {
-                    name: 'Inline field title',
-                    value: 'Some value here',
-                    inline: true,
-                },
-                {
-                    name: 'Inline field title',
-                    value: 'Some value here',
-                    inline: true,
-                },
-            ],
-            image: {
                 url: 'https://i.imgur.com/AfFp7pu.png',
             },
             timestamp: new Date().toISOString(),

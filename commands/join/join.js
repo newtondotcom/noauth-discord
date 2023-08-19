@@ -5,9 +5,15 @@ const constants = require('../../constants');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('joinall')
-        .setDescription('Join all OAuth2 Users'),
+        .setName('join')
+        .setDescription('Join a speicific amount of NOAuth Users')
+        .addStringOption(option =>
+            option.setName('amount')
+                .setDescription('Type an amount of users to join')
+                .setRequired(true)
+        ),
     async execute(interaction) {
+        const amount = interaction.options.getString('amount');
         
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
@@ -19,7 +25,7 @@ module.exports = {
         });
 
         try {
-            const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}`);
+            const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}&amount=${amount}`);
             if (!response.ok) {
                 throw new Error(`API request failed with status ${response.status}`);
             }
