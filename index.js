@@ -2,6 +2,7 @@ const {Client, Events, Collection, ActivityType} = require('discord.js');
 const client = new Client({
   intents: 32767,
 });
+const db = require('quick.db');
 const constants = require('./constants');
 const chalk = require('chalk');
 const fs = require('node:fs');
@@ -258,8 +259,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const id = interaction.fields.getTextInputValue('id');
     console.log(id);
   }
+
+  // after listed all users in the type bar
   if (interaction.customId === 'managewlremove') {
-    const id = interaction.fields.getTextInputValue('id');
+    const id = interaction.values[0];
+    db.delete(id);
     console.log(id);
   }
 
@@ -268,6 +272,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const count = interaction.fields.getTextInputValue('count');
     console.log(count);
   }
+
+    // Form to choose a new webhook
+    if (interaction.customId === 'changewebhook') {
+      const webhook = interaction.fields.getTextInputValue('changewebhook');
+      console.log(webhook);
+
+      //send modifications
+
+      //restart bot ?
+    }
 
 
   if (!interaction.isChatInputCommand()) return;
