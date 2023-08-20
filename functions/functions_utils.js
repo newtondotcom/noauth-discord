@@ -18,7 +18,7 @@ module.exports = {
             }]
         });
     },
-    
+
     async changewebhook(interaction) {
         const modal = new ModalBuilder()
             .setCustomId('changewebhook')
@@ -35,7 +35,6 @@ module.exports = {
 
         // Add each ActionRowBuilder to the modal
         modal.addComponents(imageActionRow);
-        modal.addComponents(colorActionRow);
 
         // Reply to the interaction with the modal
         await interaction.reply({
