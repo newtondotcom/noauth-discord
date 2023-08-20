@@ -248,6 +248,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
     console.log(image, color);
   }
 
+  if (interaction.customId === 'managewladd') {
+    const id = interaction.fields.getTextInputValue('id');
+    console.log(id);
+  }
+
+  if (interaction.customId === 'managewlremove') {
+    const id = interaction.fields.getTextInputValue('id');
+    console.log(id);
+  }
+
   if (!interaction.isChatInputCommand()) return;
 
 	const command = interaction.client.commands.get(interaction.commandName);
