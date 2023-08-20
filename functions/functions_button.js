@@ -66,7 +66,7 @@ async button(interaction) {
         modal.addComponents(colorActionRow);
 
         // Reply to the interaction with the modal
-        await interaction.reply({
+        await interaction.update({
             content: 'Fill in the details:',
             components: [modal],
         });
@@ -141,7 +141,7 @@ async button(interaction) {
             .setCustomId('selectCustom');
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: 'Choose a game !', components: [row] });
+        await interaction.update({ content: '', components: [row] });
     },
 
 }

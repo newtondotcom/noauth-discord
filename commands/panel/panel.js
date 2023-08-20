@@ -38,6 +38,12 @@ module.exports = {
               .setDescription('Manages users who have access to the whitelist')
               .setValue('managewl'),
       )
+      .addOptions(
+        new StringSelectMenuOptionBuilder()
+            .setLabel('❌ Close Menu')
+            .setDescription('Close the menu')
+            .setValue('closemenu'),
+    )
             .setCustomId('selectCommand');
   
         const row = new ActionRowBuilder().addComponents(selectMenu);

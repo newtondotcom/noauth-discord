@@ -76,7 +76,7 @@ module.exports = {
                 });
               }   
         } else {
-            await interaction.reply('Whitelist management logic here!');
+            await interaction.update('Whitelist management logic here!');
         }
     },
 

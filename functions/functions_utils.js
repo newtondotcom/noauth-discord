@@ -1,3 +1,4 @@
+const { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 const db = require('quick.db');
 const constants = require('../constants');
 
@@ -8,7 +9,7 @@ module.exports = {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
-        await interaction.reply({
+        await interaction.update({
             components: [],
             // color : https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
             embeds: [{
@@ -37,10 +38,17 @@ module.exports = {
         modal.addComponents(imageActionRow);
 
         // Reply to the interaction with the modal
-        await interaction.reply({
-            content: 'Fill in the details:',
-            components: [modal],
-        });
+        await interaction.showModal();
+    },
+
+    ///////////////CLOSEMENU
+
+    async closemenu(interaction) {
+        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
+            await interaction.reply("You don't have permission to use this command.");
+            return;
+        }
+        await interaction.deleteReply();
     },
 
 }

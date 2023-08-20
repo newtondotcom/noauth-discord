@@ -12,7 +12,7 @@ module.exports = {
         });
 
         const description =  " 🔶  " + serverList.join('\n \n 🔶 ');
-        await interaction.reply({
+        await interaction.upadte({
             embeds: [{
                 title: 'Server List of NOAuth',
                 description:description,
