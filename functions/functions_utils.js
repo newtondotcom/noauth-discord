@@ -1,3 +1,4 @@
+const { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 const db = require('quick.db');
 const constants = require('../constants');
 
@@ -35,13 +36,9 @@ module.exports = {
 
         // Add each ActionRowBuilder to the modal
         modal.addComponents(imageActionRow);
-        modal.addComponents(colorActionRow);
 
         // Reply to the interaction with the modal
-        await interaction.reply({
-            content: 'Fill in the details:',
-            components: [modal],
-        });
+        await interaction.showModal();
     },
 
     ///////////////CLOSEMENU
