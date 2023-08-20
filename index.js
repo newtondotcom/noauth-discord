@@ -221,6 +221,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'joinall':
           await functions_users.joinall(interaction);
           break;
+        case 'changewebhook':
+          await functions_utils.changewebhook(interaction);
+          break;
         case 'closemenu':
           await functions_utils.closemenu(interaction);
           break;
