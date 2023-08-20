@@ -18,6 +18,31 @@ module.exports = {
             }]
         });
     },
+    
+    async changewebhook(interaction) {
+        const modal = new ModalBuilder()
+            .setCustomId('changewebhook')
+            .setTitle('Final step');
+
+        // Create TextInputBuilders
+        const webhook = new TextInputBuilder()
+            .setCustomId('changewebhook')
+            .setLabel("What's the image?")
+            .setStyle(TextInputStyle.Short);
+
+        // Create ActionRowBuilders for each TextInputBuilder
+        const imageActionRow = new ActionRowBuilder().addComponents( webhook);
+
+        // Add each ActionRowBuilder to the modal
+        modal.addComponents(imageActionRow);
+        modal.addComponents(colorActionRow);
+
+        // Reply to the interaction with the modal
+        await interaction.reply({
+            content: 'Fill in the details:',
+            components: [modal],
+        });
+    },
 
     ///////////////CLOSEMENU
 

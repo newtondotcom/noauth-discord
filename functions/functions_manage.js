@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
+const {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const constants = require('../constants');
+const db = require('quick.db');
 
 module.exports = {
 
@@ -53,7 +54,7 @@ module.exports = {
                 new StringSelectMenuOptionBuilder()
                     .setLabel('🎣 Join')
                     .setDescription('Join a number of people in the server you want')
-                    .setValue('join'),
+                    .setValue('selectjoin'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
@@ -129,24 +130,22 @@ module.exports = {
     ///////////////////MANAGEWLREMOVE
 
     async managewlremove(interaction) {
-        const modal = new ModalBuilder()
-            .setCustomId('managewlremove')
-            .setTitle('Final step');
+        const userArray = db.all(); // Retrieve all keys (user data) from the database
+        console.log(userArray[0].ID);
 
-        // Create TextInputBuilders
-        const name = new TextInputBuilder()
-            .setCustomId('id')
-            .setLabel("What's the ID?")
-            .setStyle(TextInputStyle.Short);
-
-        // Create ActionRowBuilders and add TextInputBuilders to them
-        const nameActionRow = new ActionRowBuilder().addComponents(name);
-        
-        // Add each ActionRowBuilder to the modal
-        modal.addComponents(nameActionRow);
-
-        // Reply to the interaction with the modal
-        await interaction.showModal(modal);
+        const selectMenuGame = new StringSelectMenuBuilder()
+        .setPlaceholder('Choose a game !')
+        .addOptions(
+            userArray.map((game) =>
+            new StringSelectMenuOptionBuilder()
+              .setLabel(game.data)
+              .setValue(game.ID)
+          )
+        )
+        .setCustomId('selectMenuGame');
+  
+      const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
+      await interaction.reply({ content: 'Choose a game !', components: [rowGame] });
     },
 
 };

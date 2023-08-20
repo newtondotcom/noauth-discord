@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActivityType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} = require('discord.js');
+const {StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActivityType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} = require('discord.js');
 const constants = require('../constants');
 
 module.exports = {
