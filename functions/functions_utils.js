@@ -48,7 +48,7 @@ module.exports = {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
-        await interaction.deleteReply();
+        await interaction.delete();
     },
 
 }

@@ -23,17 +23,22 @@ module.exports = {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🚷 leave')
+                    .setLabel('🚷 Leave')
                     .setDescription('Leave your bot')
                     .setValue('leave'),
             )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setLabel('🔔 Webhook')
+                    .setDescription('Manage your bot webhook')
+                    .setValue('changewebhook'),
+            )        
             .addOptions(
               new StringSelectMenuOptionBuilder()
                   .setLabel('⏪ Go back')
                   .setValue('panel'),
           )
             .setCustomId('selectBot');
-  
         const row = new ActionRowBuilder().addComponents(selectMenu);
         await interaction.update({ content: 'Choose a game !', components: [row] });
     },
