@@ -157,7 +157,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     try {
       switch (commandI) {
         case 'help':
-          await help2.help2(interaction);
+          await help.help(interaction);
           break;
         case 'managecustom':
           await interaction.reply({
