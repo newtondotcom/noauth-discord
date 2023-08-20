@@ -11,7 +11,6 @@ module.exports = {
         }
         await interaction.update({
             components: [],
-            // color : https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
             embeds: [{
                 color: 0xff8000 ,
                 title: `NOAuth Dashboard`,
@@ -32,13 +31,13 @@ module.exports = {
             .setStyle(TextInputStyle.Short);
 
         // Create ActionRowBuilders for each TextInputBuilder
-        const imageActionRow = new ActionRowBuilder().addComponents( webhook);
+        const ActionRow = new ActionRowBuilder().addComponents( webhook);
 
         // Add each ActionRowBuilder to the modal
-        modal.addComponents(imageActionRow);
+        modal.addComponents(ActionRow);
 
         // Reply to the interaction with the modal
-        await interaction.showModal();
+        await interaction.showModal(modal);
     },
 
     ///////////////CLOSEMENU

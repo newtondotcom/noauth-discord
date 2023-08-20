@@ -224,6 +224,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'closemenu':
           await functions_utils.closemenu(interaction);
           break;
+        case 'changewebhook':
+          await functions_utils.changewebhook(interaction);
         case 'panel':
           const command = interaction.client.commands.get('panel');
           if (!command) {
