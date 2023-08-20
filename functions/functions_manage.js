@@ -53,7 +53,7 @@ module.exports = {
                 new StringSelectMenuOptionBuilder()
                     .setLabel('🎣 Join')
                     .setDescription('Join a number of people in the server you want')
-                    .setValue('join'),
+                    .setValue('selectjoin'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()

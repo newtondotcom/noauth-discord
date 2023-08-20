@@ -214,6 +214,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'join':
           await functions_users.join(interaction);
           break;
+        case 'selectjoin':
+          await functions_users.selectjoin(interaction);
+          break;
         case 'joinall':
           await functions_users.joinall(interaction);
           break;
@@ -234,6 +237,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
     
 
+  // Form to customize the texts of the button
   if (interaction.customId === 'custombuttontext') {
     const name = interaction.fields.getTextInputValue('name');
     const title = interaction.fields.getTextInputValue('title');
@@ -242,21 +246,29 @@ client.on(Events.InteractionCreate, async (interaction) => {
     console.log(name, title, description, footer);
   }
 
+  // Form to customize the graphics of the button
   if (interaction.customId === 'custombuttongraphic') {
     const image = interaction.fields.getImageInputValue('image');
     const color = interaction.fields.getColorInputValue('color');
     console.log(image, color);
   }
 
+  // Form to choose the id of the user to manage
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
     console.log(id);
   }
-
   if (interaction.customId === 'managewlremove') {
     const id = interaction.fields.getTextInputValue('id');
     console.log(id);
   }
+
+  // Form to choose the number of users to join
+  if (interaction.customId === 'countuser') {
+    const count = interaction.fields.getTextInputValue('count');
+    console.log(count);
+  }
+
 
   if (!interaction.isChatInputCommand()) return;
 
