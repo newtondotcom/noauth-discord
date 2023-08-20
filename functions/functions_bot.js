@@ -8,7 +8,7 @@ module.exports = {
         const client = interaction.client; // Assuming your client instance is accessible this way
 
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
+            await interaction.update("You don't have permission to use this command.");
             return;
         }
 
@@ -25,7 +25,7 @@ module.exports = {
         const actionRow = new ActionRowBuilder()
             .addComponents(authButton, inviteButton);
 
-        await interaction.reply({
+        await interaction.update({
             embeds: [{
                 title: 'NOAuth/Invite 🖇️',
                 description: '**```Right click on the button below for copy your NOAuth or Invite Bot link```**\n',
