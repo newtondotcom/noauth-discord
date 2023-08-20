@@ -10,27 +10,32 @@ module.exports = {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🔴 Custom button')
+                    .setLabel('🚨 Custom button')
+                    .setDescription('Custom the verification button')
                     .setValue('managecustom'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
                     .setLabel('🔘 Spawn the button')
+                    .setDescription('Generate the verification button')
                     .setValue('button'),
             )
             .addOptions(
               new StringSelectMenuOptionBuilder()
                   .setLabel('🤖 About your bot')
+                  .setDescription('Manage your bot')
                   .setValue('managebot'),
           )
           .addOptions(
             new StringSelectMenuOptionBuilder()
                 .setLabel('🧑 Manage users')
+                .setDescription('Manages users')
                 .setValue('manageuser'),
         )
         .addOptions(
           new StringSelectMenuOptionBuilder()
               .setLabel('🧑 Manage wl')
+              .setDescription('Manages users who have access to the whitelist')
               .setValue('managewl'),
       )
             .setCustomId('selectCommand');

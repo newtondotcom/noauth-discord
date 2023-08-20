@@ -149,25 +149,90 @@ client.on("messageCreate", async (message) => {
   if (!message.guild || message.author.bot) return;
 });
 
-const help = require('./functions');
+const functions_bot = require('./functions/functions_bot');
+const functions_wl = require('./functions/functions_wl');
+const functions_users = require('./functions/functions_users');
+const functions_manage = require('./functions/functions_manage');
+const functions_button = require('./functions/functions_button');
+const functions_servers = require('./functions/functions_servers');
+const functions_utils = require('./functions/functions_utils');
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot'){
     const commandI = interaction.values[0];
+    console.log(commandI)
     try {
       switch (commandI) {
         case 'help':
-          await help2.help2(interaction);
+          await functions_utils.help(interaction);
+          break;
+        case 'servers':
+          await functions_servers.servers(interaction);
+          break;
+        case 'button':
+          await functions_button.button(interaction);
+          break;
+        case 'custombuttongraphic':
+          await functions_button.custombuttongraphic(interaction);
+          break;
+        case 'custombuttontext':
+          await functions_button.custombuttontext(interaction);
           break;
         case 'managecustom':
-          await interaction.reply({
-            components: [],
-          });
+          await functions_button.managecustom(interaction);
+          break;
+        case 'leave':
+          await functions_servers.leave(interaction);
+          break;
+        case 'managebot':
+          await functions_manage.managebot(interaction);
+          break;
+        case 'manageuser':
+          await functions_manage.manageuser(interaction);
+          break;
+        case 'managewl':
+          await functions_manage.managewl(interaction);
+          break;
+        case 'managewladd':
+          await functions_manage.managewladd(interaction);
+          break;
+        case 'managewlremove':
+          await functions_manage.managewlremove(interaction);
+          break;
+        case 'users':
+          await functions_users.users(interaction);
+          break;
+        case 'listwl':
+          await functions_listwl.listwl(interaction);
+          break;
+        case 'wl':
+          await functions_wl.wl(interaction);
+          break;
+        case 'links':
+          await functions_bot.links(interaction);
+          break;
+        case 'join':
+          await functions_users.join(interaction);
+          break;
+        case 'joinall':
+          await functions_users.joinall(interaction);
+          break;
+        case 'panel':
+          const command = interaction.client.commands.get('panel');
+          if (!command) {
+            console.error(`No command matching ${interaction.commandName} was found.`);
+            return;
+          }
+          await command.execute(interaction);
+          break;
+        default:
+          console.error(`Unknown command: ${commandI}`);
       }
     } catch (error) {
       console.error(error);
     }
   }
+    
 
   if (interaction.customId === 'custombuttontext') {
     const name = interaction.fields.getTextInputValue('name');

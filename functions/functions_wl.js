@@ -1,26 +1,41 @@
 const { SlashCommandBuilder } = require('discord.js');
-const constants = require('../../constants');
+const fs = require('fs');
 const db = require('quick.db');
+const constants = require('../constants');
+
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('wl')
-        .setDescription('Manage NOAuth whitelist !')
-        .addStringOption(option =>
-            option.setName('action')
-                .setDescription('Select an action')
-                .setRequired(true)
-                .addChoices(
-                  { name: 'Remove', value: 'remove' },
-                  { name: 'Add', value: 'add' },
-                )
-        )
-        .addUserOption(option =>
-            option.setName('user')
-                .setDescription('Select a user')
-                .setRequired(true)
-        ),
-    async execute(interaction) {
+
+    ////////////////LISTWL
+
+    async listwl(interaction) {
+        
+        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
+            await interaction.reply("You don't have permission to use this command.");
+            return;
+        }
+
+        var content = "";
+        const whitelistedUsers = db.all().filter((data) => data.ID.startsWith(`wl_`)).sort((a, b) => b.data - a.data);
+        
+        for (let i in whitelistedUsers) {
+          if (whitelistedUsers[i].data === null) whitelistedUsers[i].data = 0;
+          content += `\`${whitelistedUsers.indexOf(whitelistedUsers[i]) + 1}\` ${interaction.client.users.cache.get(whitelistedUsers[i].ID.split("_")[1]).tag} (\`${interaction.client.users.cache.get(whitelistedUsers[i].ID.split("_")[1]).id}\`)\n`;
+        }
+
+        interaction.channel.send({
+          embeds: [{
+            title: "Whitelisted Users",
+            description: `**${content}**`,
+            color: constants.color,
+          }]
+        });
+
+    },
+
+
+    ////////////////////WL
+    async wl(interaction) {
         const action = interaction.options.getString('action');
         const user = interaction.options.getUser('user');
 
@@ -64,4 +79,5 @@ module.exports = {
             await interaction.reply('Whitelist management logic here!');
         }
     },
+
 };

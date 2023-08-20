@@ -40,7 +40,7 @@ module.exports = constants;
 async function getConstants() {
     const dic = {};
     //dic.name = os.hostname();
-    dic.name = "test2";
+    dic.name = "test";
     dic.masterUri = masterUri;
     const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
     const data = await req.json();
