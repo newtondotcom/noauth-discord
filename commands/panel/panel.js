@@ -4,7 +4,7 @@ const constants = require('../../constants');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('panel')
-        .setDescription('caca'),
+        .setDescription('Open your panel and manage your bot, users... And enjoy !'),
     async execute(interaction) {
         const selectMenu = new StringSelectMenuBuilder()
             .setPlaceholder('Select an option')
@@ -57,15 +57,15 @@ module.exports = {
           await interaction.update({ content: '', components: [row],
             embeds: [{
                 color: 0xff8000 ,
-                title: `NOAuth Dashboard`,
-                description: '**NO RESELL** \n \`MADE BY NWT\`',}]
+                title: `🆔  Manage your NOAuth bot`,
+                description: '**Welcome, *on your NOAuth.***\n **There is some rules to read before use. \n `[1]`Do not resell the bot ❌ \n `[2]`...** \n \n **Si vous avez acheté ce bot à un particulié signalez le [ici](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). \n Vous serez récompensé**',}]
         });
             } catch(error){
             await interaction.reply({ content: '', components: [row],
                 embeds: [{
                     color: 0xff8000 ,
-                    title: `NOAuth Dashboard`,
-                    description: '**NO RESELL** \n \`MADE BY NWT\`',
+                    title: `🆔  Manage your NOAuth bot`,
+                    description: '**Welcome, *on your NOAuth.***\n **There is some rules to read before use : \n\n `[1]`Do not resell the bot ❌ \n `[2]`...** \n \n **If you have purchased this bot from a private individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). \n You will be rewarded**',
             }]
         });
         }
