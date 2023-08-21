@@ -11,32 +11,37 @@ module.exports = {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🧾 Bot server list')
+                    .setEmoji('🧾')
+                    .setLabel('Bot server list')
                     .setDescription('Look at which server your bot is in')
                     .setValue('servers'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🖇️ Links')
+                    .setEmoji('🖇️')
+                    .setLabel('Links')
                     .setDescription('Get the verif link or the link to invite your bot to your server')
                     .setValue('links'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🚷 Leave')
+                    .setEmoji('🚷')
+                    .setLabel('Leave')
                     .setDescription('Leave your bot')
                     .setValue('leave'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🔔 Webhook')
+                    .setEmoji('🔗')
+                    .setLabel('Webhook')
                     .setDescription('Manage your bot webhook')
                     .setValue('changewebhook'),
             )        
             .addOptions(
-              new StringSelectMenuOptionBuilder()
-                  .setLabel('⏪ Go back')
-                  .setValue('panel'),
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('⏪')
+                    .setLabel('Go back')
+                    .setValue('panel'),
           )
             .setCustomId('selectBot');
         const row = new ActionRowBuilder().addComponents(selectMenu);
@@ -51,25 +56,29 @@ module.exports = {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('📃 User list')
+                    .setEmoji('📃')
+                    .setLabel('User list')
                     .setDescription('Look at how many members it is checked')
                     .setValue('users'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🎣 Join')
+                    .setEmoji('🎣')
+                    .setLabel('Join')
                     .setDescription('Join a number of people in the server you want')
                     .setValue('selectjoin'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🛶 joinall')
+                    .setEmoji('🛶')
+                    .setLabel('Join all')
                     .setDescription('Join all the people who are verified')
                     .setValue('joinall'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('⏪ Go back')
+                    .setEmoji('⏪')
+                    .setLabel('Go back')
                     .setValue('panel'),
             )
             
@@ -87,21 +96,24 @@ module.exports = {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('➕ Add')
+                    .setEmoji('➕')
+                    .setLabel('Add')
                     .setDescription('Give access to your bot')
                     .setValue('managewladd'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🗑️ Remove')
+                    .setEmoji('🗑️')
+                    .setLabel('Remove')
                     .setDescription('Remove access to your bot')
                     .setValue('managewlremove'),
             )
             .addOptions(
-            new StringSelectMenuOptionBuilder()
-                .setLabel('⏪ Go back')
-                .setValue('panel'),
-        )
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('⏪')
+                    .setLabel('Go back')
+                    .setValue('panel'),
+            )
             .setCustomId('selectBot');
 
         const row = new ActionRowBuilder().addComponents(selectMenu);

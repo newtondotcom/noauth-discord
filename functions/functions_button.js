@@ -123,21 +123,24 @@ async button(interaction) {
             .setPlaceholder('Select an option')
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel('🖋️ Text')
+                    .setEmoji('🖋️')
+                    .setLabel('Text')
                     .setDescription('Custom the text of the verification message')
                     .setValue('custombuttontext'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                .setDescription('Custom the design of  the verification message')
-                    .setLabel('🖼️ Graphic')
+                    .setEmoji('🖼️')
+                    .setLabel('Graphic')
+                    .setDescription('Custom the design of  the verification message')
                     .setValue('button'),
             )
             .addOptions(
-              new StringSelectMenuOptionBuilder()
-                  .setLabel('⏪ Go back')
-                  .setValue('panel'),
-          )
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('⏪')
+                    .setLabel('Go back')
+                    .setValue('panel'),
+            )
             .setCustomId('selectCustom');
   
         const row = new ActionRowBuilder().addComponents(selectMenu);

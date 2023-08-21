@@ -1,6 +1,7 @@
 const { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
 const db = require('quick.db');
 const constants = require('../constants');
+const { test } = require('node:test');
 
 module.exports = {
 
@@ -28,7 +29,7 @@ module.exports = {
         // Create TextInputBuilders
         const webhook = new TextInputBuilder()
             .setCustomId('changewebhook')
-            .setLabel("What's the image?")
+            .setLabel("Webhook link")
             .setStyle(TextInputStyle.Short);
 
         // Create ActionRowBuilders for each TextInputBuilder
@@ -48,7 +49,7 @@ module.exports = {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
-        await interaction.delete();
+        await interaction.message.delete();
     },
 
 }
