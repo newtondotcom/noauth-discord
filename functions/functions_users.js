@@ -38,7 +38,7 @@ module.exports = {
 
     ///////////JOIN
 
-    async join(interaction) {
+    async join(interaction,amount) {
             
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
                 await interaction.reply("You don't have permission to use this command.");

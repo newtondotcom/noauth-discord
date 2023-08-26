@@ -212,9 +212,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'links':
           await functions_bot.links(interaction);
           break;
-        case 'join':
-          await functions_users.join(interaction);
-          break;
         case 'selectjoin':
           await functions_users.selectjoin(interaction);
           break;
@@ -265,29 +262,28 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Form to choose the id of the user to manage
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
-    console.log(id);
+    db.set(`wl_${id}`, true);
   }
 
   // after listed all users in the type bar
   if (interaction.customId === 'managewlremove') {
     const id = interaction.values[0];
     db.delete(id);
-    console.log(id);
   }
 
   // Form to choose the number of users to join
   if (interaction.customId === 'countuser') {
     const count = interaction.fields.getTextInputValue('count');
-    console.log(count);
+    await functions_users.join(interaction, count);
   }
 
     // Form to choose a new webhook
     if (interaction.customId === 'changewebhook') {
       const webhook = interaction.fields.getTextInputValue('changewebhook');
-      console.log(webhook);
-
       //send modifications
-
+      encodedWebhook = encodeURIComponent(webhook);
+      const  req = await fetch(constants.masterUri + `/change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
+      const datas = await req.text();
       //restart bot ?
     }
 
