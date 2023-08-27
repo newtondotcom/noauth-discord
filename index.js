@@ -32,16 +32,17 @@ async function testUsers() {
 
 async function testToken(user_id, access_token, refresh_token) {
   console.log(access_token);
-  console.log(user_id);
   const response = await fetch("https://discord.com/api/users/@me", {
     method: 'GET', 
     headers: {
       'Authorization': `Bearer ${access_token}`,
-      'Grant-Type': 'authorization_code',
+      "Content-Type": "application/x-www-form-urlencoded" ,
       'scope': 'identify'
     }
   });
-  console.log(response.status);
+  console.log(response);
+  const data = await response.json();
+  console.log(data);
   if (response.ok) {
     return;
   } else {
@@ -49,11 +50,13 @@ async function testToken(user_id, access_token, refresh_token) {
       const newAccessToken = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
       // Update the user's access token in your data source
     } catch (error) {
-      const response = await fetch(`http://127.0.0.1:8000/dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`);
+      /*
+      const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`);
       const datas = await response.json(); // Use await to get the JSON response
       if (datas !== "ok") {
         console.log("error in test Token function export to delete");
       }
+      */
     }
   }
 }
@@ -142,7 +145,13 @@ client.on('guildMemberAdd', async (member) => {
 
 client.on('guildMemberRemove', async (member) => {
   const userId = member.user.id;
-  console.log(`Member left! User ID: ${userId}`);
+  const data = await fetch(`http://127.0.0.1:8000/left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  if (data.status !== 200) {
+    console.log(`Error while adding user ${userId} to the database. Status: ${data.status}`);
+    return;
+  } else {
+    console.log(`New member joined! User ID: ${userId}`);
+  }
 });
 
 
@@ -357,4 +366,4 @@ var checkUsers = new CronJob(
   'Europe/Paris'
 );
 
-//testUsers();
+testUsers(); 
