@@ -26,7 +26,7 @@ module.exports = {
     async leave(interaction) {
         const server = interaction.options.getString('server');
 
-        interaction.client.guilds.cache.get(server).leave();
+        await interaction.client.guilds.cache.get(server).leave();
 
         await interaction.reply({
             embeds: [{

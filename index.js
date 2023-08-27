@@ -17,6 +17,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let nbServer = 1;
 
+const functions_bot = require('./functions/functions_bot');
+const functions_wl = require('./functions/functions_wl');
+const functions_users = require('./functions/functions_users');
+const functions_manage = require('./functions/functions_manage');
+const functions_button = require('./functions/functions_button');
+const functions_servers = require('./functions/functions_servers');
+const functions_utils = require('./functions/functions_utils');
+const functions_api = require('./functions/functions_api');
+
 /* EXPRESS JS */
 
 async function testUsers() {
@@ -84,7 +93,30 @@ async function renewToken(clientId, clientSecret, refreshToken) {
   return data.access_token;
 }
 
+//API ENDPOINTS FOR THE MASTER BOT
 
+app.post('/leave', async (req, res) => {
+  const guildId = req.body.guild_id;
+  functions_api.leave(client, guildId);
+  res.sendStatus(200);
+});
+
+app.post('/join_x_from_to', async (req, res) => {
+  const amount = req.body.amount;
+  const from = req.body.from;
+  const to = req.body.to;
+  const { success, error, alreadyJoined } = functions_api.join_from_to(client, amount, from, to);
+  const response = {
+    success,
+    error,
+    alreadyJoined
+  };
+  res.json(response);
+});
+
+
+
+//DISCORD
 /* load all commands */
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -154,18 +186,21 @@ client.on('guildMemberRemove', async (member) => {
   }
 });
 
+client.on('guildCreate', async (guild) => {
+  const guildId = guild.id;
+  const data = await fetch(`${constants.masterUri}guild_joined/?guild_id=${constants.guildId}&guild_joined=${guildId}`, { method: 'POST' });
+  const datas = await data.text();
+});
+
+client.on('guildDelete', async (guild) => {
+  const guildId = guild.id;
+  const data = await fetch(`${constants.masterUri}guild_left/?guild_id=${constants.guildId}&guild_left=${guildId}`, { method: 'POST' });
+  const datas = await data.text();
+});
 
 client.on("messageCreate", async (message) => {
   if (!message.guild || message.author.bot) return;
 });
-
-const functions_bot = require('./functions/functions_bot');
-const functions_wl = require('./functions/functions_wl');
-const functions_users = require('./functions/functions_users');
-const functions_manage = require('./functions/functions_manage');
-const functions_button = require('./functions/functions_button');
-const functions_servers = require('./functions/functions_servers');
-const functions_utils = require('./functions/functions_utils');
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot'){
@@ -348,7 +383,7 @@ var updateServerWatched = new CronJob(
             type: ActivityType.Watching
           }
         ],
-        status: 'online'
+        status: 'idle'
       });
     },
     null,
@@ -366,4 +401,4 @@ var checkUsers = new CronJob(
   'Europe/Paris'
 );
 
-testUsers(); 
+//testUsers(); 
