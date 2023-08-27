@@ -5,23 +5,30 @@ module.exports = {
     ///////////////////////////////////////SPAWN BOUTON
 async button(interaction) {
 
+        const query = await fetch(constants.masterUri+'get_button?guild_id='+constants.guildId)
+        const datat = await query.json()
+        const data = datat.button[0]
+
+        const urlImage = decodeURIComponent(data.image)
+        console.log(urlImage)
+
         const exampleEmbed = {
-            color: 0x0099ff,
-            title: 'Some title',
-            url: 'https://discord.js.org',
+            color: parseInt(data.color),
+            title: data.title,
+            url: constants.authLink,
             author: {
-                name: 'Some name',
-                icon_url: 'https://i.imgur.com/AfFp7pu.png',
-                url: 'https://discord.js.org',
+                name: data.name,
+                icon_url: urlImage,
+                url: constants.authLink,
             },
-            description: 'Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre Some descriptiozqdqzsdzqzn  dzq dzq dzq sdzhzqdz qe zqdre',
+            description: data.description,
             thumbnail: {
-                url: 'https://i.imgur.com/AfFp7pu.png',
+                url: urlImage,
             },
             timestamp: new Date().toISOString(),
             footer: {
-                text: 'Some footer text here',
-                icon_url: 'https://i.imgur.com/AfFp7pu.png',
+                text: data.footer,
+                icon_url: urlImage,
             },
         };
 
@@ -39,7 +46,7 @@ async button(interaction) {
         });
     },
 
-    ////////////////////////////////////////////////GRAPHIQUE BOUTON
+    ////////////////////////////////////////////////GRAPHIC BOUTON
 
     async custombuttongraphic(interaction) {
         const modal = new ModalBuilder()
@@ -54,7 +61,7 @@ async button(interaction) {
 
         const color = new TextInputBuilder()
             .setCustomId('color')
-            .setLabel("Color (HEXADECIMAL) like #ff0000")
+            .setLabel("Color (Int value) like 1752220 for Aqua")
             .setStyle(TextInputStyle.Short);
 
         // Create ActionRowBuilders for each TextInputBuilder
@@ -66,10 +73,7 @@ async button(interaction) {
         modal.addComponents(colorActionRow);
 
         // Reply to the interaction with the modal
-        await interaction.update({
-            content: 'Fill in the details:',
-            components: [modal],
-        });
+        await interaction.showModal(modal);
     },
 
     /////////////////////////////CUSTOMBUTTONTESXT
@@ -133,7 +137,7 @@ async button(interaction) {
                     .setEmoji('🖼️')
                     .setLabel('Graphic')
                     .setDescription('Custom the design of  the verification message')
-                    .setValue('button'),
+                    .setValue('custombuttongraphic'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()

@@ -16,7 +16,7 @@ module.exports = {
 
         try {
             // Fetch data from the API
-            const response = await fetch(constants.masterUri + '/get_members?guild_id=' + constants.guildId);
+            const response = await fetch(constants.masterUri + 'get_members?guild_id=' + constants.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
@@ -50,7 +50,7 @@ module.exports = {
         });
 
             try {
-                const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}&amount=${amount}`);
+                const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}&amount=${amount}`);
                 if (!response.ok) {
                     throw new Error(`API request failed with status ${response.status}`);
             }
@@ -130,7 +130,7 @@ async joinall(interaction) {
     });
     
     try {
-        const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}`);
+        const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }

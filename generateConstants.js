@@ -12,7 +12,7 @@ async function generateConstantsFile() {
 const constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}"],
-    authLink: "https://discord.com/api/oauth2/authorize?client_id=1132681850528202782&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&response_type=code&scope=guilds%20guilds.join%20identify%20email",
+    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&response_type=code&scope=guilds%20guilds.join%20identify%20email",
     port: 5000,
     clientId: '${apiData.clientId}',
     clientSecret: '${apiData.clientSecret}',

@@ -20,7 +20,7 @@ let nbServer = 1;
 /* EXPRESS JS */
 
 async function testUsers() {
-  const response = await fetch(`${constants.masterUri}/get_members?guild_id=${constants.guildId}`);
+  const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
   const membersData = await response.json();
   
   // Loop through users in objectJson and call testToken for each user
@@ -249,14 +249,22 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const title = interaction.fields.getTextInputValue('title');
     const description = interaction.fields.getTextInputValue('description');
     const footer = interaction.fields.getTextInputValue('footer');
-    console.log(name, title, description, footer);
+    const response = await fetch(constants.masterUri + `set_button_text/?guild_id=${constants.guildId}&name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&footer=${encodeURIComponent(footer)}`);
+    const datas = await response.text();
+    await interaction.reply({
+      content: 'Button updated!',
+    });
   }
 
   // Form to customize the graphics of the button
   if (interaction.customId === 'custombuttongraphic') {
-    const image = interaction.fields.getImageInputValue('image');
-    const color = interaction.fields.getColorInputValue('color');
-    console.log(image, color);
+    const image = interaction.fields.getTextInputValue('image');
+    const color = interaction.fields.getTextInputValue('color');
+    const response = await fetch(constants.masterUri + `set_button_graphic/?guild_id=${constants.guildId}&image=${encodeURIComponent(image)}&color=${encodeURIComponent(color)}`);
+    const datas = await response.text();
+    await interaction.reply({
+      content: 'Button updated!',
+    });
   }
 
   // Form to choose the id of the user to manage
@@ -282,7 +290,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const webhook = interaction.fields.getTextInputValue('changewebhook');
       //send modifications
       encodedWebhook = encodeURIComponent(webhook);
-      const  req = await fetch(constants.masterUri + `/change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
+      const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
       //restart bot ?
     }
