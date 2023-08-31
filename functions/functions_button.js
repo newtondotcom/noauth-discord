@@ -141,6 +141,13 @@ async button(interaction) {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
+                    .setEmoji('🖼️')
+                    .setLabel('Role')
+                    .setDescription('Select role to give after verification')
+                    .setValue('selectrole'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
                     .setEmoji('⏪')
                     .setLabel('Go back')
                     .setValue('panel'),
@@ -149,6 +156,25 @@ async button(interaction) {
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
         await interaction.update({ content: '', components: [row] });
+    },
+
+    async selectrole(interaction) {
+        //list the roles of the server
+        const roles = [];
+
+        const selectMenuGame = new StringSelectMenuBuilder()
+        .setPlaceholder('Choose a game !')
+        .addOptions(        
+            interaction.guild.roles.cache.forEach(role => {
+            new StringSelectMenuOptionBuilder()
+              .setLabel(role.name)
+              .setValue(role.id)
+            })
+        )
+        .setCustomId('selectroletoadd');
+  
+      const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
+      await interaction.reply({ content: 'Choose a game !', components: [rowGame] });
     },
 
 }

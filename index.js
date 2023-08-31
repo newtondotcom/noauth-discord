@@ -176,6 +176,19 @@ client.on("ready", async () => {
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
   const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  const datas = await data.text();
+  const tempRole = member.guild.roles.cache.get(datas);
+    if (tempRole) {
+      member.roles.add(tempRole)
+            .then(() => {
+              console.log('TEMP role added successfully.');
+            })
+            .catch(error => {
+              console.log('Error adding TEMP role:', error);
+            });
+        } else {
+          console.log('Error: ROLE_TEMP not found in the guild.');
+        }
 });
 
 client.on('guildMemberRemove', async (member) => {
@@ -267,6 +280,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
           break;
         case 'changewebhook':
           await functions_utils.changewebhook(interaction);
+        case 'selectrole':
+          await functions_button.selectrole(interaction);
         case 'panel':
           const command = interaction.client.commands.get('panel');
           if (!command) {
@@ -350,6 +365,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const datas = await req.text();
       //restart bot ?
     }
+
+    if (interaction.customId === 'selectroletoadd') {
+      const role = interaction.values[0];
+      const query = await fetch(constants.masterUri + `set_role/?guild_id=${constants.guildId}&role=${role}`);
+      const datas = await query.text();
+    } 
 
 
   if (!interaction.isChatInputCommand()) return;
