@@ -28,7 +28,7 @@ module.exports = {
                     .setEmoji('🚷')
                     .setLabel('Leave')
                     .setDescription('Leave your bot')
-                    .setValue('leave'),
+                    .setValue('listleave'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
@@ -110,6 +110,13 @@ module.exports = {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
+                    .setEmoji('📃')
+                    .setLabel('List')
+                    .setDescription('List who has access to your bot')
+                    .setValue('listwl'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
                     .setEmoji('⏪')
                     .setLabel('Go back')
                     .setValue('panel'),
@@ -148,18 +155,17 @@ module.exports = {
 
     async managewlremove(interaction) {
         const userArray = db.all(); // Retrieve all keys (user data) from the database
-        console.log(userArray[0].ID);
 
         const selectMenuGame = new StringSelectMenuBuilder()
         .setPlaceholder('Choose a game !')
         .addOptions(
             userArray.map((game) =>
             new StringSelectMenuOptionBuilder()
-              .setLabel(game.data)
-              .setValue(game.ID)
+              .setLabel(interaction.client.users.cache.get(game.ID.split("_")[1]).tag)
+              .setValue(interaction.client.users.cache.get(game.ID.split("_")[1]).id)
           )
         )
-        .setCustomId('selectMenuGame');
+        .setCustomId('managewlremove');
   
       const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
       await interaction.reply({ content: 'Choose a game !', components: [rowGame] });

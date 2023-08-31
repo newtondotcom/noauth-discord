@@ -23,7 +23,7 @@ module.exports = {
           content += `\`${whitelistedUsers.indexOf(whitelistedUsers[i]) + 1}\` ${interaction.client.users.cache.get(whitelistedUsers[i].ID.split("_")[1]).tag} (\`${interaction.client.users.cache.get(whitelistedUsers[i].ID.split("_")[1]).id}\`)\n`;
         }
 
-        interaction.channel.send({
+        interaction.reply({
           embeds: [{
             title: "Whitelisted Users",
             description: `**${content}**`,

@@ -93,6 +93,15 @@ async function renewToken(clientId, clientSecret, refreshToken) {
   return data.access_token;
 }
 
+app.post('/register_user/', async (req, res) => {
+  id = req.body.id;
+  role = req.body.role;
+  const guild = client.guilds.cache.get(constants.guildId);
+  const member = await guild.members.fetch(id);
+  member.roles.add(role);
+  res.sendStatus(200);
+});
+
 //API ENDPOINTS FOR THE MASTER BOT
 
 app.post('/leave', async (req, res) => {
@@ -167,23 +176,11 @@ client.on("ready", async () => {
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
   const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
-  if (data.status !== 200) {
-    console.log(`Error while adding user ${userId} to the database. Status: ${data.status}`);
-    return;
-  } else {
-    console.log(`New member joined! User ID: ${userId}`);
-  }
 });
 
 client.on('guildMemberRemove', async (member) => {
   const userId = member.user.id;
   const data = await fetch(`http://127.0.0.1:8000/left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
-  if (data.status !== 200) {
-    console.log(`Error while adding user ${userId} to the database. Status: ${data.status}`);
-    return;
-  } else {
-    console.log(`New member joined! User ID: ${userId}`);
-  }
 });
 
 client.on('guildCreate', async (guild) => {
@@ -227,7 +224,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
           await functions_button.managecustom(interaction);
           break;
         case 'leave':
-          await functions_servers.leave(interaction);
+          await functions_servers.listleave(interaction);
           break;
         case 'managebot':
           await functions_manage.managebot(interaction);
@@ -248,7 +245,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
           await functions_users.users(interaction);
           break;
         case 'listwl':
-          await functions_listwl.listwl(interaction);
+          await functions_wl.listwl(interaction);
           break;
         case 'wl':
           await functions_wl.wl(interaction);
@@ -315,12 +312,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
     db.set(`wl_${id}`, true);
+    await interaction.reply({
+      content: 'User added!',
+    });
   }
 
   // after listed all users in the type bar
   if (interaction.customId === 'managewlremove') {
     const id = interaction.values[0];
-    db.delete(id);
+    db.delete(`wl_${id}`);
+    await interaction.reply({
+      content: 'User removed!',
+    });
+  }  
+  
+  // after listed all users in the type bar
+  if (interaction.customId === 'leave') {
+    const guildId = interaction.fields.getTextInputValue('id');
+    functions_api.leave(client, guildId);
+    await interaction.reply({
+      content: 'Guild left!',
+    });
   }
 
   // Form to choose the number of users to join

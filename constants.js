@@ -8,7 +8,7 @@ let constants = {
     clientSecret: 'n4NZENs8p76o9J3FPLkK5woBFYQ0cgf3',
     redirectUri: 'http://localhost:8000/callback',
     scope: 'identify guilds.join guilds email',
-    guildId: '978694633213280256',
+    guildId: '1092562334498705530',
     color: 1752220,
     webhook: 'https://discord.com/api/webhooks/1138932963464192070/naN-uxPR1AEU9fBX_tJTv7RIJOzBl9YLpsfohH-otcceLHlSSI7ttxi2I7ndXgGZuUg-',
     name: 'test2',

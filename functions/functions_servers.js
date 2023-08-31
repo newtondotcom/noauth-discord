@@ -1,3 +1,4 @@
+const {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const db = require('quick.db');
 const constants = require('../constants');
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
         });
 
         const description =  " 🔶  " + serverList.join('\n \n 🔶 ');
-        await interaction.upadte({
+        await interaction.update({
             embeds: [{
                 title: 'Server List of NOAuth',
                 description:description,
@@ -21,18 +22,25 @@ module.exports = {
         });
     },
 
-    //////////////////////LEAVE////////////////
+    // MODAL TO GET THE SERVER ID TO LEAVE
+    async listleave(interaction) {
+        const modal = new ModalBuilder()
+        .setCustomId('leave')
+        .setTitle('Final step');
 
-    async leave(interaction) {
-        const server = interaction.options.getString('server');
+        // Create TextInputBuilders
+        const name = new TextInputBuilder()
+            .setCustomId('id')
+            .setLabel("What's the ID?")
+            .setStyle(TextInputStyle.Short);
 
-        await interaction.client.guilds.cache.get(server).leave();
+        // Create ActionRowBuilders and add TextInputBuilders to them
+        const nameActionRow = new ActionRowBuilder().addComponents(name);
+        
+        // Add each ActionRowBuilder to the modal
+        modal.addComponents(nameActionRow);
 
-        await interaction.reply({
-            embeds: [{
-                description: `I have left the server with ID: ${server}`,
-                color: constants.color
-            }]
-        });
+        // Reply to the interaction with the modal
+        await interaction.showModal(modal);
     },
 };
