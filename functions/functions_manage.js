@@ -1,6 +1,7 @@
 const {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const constants = require('../constants');
 const db = require('quick.db');
+const e = require('express');
 
 module.exports = {
 
@@ -39,10 +40,17 @@ module.exports = {
             )        
             .addOptions(
                 new StringSelectMenuOptionBuilder()
+                    .setEmoji('🪙')
+                    .setLabel('Subscription')
+                    .setDescription('Review your suscription')
+                    .setValue('sub'),
+            )     
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
                     .setEmoji('⏪')
                     .setLabel('Go back')
                     .setValue('panel'),
-          )
+            )
             .setCustomId('selectBot');
         const row = new ActionRowBuilder().addComponents(selectMenu);
         await interaction.update({ content: 'Choose a game !', components: [row] });
@@ -169,6 +177,22 @@ module.exports = {
   
       const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
       await interaction.reply({ content: 'Choose a game !', components: [rowGame] });
+    },
+
+    ///////////////////SUBSCRIPTION
+
+    async sub(interaction) {
+        const response = await fetch(`${constants.masterUri}get_subscription?guild_id=${constants.guildId}`);
+        const json = await response.json();
+        const description = `**Your subscription has started on :** ${json.subscription_date.split("T")[0]} at ${json.subscription_date.split("T")[1].substring(0, 8)}\n**Your subscription last ** ${json.subscription_duration} days`;
+        await interaction.update({
+            content: '',
+            embeds: [{
+                title: 'Subscription',
+                description:description,
+                color: constants.color
+            }]
+        });
     },
 
 };

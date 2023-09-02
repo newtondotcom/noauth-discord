@@ -39,7 +39,7 @@ module.exports = {
         .addOptions(
             new StringSelectMenuOptionBuilder()
                 .setEmoji('✔️')
-                .setLabel('Manage wl')
+                .setLabel('Manage Whitelist')
                 .setDescription('Manages users who have access to the whitelist')
                 .setValue('managewl'),
         )

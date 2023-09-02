@@ -158,23 +158,25 @@ async button(interaction) {
         await interaction.update({ content: '', components: [row] });
     },
 
-    async selectrole(interaction) {
-        //list the roles of the server
-        const roles = [];
+    async selectrole(interaction) {    
+        // Create an array of options
+        const roleOptions = [];
+    
+        interaction.guild.roles.cache.forEach(role => {
+            roleOptions.push({
+                label: role.name,
+                value: role.id
+            });
+        });
 
+        // Create the select menu builder
         const selectMenuGame = new StringSelectMenuBuilder()
-        .setPlaceholder('Choose a game !')
-        .addOptions(        
-            interaction.guild.roles.cache.forEach(role => {
-            new StringSelectMenuOptionBuilder()
-              .setLabel(role.name)
-              .setValue(role.id)
-            })
-        )
-        .setCustomId('selectroletoadd');
-  
-      const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
-      await interaction.reply({ content: 'Choose a game !', components: [rowGame] });
-    },
+            .setPlaceholder('Choose a game !')
+            .addOptions(roleOptions) // Add the options array here
+            .setCustomId('selectroletoadd');
+    
+        const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
+        await interaction.update({ content: 'Choose a game !', components: [rowGame] });
+    }
 
 }

@@ -57,7 +57,8 @@ async function testToken(user_id, access_token, refresh_token) {
   } else {
     try {
       const newAccessToken = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-      // Update the user's access token in your data source
+      const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&guild_id=${constants.guildId}`);
+      const datas = await response.text();
     } catch (error) {
       /*
       const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`);
@@ -161,7 +162,7 @@ async function getServers(client){
 
 client.on("ready", async () => {
   await getServers(client);
-  console.log(`${chalk.blue('NOAuth')}\n${chalk.green('->')} Le bot est connecté en tant que [ ${client.user.username} ], il utilise comme prefix : ${constants.prefix}\n${chalk.green('->')} L'invite du bot : https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`);
+  console.log(`${chalk.blue('NOAuth')}\n${chalk.green('->')} Le bot est connecté en tant que [ ${client.user.username} ]`);
   client.user.setPresence({
     activities: [
       {
@@ -236,7 +237,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'managecustom':
           await functions_button.managecustom(interaction);
           break;
-        case 'leave':
+        case 'listleave':
           await functions_servers.listleave(interaction);
           break;
         case 'managebot':
@@ -280,8 +281,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
           break;
         case 'changewebhook':
           await functions_utils.changewebhook(interaction);
+          break;
         case 'selectrole':
           await functions_button.selectrole(interaction);
+          break;
+        case 'sub':
+          await functions_manage.sub(interaction);
+          break;
         case 'panel':
           const command = interaction.client.commands.get('panel');
           if (!command) {
@@ -359,11 +365,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
     // Form to choose a new webhook
     if (interaction.customId === 'changewebhook') {
       const webhook = interaction.fields.getTextInputValue('changewebhook');
-      //send modifications
       encodedWebhook = encodeURIComponent(webhook);
       const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
-      //restart bot ?
     }
 
     if (interaction.customId === 'selectroletoadd') {
@@ -373,26 +377,26 @@ client.on(Events.InteractionCreate, async (interaction) => {
     } 
 
 
-  if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
 
-	const command = interaction.client.commands.get(interaction.commandName);
+    const command = interaction.client.commands.get(interaction.commandName);
 
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
-  
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			//await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-      console.log("error");
-		}
-  }
+    if (!command) {
+      console.error(`No command matching ${interaction.commandName} was found.`);
+      return;
+    }
+    
+    try {
+      await command.execute(interaction);
+    } catch (error) {
+      console.error(error);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+      } else {
+        //await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        console.log("error");
+      }
+    }
 });
 
 /* LAUNCHING DISCORD AND EXPRESS SERVERS */
@@ -434,4 +438,4 @@ var checkUsers = new CronJob(
   'Europe/Paris'
 );
 
-//testUsers(); 
+testUsers(); 
