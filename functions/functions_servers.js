@@ -9,6 +9,7 @@ module.exports = {
         const serverList = [];
 
         interaction.client.guilds.cache.forEach(guild => {
+            if (guild.id == constants.masterDiscordGuildID) return;
             serverList.push(`\`${guild.name}\` | \`${guild.id}\``);
         });
 

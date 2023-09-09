@@ -138,6 +138,10 @@ module.exports = {
     //////////////////MANAGEWLADD
 
     async managewladd(interaction) {
+        if (constants.owners.includes(interaction.user.id)) {
+            await interaction.reply("You don't have permission to use this command.");
+            return;
+        }
         const modal = new ModalBuilder()
             .setCustomId('managewladd')
             .setTitle('Final step');
@@ -162,8 +166,11 @@ module.exports = {
     ///////////////////MANAGEWLREMOVE
 
     async managewlremove(interaction) {
-        const userArray = db.all(); // Retrieve all keys (user data) from the database
-
+        if (constants.owners.includes(interaction.user.id)) {
+            await interaction.reply("You don't have permission to use this command.");
+            return;
+        }
+        const userArray = db.all();
         const selectMenuGame = new StringSelectMenuBuilder()
         .setPlaceholder('Choose a game !')
         .addOptions(

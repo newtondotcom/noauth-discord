@@ -29,18 +29,20 @@ const functions_api = require('./functions/functions_api');
 /* EXPRESS JS */
 
 async function testUsers() {
-  const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
-  const membersData = await response.json();
-  
-  // Loop through users in objectJson and call testToken for each user
-  for (const user of membersData.members) {
-    console.log(user);
-    await testToken(user.userID, user.access_token, user.refresh_token);
-  }
+  client.guilds.cache.forEach(async guild => {
+    if (guild.id !== constants.guildId) {console.log(guild.id); return};
+    console.log("test users for "+ guild.id);
+    const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
+    const membersData = await response.json();
+    console.log(membersData.members.length + " users to test for "+ guild.id);
+    // Loop through users in objectJson and call testToken for each user
+    for (const user of membersData.members) {
+      await testToken(guild.id,user.userID, user.access_token, user.refresh_token);
+    }
+  });
 }
 
-async function testToken(user_id, access_token, refresh_token) {
-  console.log(access_token);
+async function testToken(guild_id, user_id, access_token, refresh_token) {
   const response = await fetch("https://discord.com/api/users/@me", {
     method: 'GET', 
     headers: {
@@ -49,24 +51,23 @@ async function testToken(user_id, access_token, refresh_token) {
       'scope': 'identify'
     }
   });
-  console.log(response);
   const data = await response.json();
-  console.log(data);
   if (response.ok) {
+    console.log("C EST BON");
     return;
   } else {
     try {
-      const newAccessToken = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-      const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&guild_id=${constants.guildId}`);
+      const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
+      const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`);
       const datas = await response.text();
     } catch (error) {
-      /*
-      const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`);
+      console.log("error in test Token function export to delete");
+      console.log(error);
+      const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
       const datas = await response.json(); // Use await to get the JSON response
       if (datas !== "ok") {
         console.log("error in test Token function export to delete");
       }
-      */
     }
   }
 }
@@ -87,11 +88,13 @@ async function renewToken(clientId, clientSecret, refreshToken) {
   });
 
   if (!response.ok) {
+    console.log(response);
     throw new Error(`Failed to renew token. Status: ${response.status}`);
-  }
+  } 
 
   const data = await response.json();
-  return data.access_token;
+  console.log(data);
+  return data.access_token, data.refresh_token;
 }
 
 app.post('/register_user/', async (req, res) => {
@@ -155,7 +158,9 @@ for (const folder of commandFolders) {
 async function getServers(client){
   let count = 0;
   client.guilds.cache.forEach(guild => {
-    count++;
+    if (guild.id !== constants.masterDiscordGuildID) {
+      count++;
+    }
   });
   nbServer = count;
 }
@@ -172,6 +177,7 @@ client.on("ready", async () => {
     ],
     status: 'online'
   });
+  testUsers();
 });
 
 client.on('guildMemberAdd', async (member) => {
@@ -260,9 +266,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
           break;
         case 'listwl':
           await functions_wl.listwl(interaction);
-          break;
-        case 'wl':
-          await functions_wl.wl(interaction);
           break;
         case 'links':
           await functions_bot.links(interaction);
@@ -428,6 +431,7 @@ var updateServerWatched = new CronJob(
     'Europe/Paris'
 );
 
+
 var checkUsers = new CronJob(
   '0 */30 * * * *',
   async function() {
@@ -437,5 +441,3 @@ var checkUsers = new CronJob(
   true,
   'Europe/Paris'
 );
-
-testUsers(); 
