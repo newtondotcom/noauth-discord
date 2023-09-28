@@ -432,8 +432,8 @@ var updateServerWatched = new CronJob(
 );
 
 
-var checkUsers = new CronJob(
-  '0 */30 * * * *',
+const checkUsers = new CronJob(
+  '0 0 * * * *',
   async function() {
     await testUsers();
   },

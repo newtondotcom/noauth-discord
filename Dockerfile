@@ -8,5 +8,5 @@ COPY . .
 
 RUN npm install
 
-CMD ["node", "generateConstants.js"]
+RUN ["node", "generateConstants.js"]
 CMD ["node", "index.js"]
