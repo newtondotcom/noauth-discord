@@ -432,8 +432,11 @@ var updateServerWatched = new CronJob(
 );
 
 
+// Generate a random hour between 0 and 23
+const randomHour = Math.floor(Math.random() * 24);
+const cronExpression = `0 ${randomHour} * * * *`;
 const checkUsers = new CronJob(
-  '0 0 * * * *',
+  cronExpression,
   async function() {
     await testUsers();
   },
@@ -441,3 +444,4 @@ const checkUsers = new CronJob(
   true,
   'Europe/Paris'
 );
+
