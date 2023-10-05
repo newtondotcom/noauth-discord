@@ -1,3 +1,7 @@
+const { generateConstantsFile } = require('./generateConstants.js');
+generateConstantsFile();
+
+
 const {Client, Events, Collection, ActivityType} = require('discord.js');
 const client = new Client({
   intents: 32767,

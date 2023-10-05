@@ -1,4 +1,4 @@
-const fs = require('fs').promises; // Import the promises version of fs
+const fs = require('fs').promises;
 
 masterUri = "http://127.0.0.1:8000/"
 
@@ -55,4 +55,5 @@ async function getConstants() {
     return dic;
 }
 
-generateConstantsFile();
+//generateConstantsFile();
+module.exports = { generateConstantsFile };
