@@ -1,11 +1,10 @@
-const fs = require('fs').promises;
+import fs from 'fs/promises';
 
-masterUri = "http://127.0.0.1:8000/"
+let masterUri = "http://127.0.0.1:8000/"
 
-async function generateConstantsFile() {
+export default async function generateConstantsFile() {
     
     console.log('Generating constants.js file...');
-
     const apiData = await getConstants(); // Fetch data from API
 
     const constantsCode = `
@@ -24,8 +23,8 @@ const constants = {
     name: '${apiData.name}',
     masterUri: '${apiData.masterUri}'
 };
-        
-module.exports = constants;
+
+export default constants;
     `;
 
     try {
@@ -43,7 +42,6 @@ async function getConstants() {
     dic.masterUri = masterUri;
     const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
     const data = await req.json();
-    console.log(data);
     dic.token = data.token;
     dic.clientId = data.clientId;
     dic.clientSecret = data.clientSecret;
@@ -56,4 +54,3 @@ async function getConstants() {
 }
 
 //generateConstantsFile();
-module.exports = { generateConstantsFile };

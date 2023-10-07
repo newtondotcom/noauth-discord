@@ -1,9 +1,8 @@
-const {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
-const constants = require('../constants');
-const db = require('quick.db');
-const e = require('express');
+import {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
+import constants from '../constants.js';
+import db from 'quick.db';
 
-module.exports = {
+export default {
 
     ////////////////////MANAGEBOT
 

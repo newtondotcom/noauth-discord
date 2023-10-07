@@ -1,34 +1,35 @@
-const { generateConstantsFile } = require('./generateConstants.js');
+import generateConstantsFile from './generateConstants.js';
 generateConstantsFile();
 
-
-const {Client, Events, Collection, ActivityType} = require('discord.js');
+import {Client, Events, Collection, ActivityType} from 'discord.js';
 const client = new Client({
   intents: 32767,
 });
-const db = require('quick.db');
-const constants = require('./constants');
-const chalk = require('chalk');
-const fs = require('node:fs');
-const path = require('node:path');
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-var CronJob = require('cron').CronJob;
+import db from 'quick.db';
+import constants from './constants.js';
+import chalk from 'chalk';
+import fs from 'fs/promises';
+import path from 'path';
+import bodyParser from 'body-parser';
+import CronJob from 'cron';
+import { fileURLToPath } from 'url';
 
+
+import express from 'express';
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 let nbServer = 1;
 
-const functions_bot = require('./functions/functions_bot');
-const functions_wl = require('./functions/functions_wl');
-const functions_users = require('./functions/functions_users');
-const functions_manage = require('./functions/functions_manage');
-const functions_button = require('./functions/functions_button');
-const functions_servers = require('./functions/functions_servers');
-const functions_utils = require('./functions/functions_utils');
-const functions_api = require('./functions/functions_api');
+import * as functions_api from './functions/functions_api.js';
+import * as functions_button from './functions/functions_button.js';
+import * as functions_manage from './functions/functions_manage.js';
+import * as functions_servers from './functions/functions_servers.js';
+import * as functions_users from './functions/functions_users.js';
+import * as functions_utils from './functions/functions_utils.js';
+import * as functions_wl from './functions/functions_wl.js';
+import * as functions_bot from './functions/functions_bot.js';
 
 /* EXPRESS JS */
 
@@ -134,26 +135,40 @@ app.post('/join_x_from_to', async (req, res) => {
 
 
 //DISCORD
-/* load all commands */
-client.commands = new Collection();
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
+const clientCommands = new Collection();
 
-for (const folder of commandFolders) {
-	// Grab all the command files from the commands directory you created earlier
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-		}
-	}
+async function loadCommands() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const foldersPath = path.join(__dirname, 'commands');
+  const commandFolders = await fs.readdir(foldersPath);
+  for (const folder of commandFolders) {
+    const commandsPath = path.join(foldersPath, folder);
+    const commandFiles = (await fs.readdir(commandsPath)).filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+      const filePath = path.join(commandsPath, file);
+      try {
+        console.log(`Loading command at ${filePath}...`);
+        const { default: command } = await import(filePath);
+        if ('data' in command && 'execute' in command) {
+          clientCommands.set(command.data.name, command);
+        } else {
+          console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+        }
+      } catch (error) {
+        console.error(`Error loading command at ${filePath}:`, error);
+      }
+    }
+  }
+  console.log('Commands loaded');
 }
+
+import panel from './commands/panel/panel.js';
+console.log(panel,panel.data.name);
+async function loadCommand(){
+  clientCommands.set(panel.data.name, panel);
+}
+loadCommand();
 
 
 /* DISCORD BOT */
@@ -181,7 +196,7 @@ client.on("ready", async () => {
     ],
     status: 'online'
   });
-  testUsers();
+  //testUsers();
 });
 
 client.on('guildMemberAdd', async (member) => {
@@ -230,73 +245,73 @@ client.on(Events.InteractionCreate, async (interaction) => {
     try {
       switch (commandI) {
         case 'help':
-          await functions_utils.help(interaction);
+          await functions_utils.default.help(interaction);
           break;
         case 'servers':
-          await functions_servers.servers(interaction);
+          await functions_servers.default.servers(interaction);
           break;
         case 'button':
-          await functions_button.button(interaction);
+          await functions_button.default.button(interaction);
           break;
         case 'custombuttongraphic':
-          await functions_button.custombuttongraphic(interaction);
+          await functions_button.default.custombuttongraphic(interaction);
           break;
         case 'custombuttontext':
-          await functions_button.custombuttontext(interaction);
+          await functions_button.default.custombuttontext(interaction);
           break;
         case 'managecustom':
-          await functions_button.managecustom(interaction);
+          await functions_button.default.managecustom(interaction);
           break;
         case 'listleave':
-          await functions_servers.listleave(interaction);
+          await functions_servers.default.listleave(interaction);
           break;
         case 'managebot':
-          await functions_manage.managebot(interaction);
+          await functions_manage.default.managebot(interaction);
           break;
         case 'manageuser':
-          await functions_manage.manageuser(interaction);
+          await functions_manage.default.manageuser(interaction);
           break;
         case 'managewl':
-          await functions_manage.managewl(interaction);
+          await functions_manage.default.managewl(interaction);
           break;
         case 'managewladd':
-          await functions_manage.managewladd(interaction);
+          await functions_manage.default.managewladd(interaction);
           break;
         case 'managewlremove':
-          await functions_manage.managewlremove(interaction);
+          await functions_manage.default.managewlremove(interaction);
           break;
         case 'users':
-          await functions_users.users(interaction);
+          await functions_users.default.users(interaction);
           break;
         case 'listwl':
-          await functions_wl.listwl(interaction);
+          await functions_wl.default.listwl(interaction);
           break;
         case 'links':
-          await functions_bot.links(interaction);
+          await functions_bot.default.links(interaction);
           break;
         case 'selectjoin':
-          await functions_users.selectjoin(interaction);
+          await functions_users.default.selectjoin(interaction);
           break;
         case 'joinall':
-          await functions_users.joinall(interaction);
+          await functions_users.default.joinall(interaction);
           break;
         case 'changewebhook':
-          await functions_utils.changewebhook(interaction);
+          await functions_utils.default.changewebhook(interaction);
           break;
         case 'closemenu':
-          await functions_utils.closemenu(interaction);
+          await functions_utils.default.closemenu(interaction);
           break;
         case 'changewebhook':
-          await functions_utils.changewebhook(interaction);
+          await functions_utils.default.changewebhook(interaction);
           break;
         case 'selectrole':
-          await functions_button.selectrole(interaction);
+          await functions_button.default.selectrole(interaction);
           break;
         case 'sub':
-          await functions_manage.sub(interaction);
+          await functions_manage.default.sub(interaction);
           break;
         case 'panel':
-          const command = interaction.client.commands.get('panel');
+          const command = clientCommands.get('panel');
           if (!command) {
             console.error(`No command matching ${interaction.commandName} was found.`);
             return;
@@ -386,7 +401,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (!interaction.isChatInputCommand()) return;
 
-    const command = interaction.client.commands.get(interaction.commandName);
+    const command = clientCommands.get(interaction.commandName);
 
     if (!command) {
       console.error(`No command matching ${interaction.commandName} was found.`);
@@ -416,7 +431,7 @@ app.listen(constants.port, () => console.log('Connexion...'));
 
 /* CRON JOB */
 
-var updateServerWatched = new CronJob(
+var updateServerWatched = new CronJob.CronJob(
     '0 */30 * * * *',
     async function() {
       await getServers(client);
@@ -439,7 +454,7 @@ var updateServerWatched = new CronJob(
 // Generate a random hour between 0 and 23
 const randomHour = Math.floor(Math.random() * 24);
 const cronExpression = `0 ${randomHour} * * * *`;
-const checkUsers = new CronJob(
+const checkUsers = new CronJob.CronJob(
   cronExpression,
   async function() {
     await testUsers();

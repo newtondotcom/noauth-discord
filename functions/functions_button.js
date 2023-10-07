@@ -1,7 +1,7 @@
-const {StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActivityType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} = require('discord.js');
-const constants = require('../constants');
+import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActivityType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} from 'discord.js';
+import constants from '../constants.js';
 
-module.exports = {
+export default {
     ///////////////////////////////////////SPAWN BOUTON
 async button(interaction) {
 

@@ -1,8 +1,7 @@
-const fetch = require('node-fetch'); // 
-const constants = require('../constants');
+import constants from '../constants.js';
 
 
-module.exports = {
+export default {
 
     //CREATE A FUNCTION TO JOIN X USERS FROM THE GUILD A TO THE GUILD B, not to be called from discord
     async join_from_to(client,amount,from,to) {

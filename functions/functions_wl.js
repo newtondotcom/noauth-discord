@@ -1,10 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
-const fs = require('fs');
-const db = require('quick.db');
-const constants = require('../constants');
+import db from 'quick.db';
+import constants from '../constants.js';
 
 
-module.exports = {
+export default {
 
     ////////////////LISTWL
 

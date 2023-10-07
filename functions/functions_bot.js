@@ -1,9 +1,9 @@
-const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
-const constants = require('../constants');
-const db = require('quick.db');
+import { ButtonBuilder, ActionRowBuilder } from 'discord.js';
+import constants from '../constants.js';
+import db from 'quick.db';
 
 
-module.exports = {
+export default{
     async links(interaction) {
         const client = interaction.client; // Assuming your client instance is accessible this way
 

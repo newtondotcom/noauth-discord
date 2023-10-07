@@ -1,9 +1,8 @@
-const { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } = require('discord.js');
-const db = require('quick.db');
-const constants = require('../constants');
-const { test } = require('node:test');
+import { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
+import db from 'quick.db';
+import constants from '../constants.js';
 
-module.exports = {
+export default {
 
     async help(interaction) {
         if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {

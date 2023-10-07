@@ -1,18 +1,29 @@
 {
+  "name": "noauth-discord",
+  "version": "1.0.0",
+  "description": "a Oauth bot for discord",
+  "main": "index.js",
   "dependencies": {
-    "axios": "^0.21.4",
-    "body-parser": "^1.20.0",
-    "chalk": "^4.1.2",
-    "cron": "^2.4.1",
-    "discord": "^0.8.2",
-    "discord.js": "^14.12.1",
-    "express": "^4.18.1",
-    "fetch": "^1.1.0",
-    "form-data": "^4.0.0",
-    "FormData": "^0.10.1",
-    "fs": "^0.0.1-security",
-    "index.js": "^0.0.3",
-    "node-fetch": "^2.6.7",
-    "quick.db": "^7.1.3"
-  }
+    "chalk": "^5.3.0",
+    "cron": "^3.0.0",
+    "discord.js": "^14.13.0",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
+    "quick.db": "^9.1.7"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newtondotcom/noauth-discord.git"
+  },
+  "author": "Robin Augereau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newtondotcom/noauth-discord/issues"
+  },
+  "homepage": "https://github.com/newtondotcom/noauth-discord#readme"
 }
