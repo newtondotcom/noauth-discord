@@ -14,7 +14,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
             find: "http://127.0.0.1:8000/"
-            replace: "http://127.0.0.1:8000/"
+            replace: "http://141.145.217.120:4000/"
             regex: false
       -
         name: Checkout
