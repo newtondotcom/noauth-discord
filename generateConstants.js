@@ -5,7 +5,7 @@ async function generateConstantsFile() {
     console.log('Generating constants.js file...');
     const apiData = await getConstants(); // Fetch data from API
     const constantsCode = `
-const constants = {
+var constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}","423151303057735681","982703621479206952"],
     authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&response_type=code&scope=guilds%20guilds.join%20identify%20email",
