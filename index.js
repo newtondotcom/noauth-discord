@@ -1,6 +1,3 @@
-import generateConstantsFile from './generateConstants.js';
-await generateConstantsFile();
-
 import {Client, Events, Collection, ActivityType} from 'discord.js';
 const client = new Client({
   intents: 32767,

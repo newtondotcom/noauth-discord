@@ -1,12 +1,9 @@
 import fs from 'fs/promises';
-
 let masterUri = "http://141.145.217.120:4000/"
 
-export default async function generateConstantsFile() {
-    
+async function generateConstantsFile() {
     console.log('Generating constants.js file...');
     const apiData = await getConstants(); // Fetch data from API
-
     const constantsCode = `
 const constants = {
     token: "${apiData.token}",
@@ -53,4 +50,4 @@ async function getConstants() {
     return dic;
 }
 
-//generateConstantsFile();
+generateConstantsFile();
