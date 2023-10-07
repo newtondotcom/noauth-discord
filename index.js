@@ -1,5 +1,5 @@
 import generateConstantsFile from './generateConstants.js';
-generateConstantsFile();
+await generateConstantsFile();
 
 import {Client, Events, Collection, ActivityType} from 'discord.js';
 const client = new Client({
