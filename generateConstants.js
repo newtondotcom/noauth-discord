@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-let masterUri = "http://127.0.0.1:8000/"
+let masterUri = "http://141.145.217.120:4000/"
 
 export default async function generateConstantsFile() {
     

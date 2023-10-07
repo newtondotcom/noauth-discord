@@ -199,7 +199,7 @@ client.on("ready", async () => {
 
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
-  const data = await fetch(`http://127.0.0.1:8000/join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
   const datas = await data.text();
   const tempRole = member.guild.roles.cache.get(datas);
     if (tempRole) {
@@ -217,7 +217,7 @@ client.on('guildMemberAdd', async (member) => {
 
 client.on('guildMemberRemove', async (member) => {
   const userId = member.user.id;
-  const data = await fetch(`http://127.0.0.1:8000/left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  const data = await fetch(`${constants.masterUri}left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
 });
 
 client.on('guildCreate', async (guild) => {
