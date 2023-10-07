@@ -5,7 +5,6 @@ import {Client, Events, Collection, ActivityType} from 'discord.js';
 const client = new Client({
   intents: 32767,
 });
-import db from 'quick.db';
 import constants from './constants.js';
 import chalk from 'chalk';
 import fs from 'fs/promises';
@@ -164,7 +163,6 @@ async function loadCommands() {
 }
 
 import panel from './commands/panel/panel.js';
-console.log(panel,panel.data.name);
 async function loadCommand(){
   clientCommands.set(panel.data.name, panel);
 }
@@ -354,7 +352,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Form to choose the id of the user to manage
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
-    db.set(`wl_${id}`, true);
+    const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}`);
+    const data = await req.text();
     await interaction.reply({
       content: 'User added!',
     });
@@ -363,7 +362,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // after listed all users in the type bar
   if (interaction.customId === 'managewlremove') {
     const id = interaction.values[0];
-    db.delete(`wl_${id}`);
+    const req = await fetch(constants.masterUri + `remove_whitelist/?guild_id=${constants.guildId}&user_id=${id}`);
+    const data = await req.text();
     await interaction.reply({
       content: 'User removed!',
     });
