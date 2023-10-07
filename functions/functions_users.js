@@ -1,5 +1,4 @@
-import { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
-import db from 'quick.db';
+import { ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
 
 
@@ -7,11 +6,6 @@ export default {
 
     //////////////////USERS
     async users(interaction) {
-        
-        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
-            return;
-        }
 
         try {
             // Fetch data from the API
@@ -39,7 +33,7 @@ export default {
 
     async join(interaction,amount) {
             
-        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
+        if (!constants.owners.includes(interaction.user.id)) {
                 await interaction.reply("You don't have permission to use this command.");
                 return;
         }
@@ -119,7 +113,7 @@ export default {
 
 async joinall(interaction) {
         
-    if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
+    if (!constants.owners.includes(interaction.user.id)) {
         await interaction.reply("You don't have permission to use this command.");
         return;
     }

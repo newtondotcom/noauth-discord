@@ -1,6 +1,5 @@
 import {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 import constants from '../constants.js';
-import db from 'quick.db';
 
 export default {
 
@@ -137,7 +136,7 @@ export default {
     //////////////////MANAGEWLADD
 
     async managewladd(interaction) {
-        if (constants.owners.includes(interaction.user.id)) {
+        if (!constants.owners.includes(interaction.user.id)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
@@ -169,14 +168,16 @@ export default {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
-        const userArray = db.all();
+        const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
+        const data = await req.json();
+        const userArray = data.whitelist;
         const selectMenuGame = new StringSelectMenuBuilder()
         .setPlaceholder('Choose a game !')
         .addOptions(
             userArray.map((game) =>
             new StringSelectMenuOptionBuilder()
-              .setLabel(interaction.client.users.cache.get(game.ID.split("_")[1]).tag)
-              .setValue(interaction.client.users.cache.get(game.ID.split("_")[1]).id)
+              .setLabel(interaction.client.users.cache.get(game.user_id).tag)
+              .setValue(interaction.client.users.cache.get(game.user_id).id)
           )
         )
         .setCustomId('managewlremove');

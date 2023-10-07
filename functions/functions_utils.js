@@ -1,14 +1,9 @@
 import { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
-import db from 'quick.db';
 import constants from '../constants.js';
 
 export default {
 
     async help(interaction) {
-        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
-            return;
-        }
         await interaction.update({
             components: [],
             embeds: [{
@@ -43,10 +38,6 @@ export default {
     ///////////////CLOSEMENU
 
     async closemenu(interaction) {
-        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
-            return;
-        }
         await interaction.message.delete();
     },
 

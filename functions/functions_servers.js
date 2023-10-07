@@ -1,5 +1,4 @@
 import {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
-import db from 'quick.db';
 import constants from '../constants.js';
 export default {
 

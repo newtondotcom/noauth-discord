@@ -1,17 +1,10 @@
 import { ButtonBuilder, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
-import db from 'quick.db';
 
 
 export default{
     async links(interaction) {
-        const client = interaction.client; // Assuming your client instance is accessible this way
-
-        if (db.get(`wl_${interaction.user.id}`) !== true && !constants.owners.includes(interaction.user.id)) {
-            await interaction.update("You don't have permission to use this command.");
-            return;
-        }
-
+        const client = interaction.client; 
         const authButton = new ButtonBuilder()
             .setLabel('NOAuth Link 📩')
             .setURL(constants.authLink)
