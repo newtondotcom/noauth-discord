@@ -384,7 +384,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     // Form to choose a new webhook
     if (interaction.customId === 'changewebhook') {
       const webhook = interaction.fields.getTextInputValue('changewebhook');
-      encodedWebhook = encodeURIComponent(webhook);
+      var encodedWebhook = encodeURIComponent(webhook);
       const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
       await interaction.reply({
