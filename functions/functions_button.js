@@ -141,7 +141,7 @@ async button(interaction) {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setEmoji('🖼️')
+                    .setEmoji('🛃')
                     .setLabel('Role')
                     .setDescription('Select role to give after verification')
                     .setValue('selectrole'),
