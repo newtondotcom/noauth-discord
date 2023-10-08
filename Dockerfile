@@ -8,4 +8,8 @@ COPY . .
 
 RUN npm install
 
-CMD ["node", "generateConstants.js", "&&", "node", "index.js"]
+# Add a script to wait for generateConstants.js to finish
+COPY wait-for-constants.sh /usr/src/bot/wait-for-constants.sh
+RUN chmod +x /usr/src/bot/wait-for-constants.sh
+
+CMD ["./wait-for-constants.sh"]
