@@ -111,7 +111,7 @@ app.post('/register_user/', async (req, res) => {
 
 app.post('/leave', async (req, res) => {
   const guildId = req.body.guild_id;
-  functions_api.leave(client, guildId);
+  functions_api.default.leave(client, guildId);
   res.sendStatus(200);
 });
 
@@ -369,7 +369,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // after listed all users in the type bar
   if (interaction.customId === 'leave') {
     const guildId = interaction.fields.getTextInputValue('id');
-    functions_api.leave(client, guildId);
+    functions_api.default.leave(client, guildId);
     await interaction.reply({
       content: 'Guild left!',
     });
@@ -378,7 +378,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Form to choose the number of users to join
   if (interaction.customId === 'countuser') {
     const count = interaction.fields.getTextInputValue('count');
-    await functions_users.join(interaction, count);
+    await functions_users.default.join(interaction, count);
   }
 
     // Form to choose a new webhook
@@ -387,12 +387,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
       encodedWebhook = encodeURIComponent(webhook);
       const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
+      await interaction.reply({
+        content: 'Webhook changed!',
+      });
     }
 
     if (interaction.customId === 'selectroletoadd') {
       const role = interaction.values[0];
       const query = await fetch(constants.masterUri + `set_role/?guild_id=${constants.guildId}&role=${role}`);
       const datas = await query.text();
+      await interaction.reply({
+        content: 'Role added!',
+      });
     } 
 
 
