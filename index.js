@@ -389,6 +389,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const datas = await req.text();
       await interaction.reply({
         content: 'Webhook changed!',
+        embeds: [],
+        components: []
       });
     }
 
@@ -397,7 +399,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const query = await fetch(constants.masterUri + `set_role/?guild_id=${constants.guildId}&role=${role}`);
       const datas = await query.text();
       await interaction.reply({
-        content: 'Role added!',
+        content: 'Webhook changed!',
+        embeds: [],
+        components: []
       });
     } 
 
