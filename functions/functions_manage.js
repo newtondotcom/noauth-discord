@@ -51,7 +51,7 @@ export default {
             )
             .setCustomId('selectBot');
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: 'Choose a game !', components: [row] });
+        await interaction.update({ content: '', components: [row] });
     },
 
 
@@ -130,7 +130,7 @@ export default {
             .setCustomId('selectBot');
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: 'Choose a game !', components: [row] });
+        await interaction.update({ content: '', components: [row] });
     },
 
     //////////////////MANAGEWLADD
@@ -172,7 +172,7 @@ export default {
         const data = await req.json();
         const userArray = data.whitelist;
         const selectMenuGame = new StringSelectMenuBuilder()
-        .setPlaceholder('Choose a game !')
+        .setPlaceholder('')
         .addOptions(
             userArray.map((game) =>
             new StringSelectMenuOptionBuilder()
@@ -183,7 +183,7 @@ export default {
         .setCustomId('managewlremove');
   
       const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
-      await interaction.reply({ content: 'Choose a game !', components: [rowGame] });
+      await interaction.reply({ content: '', components: [rowGame] });
     },
 
     ///////////////////SUBSCRIPTION

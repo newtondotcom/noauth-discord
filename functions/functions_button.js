@@ -171,12 +171,12 @@ async button(interaction) {
 
         // Create the select menu builder
         const selectMenuGame = new StringSelectMenuBuilder()
-            .setPlaceholder('Choose a game !')
+            .setPlaceholder('')
             .addOptions(roleOptions) // Add the options array here
             .setCustomId('selectroletoadd');
     
         const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
-        await interaction.update({ content: 'Choose a game !', components: [rowGame] });
+        await interaction.update({ content: '', components: [rowGame] });
     }
 
 }
