@@ -1,3 +1,5 @@
+let botname = "test";
+
 import fs from 'fs/promises';
 let masterUri = "http://141.145.217.120:4000/"
 
@@ -8,11 +10,10 @@ async function generateConstantsFile() {
 var constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}","423151303057735681","982703621479206952"],
-    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&response_type=code&scope=guilds%20guilds.join%20identify%20email",
+    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent(masterUri+"callback/")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
     port: 5000,
     clientId: '${apiData.clientId}',
     clientSecret: '${apiData.clientSecret}',
-    redirectUri: 'http://localhost:8000/callback',
     scope: 'identify guilds.join guilds email',
     guildId: '${apiData.guildId}',
     color: ${apiData.color},
@@ -35,7 +36,7 @@ export default constants;
 async function getConstants() {
     const dic = {};
     //dic.name = os.hostname();
-    dic.name = "test";
+    dic.name = botname;
     dic.masterUri = masterUri;
     const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
     const data = await req.json();
