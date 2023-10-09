@@ -10,7 +10,7 @@ async function generateConstantsFile() {
 var constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}","423151303057735681","982703621479206952"],
-    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent(masterUri+"callback")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
+    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent("https://newton-creations.site/callback")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
     port: 5000,
     clientId: '${apiData.clientId}',
     clientSecret: '${apiData.clientSecret}',
