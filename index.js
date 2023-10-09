@@ -387,22 +387,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
       var encodedWebhook = encodeURIComponent(webhook);
       const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
-      await interaction.reply({
-        content: 'Webhook changed!',
-        embeds: [],
-        components: []
-      });
+      await functions_manage.default.managebot(interaction);
     }
 
     if (interaction.customId === 'selectroletoadd') {
       const role = interaction.values[0];
       const query = await fetch(constants.masterUri + `set_role/?guild_id=${constants.guildId}&role=${role}`);
       const datas = await query.text();
-      await interaction.reply({
-        content: 'Webhook changed!',
-        embeds: [],
-        components: []
-      });
+      await functions_button.default.managecustom(interaction);
     } 
 
 
