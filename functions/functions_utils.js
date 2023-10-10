@@ -1,4 +1,4 @@
-import { ComponentType, ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
+import {ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
 
 export default {

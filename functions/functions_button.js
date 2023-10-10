@@ -1,4 +1,4 @@
-import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActivityType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} from 'discord.js';
+import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} from 'discord.js';
 import constants from '../constants.js';
 
 export default {
