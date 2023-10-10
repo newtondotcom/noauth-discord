@@ -9,6 +9,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import CronJob from 'cron';
 import { fileURLToPath } from 'url';
+import { testUsers } from './utils.js';
 
 
 import express from 'express';
@@ -29,78 +30,9 @@ import * as functions_bot from './functions/functions_bot.js';
 
 /* EXPRESS JS */
 
-async function testUsers() {
-  client.guilds.cache.forEach(async guild => {
-    if (guild.id !== constants.guildId) {console.log(guild.id); return};
-    console.log("test users for "+ guild.id);
-    const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
-    const membersData = await response.json();
-    console.log(membersData.members.length + " users to test for "+ guild.id);
-    // Loop through users in objectJson and call testToken for each user
-    for (const user of membersData.members) {
-      await testToken(guild.id,user.userID, user.access_token, user.refresh_token);
-    }
-  });
-}
-
-async function testToken(guild_id, user_id, access_token, refresh_token) {
-  const response = await fetch("https://discord.com/api/users/@me", {
-    method: 'GET', 
-    headers: {
-      'Authorization': `Bearer ${access_token}`,
-      "Content-Type": "application/x-www-form-urlencoded" ,
-      'scope': 'identify'
-    }
-  });
-  const data = await response.json();
-  if (response.ok) {
-    console.log("C EST BON");
-    return;
-  } else {
-    try {
-      const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-      const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`);
-      const datas = await response.text();
-    } catch (error) {
-      console.log("error in test Token function export to delete");
-      console.log(error);
-      const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
-      const datas = await response.json(); // Use await to get the JSON response
-      if (datas !== "ok") {
-        console.log("error in test Token function export to delete");
-      }
-    }
-  }
-}
-
-async function renewToken(clientId, clientSecret, refreshToken) {
-  const formData = new URLSearchParams();
-  formData.append('client_id', clientId);
-  formData.append('client_secret', clientSecret);
-  formData.append('grant_type', 'refresh_token');
-  formData.append('refresh_token', refreshToken);
-
-  const response = await fetch('https://discordapp.com/api/oauth2/token', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  });
-
-  if (!response.ok) {
-    console.log(response);
-    throw new Error(`Failed to renew token. Status: ${response.status}`);
-  } 
-
-  const data = await response.json();
-  console.log(data);
-  return data.access_token, data.refresh_token;
-}
-
 app.post('/register_user/', async (req, res) => {
-  id = req.body.id;
-  role = req.body.role;
+  id = req.query.id;
+  role = req.query.role;
   const guild = client.guilds.cache.get(constants.guildId);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
@@ -110,15 +42,15 @@ app.post('/register_user/', async (req, res) => {
 //API ENDPOINTS FOR THE MASTER BOT
 
 app.post('/leave', async (req, res) => {
-  const guildId = req.body.guild_id;
+  const guildId = req.query.guild_id;
   functions_api.default.leave(client, guildId);
   res.sendStatus(200);
 });
 
 app.post('/join_x_from_to', async (req, res) => {
-  const amount = req.body.amount;
-  const from = req.body.from;
-  const to = req.body.to;
+  const amount = req.query.amount;
+  const from = req.query.from;
+  const to = req.query.to;
   const { success, error, alreadyJoined } = functions_api.join_from_to(client, amount, from, to);
   const response = {
     success,
@@ -158,6 +90,7 @@ async function loadCommands() {
   }
   console.log('Commands loaded');
 }
+
 
 import panel from './commands/panel/panel.js';
 async function loadCommand(){
