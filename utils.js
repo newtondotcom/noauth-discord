@@ -21,7 +21,7 @@ export async function sendWebhook(title,body){
     await fetch(webhook, options);
 }
 
-export async function testUsers() {
+export async function testUsers(client) {
     client.guilds.cache.forEach(async guild => {
       if (guild.id !== constants.guildId) {console.log(guild.id); return};
       console.log("test users for "+ guild.id);

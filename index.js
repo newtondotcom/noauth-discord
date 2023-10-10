@@ -33,6 +33,7 @@ import * as functions_bot from './functions/functions_bot.js';
 app.post('/register_user/', async (req, res) => {
   const id = req.query.id;
   const role = req.query.role;
+  console.log(id);
   const guild = client.guilds.cache.get(constants.guildId);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
@@ -124,7 +125,6 @@ client.on("ready", async () => {
     ],
     status: 'online'
   });
-  //testUsers();
 });
 
 client.on('guildMemberAdd', async (member) => {
@@ -389,7 +389,7 @@ const cronExpression = `0 ${randomHour} * * * *`;
 const checkUsers = new CronJob.CronJob(
   cronExpression,
   async function() {
-    await testUsers();
+    await testUsers(client);
   },
   null,
   true,
