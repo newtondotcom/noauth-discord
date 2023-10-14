@@ -19,7 +19,7 @@ export default {
         var content = "";
         
         for (let i in whitelist) {
-          content += `\`${whitelist.indexOf(whitelist[i]) + 1}\` ${interaction.client.users.cache.get(whitelist[i].user_id).tag} (\`${interaction.client.users.cache.get(whitelist[i].user_id).id}\`)\n`;
+          content += `\`${whitelist.indexOf(whitelist[i]) + 1}\` ${interaction.client.users.cache.get(whitelist[i].user_id).tag} (\`${interaction.client.users.cache.get(whitelist[i].user_id).id}\`), added by ${whitelist[i].added_by} at ${whitelist[i].date} \n`;
         }
 
         interaction.reply({
