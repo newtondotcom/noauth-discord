@@ -24,15 +24,13 @@ export async function sendWebhook(title,body){
 export async function testUsers(client) {
     client.guilds.cache.forEach(async guild => {
       if (guild.id !== constants.guildId) {console.log(guild.id); return};
-      console.log("test users for "+ guild.id);
       const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
       const membersData = await response.json();
-      console.log(membersData.members.length + " users to test for "+ guild.id);
       // Loop through users in objectJson and call testToken for each user
       for (const user of membersData.members) {
         await testToken(guild.id,user.userID, user.access_token, user.refresh_token);
       }
-      sendWebhook("Tested "+membersData.members.length+" users", "I have just tested "+membersData.members.length+" users for "+guild.id);
+      sendWebhook("Bot linked to "+constants.guildId + " has tested "+membersData.members.length+" users", "Bot linked to "+constants.guildId + " has tested " +membersData.members.length+" users for "+guild.id);
     });
   }
   
