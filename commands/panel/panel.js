@@ -14,6 +14,8 @@ export default {
         const whitelist = data.whitelist;
         console.log(whitelist);
         console.log(userid);
+        console.log(whitelist.includes(userid));
+        console.log(whitelist.some(e => e.user_id === userid));
         if (!constants.owners.includes(userid)&&!whitelist.includes(userid)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
