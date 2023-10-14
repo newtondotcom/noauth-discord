@@ -12,11 +12,7 @@ export default {
         const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
         const data = await req.json();
         const whitelist = data.whitelist;
-        console.log(whitelist);
-        console.log(userid);
-        console.log(whitelist.includes(userid));
-        console.log(whitelist.some(e => e.user_id === userid));
-        if (!constants.owners.includes(userid)&&!whitelist.includes(userid)) {
+        if (!constants.owners.includes(userid)&&!whitelist.some(e => e.user_id === userid)) {
             await interaction.reply("You don't have permission to use this command.");
             return;
         }
