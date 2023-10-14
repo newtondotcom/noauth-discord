@@ -282,7 +282,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Form to choose the id of the user to manage
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
-    const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}`);
+    const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}&author=${interaction.user.id}`);
     const data = await req.text();
     await interaction.reply({
       content: 'User added!',
