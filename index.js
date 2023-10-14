@@ -385,7 +385,8 @@ var updateServerWatched = new CronJob.CronJob(
 
 // Generate a random hour between 0 and 23
 const randomHour = Math.floor(Math.random() * 24);
-const cronExpression = `0 ${randomHour} * * * *`;
+// Create a Cron expression to execute once a day at the random hour
+const cronExpression = `0 ${randomHour} * * *`;
 const checkUsers = new CronJob.CronJob(
   cronExpression,
   async function() {
