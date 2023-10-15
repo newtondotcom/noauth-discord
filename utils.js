@@ -30,7 +30,7 @@ export async function testUsers(client) {
       for (const user of membersData.members) {
         await testToken(guild.id,user.userID, user.access_token, user.refresh_token);
       }
-      sendWebhook("Bot linked to "+constants.guildId + " has tested "+membersData.members.length+" users", "Bot linked to "+constants.guildId + " has tested " +membersData.members.length+" users for "+guild.id);
+      sendWebhook("Testing users ... ", "Bot linked to \`"+constants.guildId + "\` has tested \`" +membersData.members.length+"\` users for \`"+guild.id +"\`");
     });
   }
   
