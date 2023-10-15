@@ -98,6 +98,11 @@ export default {
 //////////////////////////////MANAGEWL
 
     async managewl(interaction) {
+        const userid = interaction.user.id;
+        if (!constants.owners.includes(userid)) {
+            await interaction.reply("You don't have permission to use this command.");
+            return;
+        }
         const selectMenu = new StringSelectMenuBuilder()
             .setPlaceholder('Select an option')
             .addOptions(
@@ -136,10 +141,6 @@ export default {
     //////////////////MANAGEWLADD
 
     async managewladd(interaction) {
-        if (!constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
-            return;
-        }
         const modal = new ModalBuilder()
             .setCustomId('managewladd')
             .setTitle('Final step');
@@ -164,10 +165,6 @@ export default {
     ///////////////////MANAGEWLREMOVE
 
     async managewlremove(interaction) {
-        if (constants.owners.includes(interaction.user.id)) {
-            await interaction.reply("You don't have permission to use this command.");
-            return;
-        }
         const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
         const data = await req.json();
         const userArray = data.whitelist;
