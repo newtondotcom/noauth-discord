@@ -1,13 +1,15 @@
-const { REST, Routes } = require('discord.js');
-const constants = require('./constants');
-const fs = require('node:fs');
-const path = require('node:path');
+import { REST, Routes } from 'discord.js';
+import constants from './constants.js';
+import fs from 'fs/promises';
+import path from 'path';
 
 const commands = [];
+
+/*
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
-for (const folder of commandFolders) {
+/*for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
@@ -19,10 +21,13 @@ for (const folder of commandFolders) {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
-}
+}*/
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(constants.token);
+
+import panel from './commands/panel/panel.js';
+commands.push(panel.data.toJSON());
 
 // and deploy your commands!
 (async () => {
