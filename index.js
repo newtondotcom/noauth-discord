@@ -130,7 +130,8 @@ client.on("ready", async () => {
 
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
-  const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  const server = member.guild.id;
+  const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${server}`, { method: 'POST' });
   /*
   const datas = await data.text();
   const tempRole = member.guild.roles.cache.get(datas);
