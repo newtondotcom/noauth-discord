@@ -10,7 +10,6 @@ async button(interaction) {
         const data = datat.button[0]
 
         const urlImage = decodeURIComponent(data.image)
-        console.log(urlImage)
 
         const exampleEmbed = {
             color: parseInt(data.color),
