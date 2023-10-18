@@ -64,20 +64,30 @@ export default {
             .setCustomId('selectCommand');
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        try{
-          await interaction.update({ content: '', components: [row],
-            embeds: [{
-                color: 0xff8000 ,
-                title: `🆔  Manage your NOAuth bot`,
-                description: '**Welcome, *on your NOAuth.***\n **There is some rules to read before use. \n `[1]`Do not resell the bot ❌ \n `[2]`...** \n \n **Si vous avez acheté ce bot à un particulié signalez le [ici](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). \n Vous serez récompensé**',}]
+        try {
+            await interaction.update({
+              content: '',
+              components: [row],
+              embeds: [
+                {
+                  color: 0xff8000,
+                  title: `🆔  Manage your NOAuth bot`,
+                  description: '**Welcome to your NOAuth.**\n **There are some rules to read before use. \n `[1]` Do not resell the bot ❌ \n `[2]`...** \n \n If you have purchased this bot from an individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). You will be rewarded.',
+                },
+              ],
             });
-            } catch(error){
-            await interaction.reply({ content: '', components: [row],
-            embeds: [{
-                color: 0xff8000 ,
-                title: `🆔  Manage your NOAuth bot`,
-                description: '**Welcome, *on your NOAuth.***\n **There is some rules to read before use. \n `[1]`Do not resell the bot ❌ \n `[2]`...** \n \n **Si vous avez acheté ce bot à un particulié signalez le [ici](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). \n Vous serez récompensé**',}]
+          } catch (error) {
+            await interaction.reply({
+              content: '',
+              components: [row],
+              embeds: [
+                {
+                  color: 0xff8000,
+                  title: `🆔  Manage your NOAuth bot`,
+                  description: '**Welcome to your NOAuth.**\n **There are some rules to read before use. \n `[1]` Do not resell the bot ❌ \n `[2]`...** \n \n If you have purchased this bot from an individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). You will be rewarded.',
+                },
+              ],
             });
-        }
+          }
     },
 };
