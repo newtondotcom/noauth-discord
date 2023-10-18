@@ -7,10 +7,8 @@ while [ ! -f constants.js ]; do
   sleep 1
 done
 
-node .\deploy-commands.js
+node deploy-commands.js
 sleep 2
-
-node .\deploy-commands.js
 
 # Start the main application (index.js)
 node index.js
