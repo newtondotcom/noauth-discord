@@ -131,6 +131,7 @@ client.on("ready", async () => {
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
   const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' });
+  /*
   const datas = await data.text();
   const tempRole = member.guild.roles.cache.get(datas);
     if (tempRole) {
@@ -144,6 +145,7 @@ client.on('guildMemberAdd', async (member) => {
         } else {
           console.log('Error: ROLE_TEMP not found in the guild.');
         }
+        */
 });
 
 client.on('guildMemberRemove', async (member) => {
