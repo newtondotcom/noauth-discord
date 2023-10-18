@@ -33,8 +33,9 @@ import * as functions_bot from './functions/functions_bot.js';
 app.post('/register_user/', async (req, res) => {
   const id = req.query.id;
   const role = req.query.role;
+  const server = req.query.server;
   console.log(id);
-  const guild = client.guilds.cache.get(constants.guildId);
+  const guild = client.guilds.cache.get(server);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
   res.sendStatus(200);
