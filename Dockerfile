@@ -6,7 +6,7 @@ WORKDIR /usr/src/bot
 
 COPY . .
 
-RUN npm install
+RUN yarn
 
 # Add a script to wait for generateConstants.js to finish
 COPY wait-for-constants.sh /usr/src/bot/wait-for-constants.sh
