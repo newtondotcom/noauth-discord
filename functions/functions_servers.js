@@ -28,19 +28,15 @@ export default {
         .setCustomId('leave')
         .setTitle('Final step');
 
-        // Create TextInputBuilders
         const name = new TextInputBuilder()
             .setCustomId('id')
             .setLabel("What's the ID?")
             .setStyle(TextInputStyle.Short);
 
-        // Create ActionRowBuilders and add TextInputBuilders to them
         const nameActionRow = new ActionRowBuilder().addComponents(name);
         
-        // Add each ActionRowBuilder to the modal
         modal.addComponents(nameActionRow);
 
-        // Reply to the interaction with the modal
         await interaction.showModal(modal);
     },
 };
