@@ -288,7 +288,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     } else {
       // Handle the case where 'color' is not a valid integer
       await interaction.reply({
-        content: 'Invalid color value. Please provide a valid integer for color.',
+        content: 'Invalid color value. Please provide a valid integer for color, not hexadecimal. Browse https://www.mathsisfun.com/hexadecimal-decimal-colors.html to find the integer value of your color',
       });
     }
   }
