@@ -1,3 +1,5 @@
+name: Build and Push Docker Images
+
 env:
   DOCKER_TAG : newtondotcom/noauthdiscord:latest
 
