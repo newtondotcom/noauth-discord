@@ -48,6 +48,11 @@ async button(interaction) {
     ////////////////////////////////////////////////GRAPHIC BOUTON
 
     async custombuttongraphic(interaction) {
+
+        const query = await fetch(constants.masterUri+'get_button?guild_id='+constants.guildId)
+        const datat = await query.json()
+        const data = datat.button[0]
+
         const modal = new ModalBuilder()
             .setCustomId('custombuttongraphic')
             .setTitle('Final step');
@@ -56,66 +61,73 @@ async button(interaction) {
         const image = new TextInputBuilder()
             .setCustomId('image')
             .setLabel("What's the image?")
+            .setValue(encodeURIComponent(data.image))
             .setStyle(TextInputStyle.Short);
 
         const color = new TextInputBuilder()
             .setCustomId('color')
-            .setLabel("Color (Int value) like 1752220 for Aqua")
+            .setLabel("Color (INT value and not HEX) like 1752220 instead of #1ABC9C for Aqua")
+            .setValue(parseInt(data.color))
             .setStyle(TextInputStyle.Short);
 
-        // Create ActionRowBuilders for each TextInputBuilder
         const imageActionRow = new ActionRowBuilder().addComponents(image);
         const colorActionRow = new ActionRowBuilder().addComponents(color);
 
-        // Add each ActionRowBuilder to the modal
         modal.addComponents(imageActionRow);
         modal.addComponents(colorActionRow);
 
-        // Reply to the interaction with the modal
         await interaction.showModal(modal);
     },
 
     /////////////////////////////CUSTOMBUTTONTESXT
 
     async custombuttontext(interaction) {
+
+        const query = await fetch(constants.masterUri+'get_button?guild_id='+constants.guildId)
+        const datat = await query.json()
+        const data = datat.button[0]
+
         const modal = new ModalBuilder()
             .setCustomId('custombuttontext')
             .setTitle('Final step');
 
-        // Create TextInputBuilders
         const name = new TextInputBuilder()
             .setCustomId('name')
+            .setValue(data.name)
             .setLabel("What's the name?")
             .setStyle(TextInputStyle.Short);
 
         const title = new TextInputBuilder()
             .setCustomId('title')
+            .setValue(data.title)
             .setLabel("What's the title?")
             .setStyle(TextInputStyle.Short);
 
         const description = new TextInputBuilder()
             .setCustomId('description')
             .setLabel("What's the description?")
+            .setValue(data.description)
             .setStyle(TextInputStyle.Paragraph);
 
         const footer = new TextInputBuilder()
             .setCustomId('footer')
             .setLabel("What's the footer?")
+            .setValue(data.footer)
             .setStyle(TextInputStyle.Short);
 
-        // Create ActionRowBuilders and add TextInputBuilders to them
+        /// UNDEFINED AND BLANK VALUE
+        /// COLOR CHECK AMONG LIST
+
         const nameActionRow = new ActionRowBuilder().addComponents(name);
         const titleActionRow = new ActionRowBuilder().addComponents(title);
         const descriptionActionRow = new ActionRowBuilder().addComponents(description);
         const footerActionRow = new ActionRowBuilder().addComponents(footer);
 
-        // Add each ActionRowBuilder to the modal
         modal.addComponents(nameActionRow);
         modal.addComponents(titleActionRow);
         modal.addComponents(descriptionActionRow);
         modal.addComponents(footerActionRow);
 
-        // Reply to the interaction with the modal
         await interaction.showModal(modal);
     },
 
