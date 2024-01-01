@@ -1,6 +1,6 @@
 #!/bin/sh
 
-node generateConstants.js
+node scripts/generateConstants.js
 
 # Wait for the generateConstants.js script to finish (e.g., until a specific file exists)
 while [ ! -f constants.js ]; do
