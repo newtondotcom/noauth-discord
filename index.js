@@ -274,10 +274,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   // Form to customize the graphics of the button
   if (interaction.customId === 'custombuttongraphic') {
-    const image = interaction.fields["image"]; // Access the 'image' field appropriately
-    const color = interaction.fields["color"]; // Access the 'color' field appropriately
+    const image = interaction.fields.getTextInputValue('image');
+    const color = interaction.fields.getTextInputValue('color');
   
-    // Check if 'color' is a valid integer
     const parsedColor = parseInt(color);
     if (!isNaN(parsedColor) && Number.isInteger(parsedColor)) {
       const response = await fetch(constants.masterUri + `set_button_graphic/?guild_id=${constants.guildId}&image=${encodeURIComponent(image)}&color=${encodeURIComponent(parsedColor.toString())}`);
@@ -286,7 +285,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
         content: 'Button updated!',
       });
     } else {
-      // Handle the case where 'color' is not a valid integer
       await interaction.reply({
         content: 'Invalid color value. Please provide a valid integer for color, not hexadecimal. Browse https://www.mathsisfun.com/hexadecimal-decimal-colors.html to find the integer value of your color',
       });
