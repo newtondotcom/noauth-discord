@@ -57,17 +57,18 @@ async button(interaction) {
             .setCustomId('custombuttongraphic')
             .setTitle('Final step');
 
-        // Create TextInputBuilders
         const image = new TextInputBuilder()
             .setCustomId('image')
             .setLabel("What's the image?")
-            .setValue(encodeURIComponent(data.image))
+            .setValue(decodeURIComponent(data.image))
+            .setRequired(false)
             .setStyle(TextInputStyle.Short);
 
         const color = new TextInputBuilder()
             .setCustomId('color')
-            .setLabel("Color (INT value and not HEX) like 1752220 instead of #1ABC9C for Aqua")
-            .setValue(parseInt(data.color))
+            .setRequired(false)
+            .setLabel("Color (INT value) like 1752220 for Aqua")
+            .setValue(data.color)
             .setStyle(TextInputStyle.Short);
 
         const imageActionRow = new ActionRowBuilder().addComponents(image);
@@ -95,28 +96,29 @@ async button(interaction) {
             .setCustomId('name')
             .setValue(data.name)
             .setLabel("What's the name?")
+            .setRequired(false)
             .setStyle(TextInputStyle.Short);
 
         const title = new TextInputBuilder()
             .setCustomId('title')
             .setValue(data.title)
             .setLabel("What's the title?")
+            .setRequired(false)
             .setStyle(TextInputStyle.Short);
 
         const description = new TextInputBuilder()
             .setCustomId('description')
             .setLabel("What's the description?")
             .setValue(data.description)
+            .setRequired(false)
             .setStyle(TextInputStyle.Paragraph);
 
         const footer = new TextInputBuilder()
             .setCustomId('footer')
             .setLabel("What's the footer?")
             .setValue(data.footer)
+            .setRequired(false)
             .setStyle(TextInputStyle.Short);
-
-        /// UNDEFINED AND BLANK VALUE
-        /// COLOR CHECK AMONG LIST
 
         const nameActionRow = new ActionRowBuilder().addComponents(name);
         const titleActionRow = new ActionRowBuilder().addComponents(title);
@@ -170,7 +172,6 @@ async button(interaction) {
     },
 
     async selectrole(interaction) {    
-        // Create an array of options
         const roleOptions = [];
     
         interaction.guild.roles.cache.forEach(role => {
@@ -180,7 +181,6 @@ async button(interaction) {
             });
         });
 
-        // Create the select menu builder
         const selectMenuGame = new StringSelectMenuBuilder()
             .setPlaceholder('')
             .addOptions(roleOptions) // Add the options array here
