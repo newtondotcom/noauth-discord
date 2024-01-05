@@ -13,6 +13,9 @@ async button(interaction) {
 
         const exampleEmbed = {
             color: parseInt(data.color),
+            image: {
+                url: urlImage,
+              },
             title: data.title,
             url: constants.authLink,
             author: {
@@ -21,9 +24,6 @@ async button(interaction) {
                 url: constants.authLink,
             },
             description: data.description,
-            thumbnail: {
-                url: urlImage,
-            },
             timestamp: new Date().toISOString(),
             footer: {
                 text: data.footer,
@@ -32,17 +32,20 @@ async button(interaction) {
         };
 
         const button = new ButtonBuilder()
-            .setLabel('Authenticate here')
+            .setLabel(data.content)
             .setURL(constants.authLink)
             .setStyle(5);
 
         const actionRow = new ActionRowBuilder()
             .addComponents(button);
 
-        await interaction.reply({
-            components: [actionRow],
-            embeds: [exampleEmbed]
-        });
+        //await interaction.message.delete();
+        //await interaction.reply({ content: 'Bouton spawn !', ephemeral: true });
+
+        //Send the embed to this channel
+        let id = interaction.channelId;
+        let channel = await interaction.guild.channels.cache.get(id);
+        await channel.send({ embeds: [exampleEmbed], components: [actionRow] });
     },
 
     ////////////////////////////////////////////////GRAPHIC BOUTON
@@ -161,6 +164,13 @@ async button(interaction) {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
+                    .setEmoji('🔘')
+                    .setLabel('Content')
+                    .setDescription('Edit the button content')
+                    .setValue('buttonname'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
                     .setEmoji('⏪')
                     .setLabel('Go back')
                     .setValue('panel'),
@@ -183,11 +193,32 @@ async button(interaction) {
 
         const selectMenuGame = new StringSelectMenuBuilder()
             .setPlaceholder('')
-            .addOptions(roleOptions) // Add the options array here
+            .addOptions(roleOptions)
             .setCustomId('selectroletoadd');
     
         const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
         await interaction.update({ content: '', components: [rowGame] });
+    },
+
+    async buttoncontent(interaction) {
+        const query = await fetch(constants.masterUri+'get_button?guild_id='+constants.guildId)
+        const datat = await query.json()
+        const data = datat.button[0]
+
+        const modal = new ModalBuilder()
+            .setCustomId('custombuttoncontent')
+            .setTitle('Edit the button name');
+
+        const content = new TextInputBuilder()
+            .setCustomId('content')
+            .setValue(data.content)
+            .setLabel("What's the button content?")
+            .setRequired(true)
+            .setStyle(TextInputStyle.Short);
+
+        const nameActionRow = new ActionRowBuilder().addComponents(content);
+        modal.addComponents(nameActionRow);
+        await interaction.showModal(modal);
     }
 
 }
