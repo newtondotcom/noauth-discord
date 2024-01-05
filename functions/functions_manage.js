@@ -100,7 +100,7 @@ export default {
     async managewl(interaction) {
         const userid = interaction.user.id;
         if (!constants.owners.includes(userid)) {
-            await interaction.reply("You don't have permission to use this command.");
+            await interaction.update("You don't have permission to use this command.");
             return;
         }
         const selectMenu = new StringSelectMenuBuilder()
@@ -180,7 +180,7 @@ export default {
         .setCustomId('managewlremove');
   
       const rowGame = new ActionRowBuilder().addComponents(selectMenuGame);
-      await interaction.reply({ content: '', components: [rowGame] });
+      await interaction.update({ content: '', components: [rowGame] });
     },
 
     ///////////////////SUBSCRIPTION

@@ -242,6 +242,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'sub':
           await functions_manage.default.sub(interaction);
           break;
+        case 'buttonname':
+          await functions_button.default.buttoncontent(interaction);
+          break;
         case 'panel':
           const command = clientCommands.get('panel');
           if (!command) {
@@ -267,7 +270,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const footer = interaction.fields.getTextInputValue('footer');
     const response = await fetch(constants.masterUri + `set_button_text/?guild_id=${constants.guildId}&name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&footer=${encodeURIComponent(footer)}`);
     const datas = await response.text();
-    await interaction.reply({
+    await interaction.update({
       content: 'Button updated!',
     });
   }
@@ -281,14 +284,24 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (!isNaN(parsedColor) && Number.isInteger(parsedColor)) {
       const response = await fetch(constants.masterUri + `set_button_graphic/?guild_id=${constants.guildId}&image=${encodeURIComponent(image)}&color=${encodeURIComponent(parsedColor.toString())}`);
       const data = await response.text();
-      await interaction.reply({
+      await interaction.update({
         content: 'Button updated!',
       });
     } else {
-      await interaction.reply({
-        content: 'Invalid color value. Please provide a valid integer for color, not hexadecimal. Browse https://www.mathsisfun.com/hexadecimal-decimal-colors.html to find the integer value of your color',
+      await interaction.update({
+        content: '⚠️ Invalid color value. Please provide a valid integer for color, not hexadecimal. Browse https://www.mathsisfun.com/hexadecimal-decimal-colors.html to find the integer value of your color',
       });
     }
+  }
+
+  if (interaction.customId === 'custombuttoncontent') {
+    const content = interaction.fields.getTextInputValue('content');
+    console.log(content)
+    const response = await fetch(constants.masterUri + `set_button_content/?guild_id=${constants.guildId}&content=${encodeURIComponent(content)}`);
+    const datas = await response.text();
+    await interaction.update({
+      content: 'Button updated!',
+    });
   }
   
 
@@ -297,7 +310,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const id = interaction.fields.getTextInputValue('id');
     const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}&author=${interaction.user.id}`);
     const data = await req.text();
-    await interaction.reply({
+    await interaction.update({
       content: 'User added!',
     });
   }
@@ -307,7 +320,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const id = interaction.values[0];
     const req = await fetch(constants.masterUri + `remove_whitelist/?guild_id=${constants.guildId}&user_id=${id}`);
     const data = await req.text();
-    await interaction.reply({
+    await interaction.update({
       content: 'User removed!',
     });
   }  
@@ -316,7 +329,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.customId === 'leave') {
     const guildId = interaction.fields.getTextInputValue('id');
     functions_api.default.leave(client, guildId);
-    await interaction.reply({
+    await interaction.update({
       content: 'Guild left!',
     });
   }
@@ -360,8 +373,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
       } else {
-        //await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-        console.log("error");
+        //await interaction.update({ content: 'There was an error while executing this command!', ephemeral: true });
+        console.log("error: "+error)
       }
     }
 });

@@ -38,7 +38,11 @@ export default {
     ///////////////CLOSEMENU
 
     async closemenu(interaction) {
-        await interaction.message.delete();
+        interaction.update({
+            content : 'Thanks for using NOAuth Dashboard',
+            components: [],
+            embeds: []
+        });
     },
 
 }

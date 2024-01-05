@@ -16,7 +16,7 @@ export default {
 
             const data = await response.json();
 
-            await interaction.reply({
+            await interaction.update({
                 embeds: [{
                     title: '<:users:995482295198826547> NOAuth Users:',
                     description: `There are ${data.members.length > 1 ? `\`${data.members.length}\` members` : `\`${data.members.length}\` users in the bot`}\nType command \`links\` to check your OAuth2 link`,
@@ -25,7 +25,7 @@ export default {
             });
         } catch (error) {
             console.error(error);
-            await interaction.reply("An error occurred while fetching data from the API.");
+            await interaction.update("An error occurred while fetching data from the API.");
         }
     },
 
@@ -34,11 +34,11 @@ export default {
     async join(interaction,amount) {
             
         if (!constants.owners.includes(interaction.user.id)) {
-                await interaction.reply("You don't have permission to use this command.");
+                await interaction.update("You don't have permission to use this command.");
                 return;
         }
 
-        let msg = await interaction.reply({
+        let msg = await interaction.update({
                     content: '**Joining users...**'
         });
 
@@ -114,11 +114,11 @@ export default {
 async joinall(interaction) {
         
     if (!constants.owners.includes(interaction.user.id)) {
-        await interaction.reply("You don't have permission to use this command.");
+        await interaction.update("You don't have permission to use this command.");
         return;
     }
     
-    let msg = await interaction.reply({
+    let msg = await interaction.update({
         content: '**Joining users...**'
     });
     
