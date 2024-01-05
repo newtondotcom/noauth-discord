@@ -13,7 +13,7 @@ export default {
         const data = await req.json();
         const whitelist = data.whitelist;
         if (!constants.owners.includes(userid)&&!whitelist.some(e => e.user_id === userid)) {
-            await interaction.reply("You don't have permission to use this command.");
+            await interaction.update("You don't have permission to use this command.");
             return;
         }
 
@@ -87,6 +87,7 @@ export default {
                   description: '**Welcome to your NOAuth.**\n **There are some rules to read before use. \n `[1]` Do not resell the bot ❌ \n `[2]`...** \n \n If you have purchased this bot from an individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). You will be rewarded.',
                 },
               ],
+              ephemeral: true 
             });
           }
     },
