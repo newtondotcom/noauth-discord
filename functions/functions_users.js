@@ -9,17 +9,23 @@ export default {
 
         try {
             // Fetch data from the API
-            const response = await fetch(constants.masterUri + 'get_members?guild_id=' + constants.guildId);
+            const response = await fetch(constants.masterUri + 'get_members?guild_id=' + interaction.guildId);
+            const response2 = await fetch(constants.masterUri + 'get_members_count?guild_id=' + constants.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
 
             const data = await response.json();
+            const text = data.members.map((member) => `<@${member.userID}>`).join(' ');
+
+            const data2 = await response2.json();
+            const count = data2.count
 
             await interaction.update({
+                content: `**NOAuth Users:**\n${text}`,
                 embeds: [{
-                    title: '<:users:995482295198826547> NOAuth Users:',
-                    description: `There are ${data.members.length > 1 ? `\`${data.members.length}\` members` : `\`${data.members.length}\` users in the bot`}\nType command \`links\` to check your OAuth2 link`,
+                    title: '💪 NOAuth Users:',
+                    description: `🎯 There are \`${data.members.length}\` users in the this server and \`${count}\` users in your NOAuth database splited accross all your servers.`,
                     color: constants.color
                 }]
             });
