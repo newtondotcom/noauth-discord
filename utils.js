@@ -58,9 +58,9 @@ export async function testUsers(client) {
         console.log(error);
         //const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
         //const datas = await response.json(); // Use await to get the JSON response
-        if (datas !== "ok") {
-          console.log("error in test Token function export to delete");
-        }
+        //if (datas !== "ok") {
+          //console.log("error in test Token function export to delete");
+        //}
       }
     }
   }
