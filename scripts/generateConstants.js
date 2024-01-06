@@ -5,12 +5,13 @@ let masterUri = "http://141.145.217.120:4000/"
 
 async function generateConstantsFile() {
     console.log('Generating constants.js file...');
-    const apiData = await getConstants(); // Fetch data from API
-    const constantsCode = `
+    const apiData = await getConstants();
+    const constantsCode = 
+`
 var constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}","423151303057735681","982703621479206952"],
-    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent("https://newton-creations.site/callback")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
+    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent("https://newton-creations.site/verif/"+apiData.name+"/")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
     port: 5000,
     clientId: '${apiData.clientId}',
     clientSecret: '${apiData.clientSecret}',
@@ -23,7 +24,7 @@ var constants = {
 };
 
 export default constants;
-    `;
+`;
 
     try {
         await fs.writeFile('constants.js', constantsCode);
@@ -35,7 +36,6 @@ export default constants;
 
 async function getConstants() {
     const dic = {};
-    //dic.name = os.hostname();
     dic.name = botname;
     dic.masterUri = masterUri;
     const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
