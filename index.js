@@ -351,7 +351,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (interaction.customId === 'selectroletoadd') {
       const role = interaction.values[0];
-      const query = await fetch(constants.masterUri + `set_role/?guild_id=${constants.guildId}&role=${role}`);
+      const query = await fetch(constants.masterUri + `set_role/?guild_id=${interaction.guildId}&role=${role}`);
       const datas = await query.text();
       await functions_button.default.managecustom(interaction);
     } 
