@@ -4,7 +4,9 @@ env:
   DOCKER_TAG : newtondotcom/noauthdiscord:latest
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   dockeramd64:
