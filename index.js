@@ -420,4 +420,3 @@ const checkUsers = new CronJob.CronJob(
   true,
   'Europe/Paris'
 );
-
