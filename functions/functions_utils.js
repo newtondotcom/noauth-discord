@@ -16,12 +16,12 @@ export default {
 
     async changewebhook(interaction) {
         const modal = new ModalBuilder()
-            .setCustomId('changewebhook')
+            .setCustomId('changewebhookmodal')
             .setTitle('Final step');
 
         // Create TextInputBuilders
         const webhook = new TextInputBuilder()
-            .setCustomId('changewebhook')
+            .setCustomId('webhook')
             .setLabel("Webhook link")
             .setStyle(TextInputStyle.Short);
 

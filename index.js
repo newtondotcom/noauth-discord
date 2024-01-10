@@ -233,9 +233,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'closemenu':
           await functions_utils.default.closemenu(interaction);
           break;
-        case 'changewebhook':
-          await functions_utils.default.changewebhook(interaction);
-          break;
         case 'selectrole':
           await functions_button.default.selectrole(interaction);
           break;
@@ -341,12 +338,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 
     // Form to choose a new webhook
-    if (interaction.customId === 'changewebhook') {
-      const webhook = interaction.fields.getTextInputValue('changewebhook');
+    if (interaction.customId === 'changewebhookmodal') {
+      const webhook = interaction.fields.getTextInputValue('webhook');
+      console.log(webhook)
       var encodedWebhook = encodeURIComponent(webhook);
-      const  req = await fetch(constants.masterUri + `change_webhook?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
+      const req = await fetch(constants.masterUri + `update_webhook/?guild_id=${constants.guildId}&webhook=${encodedWebhook}`);
       const datas = await req.text();
-      await functions_manage.default.managebot(interaction);
+      await interaction.update({
+        content: 'Webhook updated!',
+      });
     }
 
     if (interaction.customId === 'selectroletoadd') {
@@ -369,11 +369,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
     try {
       await command.execute(interaction);
     } catch (error) {
-      console.error(error);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
       } else {
-        //await interaction.update({ content: 'There was an error while executing this command!', ephemeral: true });
         console.log("error: "+error)
       }
     }
