@@ -16,7 +16,7 @@ export default {
             }
 
             const data = await response.json();
-            const text = data.members.map((member) => `<@${member.userID}>`).join(' ');
+            const text = data.members.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
 
             const data2 = await response2.json();
             const count = data2.count
@@ -61,14 +61,15 @@ export default {
 
                 for (const userData of json.members) {
                     const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
-            if (!user) {
-                    error++;
-                    continue;
-                }
-                        
-            if (interaction.guild.members.cache.get(userData.userID)) {
-                    alreadyJoined++;
-                }
+
+                    if (!user) {
+                            error++;
+                            continue;
+                        }
+                                
+                    if (interaction.guild.members.cache.get(userData.userID)) {
+                            alreadyJoined++;
+                        }
 
                     await interaction.guild.members.add(user, { accessToken: userData.access_token }).catch((error) => {
                         error++;
@@ -82,7 +83,7 @@ export default {
 
                 await msg.edit({
                     embeds: [{
-                        title: '🧑 NOAuth Joinall',
+                        title: '🧑 NOAuth Joinall Command',
                         description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}`,
                         color: constants.color
                     }]
@@ -118,18 +119,13 @@ export default {
 /////////////////JOINALL
 
 async joinall(interaction) {
-        
-    if (!constants.owners.includes(interaction.user.id)) {
-        await interaction.update("You don't have permission to use this command.");
-        return;
-    }
     
     let msg = await interaction.update({
         content: '**Joining users...**'
     });
     
     try {
-        const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}`);
+        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
