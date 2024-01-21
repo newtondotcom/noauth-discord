@@ -58,12 +58,11 @@ export async function testUsers(client) {
         console.log("Token updated for : "+user_id);
       } catch (error) {
         console.log(user_id+" is invalid, should be deleted");
-        console.log(error);
-        //const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
-        //const datas = await response.json(); // Use await to get the JSON response
-        //if (datas !== "ok") {
-          //console.log("error in test Token function export to delete");
-        //}
+        const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
+        const datas = await response.json(); 
+        if (datas !== "ok") {
+          console.log("user "+ user_id + " for guild : " + guild_id + " couldn't be deleted");
+        }
       }
     }
   }
