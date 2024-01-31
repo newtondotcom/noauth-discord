@@ -10,7 +10,7 @@ export default {
         try {
             // Fetch data from the API
             const response = await fetch(constants.masterUri + 'get_members?guild_id=' + interaction.guildId);
-            const response2 = await fetch(constants.masterUri + 'get_members_count?guild_id=' + constants.guildId);
+            const response2 = await fetch(constants.masterUri + 'get_members_count?guild_id=' + interaction.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
