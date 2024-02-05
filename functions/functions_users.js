@@ -150,8 +150,12 @@ async joinall(interaction) {
     
             await interaction.guild.members.add(user, { accessToken: userData.access_token }).catch((error) => {
                 error++;
+            }).then(() => {
+                success++;
+                console.log("Joined " + user.username + " in the server : "+interaction.guild.name);
             });
-            success++;
+
+            await new Promise(r => setTimeout(r, 1000));
         }
     
         await msg.edit({
