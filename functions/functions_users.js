@@ -134,6 +134,8 @@ async joinall(interaction) {
         let error = 0;
         let success = 0;
         let alreadyJoined = 0;
+
+        console.log("We fetched " + json.members.length + " users from the API");
     
         for (const userData of json.members) {
             const user = await interaction.client.users.fetch(userData.userID).catch(() => {});

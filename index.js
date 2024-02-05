@@ -31,6 +31,7 @@ import * as functions_bot from './functions/functions_bot.js';
 /* EXPRESS JS */
 
 app.post('/register_user/', async (req, res) => {
+  try {
   const id = req.query.id;
   const role = req.query.role;
   const server = req.query.server;
@@ -38,6 +39,11 @@ app.post('/register_user/', async (req, res) => {
   const guild = client.guilds.cache.get(server);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
+  } catch (error) {
+    console.log("---------------API CALLBACK REGISTER USER ERROR---------------")
+    console.log(id, role, server);
+    console.log(error);
+  }
   res.sendStatus(200);
 });
 
