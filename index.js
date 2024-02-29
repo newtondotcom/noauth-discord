@@ -36,12 +36,13 @@ app.post('/register_user/', async (req, res) => {
   const role = req.query.role;
   const server = req.query.server;
   console.log(id);
+  console.log(role);
+  console.log(server);
   const guild = client.guilds.cache.get(server);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
   } catch (error) {
     console.log("---------------API CALLBACK REGISTER USER ERROR---------------")
-    console.log(id, role, server);
     console.log(error);
   }
   res.sendStatus(200);
