@@ -9,29 +9,33 @@ export default {
 
         try {
             // Fetch data from the API
-            const response = await fetch(constants.masterUri + 'get_members?guild_id=' + interaction.guildId);
-            const response2 = await fetch(constants.masterUri + 'get_members_count?guild_id=' + interaction.guildId);
+            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId);
+            const response2 = await fetch(constants.masterUri + 'get_members_count/?guild_id=' + interaction.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
 
             const data = await response.json();
+            const globalMembersCount = data.members.length;
             const text = data.members.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
 
             const data2 = await response2.json();
-            const count = data2.count
+            const localGuildCount = data2.count;
 
             await interaction.update({
                 content: `**NOAuth Users:**\n${text}`,
                 embeds: [{
-                    title: '💪 NOAuth Users:',
-                    description: `🎯 There are \`${data.members.length}\` users in the this server and \`${count}\` users in your NOAuth database splited accross all your servers.`,
+                    title: '💪 NOAuth Users',
+                    description: `🎯 There are \`${localGuildCount}\` users in this server and \`${globalMembersCount}\` users in your NOAuth database splited accross all your servers.`,
                     color: constants.color
                 }]
             });
         } catch (error) {
             console.error(error);
-            await interaction.update("An error occurred while fetching data from the API.");
+            await interaction.update({
+                content : "An error occurred while fetching data from the API.",
+                embeds: []
+            });
         }
     },
 
@@ -78,7 +82,7 @@ export default {
                 }
 
                 await msg.edit({
-                    content: `**Joining \`${success}\` users...**  `
+                    content: `**Joined \`${success}\` users...**  `
                 });
 
                 await msg.edit({
@@ -121,7 +125,8 @@ export default {
 async joinall(interaction) {
     
     let msg = await interaction.update({
-        content: '**Joining users...**'
+        content: '**Joining users...**',
+        embeds: []
     });
     
     try {
@@ -146,20 +151,24 @@ async joinall(interaction) {
                     
             if (interaction.guild.members.cache.get(userData.userID)) {
                 alreadyJoined++;
+            } else {
+                await interaction.guild.members.add(user, { accessToken: userData.access_token })
+                .then(() => {
+                    success++;
+                    console.log("Joined " + user.username + " in the server : " + interaction.guild.name);
+                })
+                .catch((erro) => {
+                    error++;
+                    console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
+                });
             }
-    
-            await interaction.guild.members.add(user, { accessToken: userData.access_token }).catch((error) => {
-                error++;
-            }).then(() => {
-                success++;
-                console.log("Joined " + user.username + " in the server : "+interaction.guild.name);
-            });
+        
 
             await new Promise(r => setTimeout(r, 1000));
         }
     
         await msg.edit({
-            content: `**Joining \`${success}\` users...**  `
+            content: `**Joined \`${success}\` users**  `
         });
     
         await msg.edit({
