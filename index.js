@@ -232,7 +232,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
           await functions_users.default.selectjoin(interaction);
           break;
         case 'joinall':
-          await functions_users.default.joinall(interaction);
+          await functions_users.default.join(interaction,0);
           break;
         case 'changewebhook':
           await functions_utils.default.changewebhook(interaction);

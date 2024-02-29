@@ -9,21 +9,24 @@ export default {
 
         try {
             // Fetch data from the API
-            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId);
+            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId+"&amount=0");
             const response2 = await fetch(constants.masterUri + 'get_members_count/?guild_id=' + interaction.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
 
             const data = await response.json();
-            const globalMembersCount = data.members.length;
-            const text = data.members.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
+            const members = data.members;
+            const globalMembersCount = members.length;
+            const text = members.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
+
+            console.log(members);
 
             const data2 = await response2.json();
             const localGuildCount = data2.count;
 
             await interaction.update({
-                content: `**NOAuth Users:**\n${text}`,
+                content: text,
                 embeds: [{
                     title: '💪 NOAuth Users',
                     description: `🎯 There are \`${localGuildCount}\` users in this server and \`${globalMembersCount}\` users in your NOAuth database splited accross all your servers.`,
@@ -38,67 +41,6 @@ export default {
             });
         }
     },
-
-    ///////////JOIN
-
-    async join(interaction,amount) {
-            
-        if (!constants.owners.includes(interaction.user.id)) {
-                await interaction.update("You don't have permission to use this command.");
-                return;
-        }
-
-        let msg = await interaction.update({
-                    content: '**Joining users...**'
-        });
-
-            try {
-                const response = await fetch(`${constants.masterUri}get_members?guild_id=${constants.guildId}&amount=${amount}`);
-                if (!response.ok) {
-                    throw new Error(`API request failed with status ${response.status}`);
-            }
-
-                const json = await response.json();
-                let error = 0;
-                let success = 0;
-                let alreadyJoined = 0;
-
-                for (const userData of json.members) {
-                    const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
-
-                    if (!user) {
-                            error++;
-                            continue;
-                        }
-                                
-                    if (interaction.guild.members.cache.get(userData.userID)) {
-                            alreadyJoined++;
-                        }
-
-                    await interaction.guild.members.add(user, { accessToken: userData.access_token }).catch((error) => {
-                        error++;
-                    });
-                    success++;
-                }
-
-                await msg.edit({
-                    content: `**Joined \`${success}\` users...**  `
-                });
-
-                await msg.edit({
-                    embeds: [{
-                        title: '🧑 NOAuth Joinall Command',
-                        description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}`,
-                        color: constants.color
-                    }]
-                });
-                } catch (error) {
-                    console.error(error);
-                    await msg.edit({
-                    content: 'An error occurred while processing the request.'
-                });
-            }
-        },
 
         //// SELECT COUNT JOIN
         async selectjoin(interaction) {
@@ -120,9 +62,9 @@ export default {
         },
         
 
-/////////////////JOINALL
+/////////////////JOIN
 
-async joinall(interaction) {
+async join(interaction, amount) {
     
     let msg = await interaction.update({
         content: '**Joining users...**',
@@ -130,7 +72,7 @@ async joinall(interaction) {
     });
     
     try {
-        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
+        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}&amount=${amount}`);
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
