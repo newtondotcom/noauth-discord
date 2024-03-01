@@ -81,6 +81,8 @@ async join(interaction, amount) {
         let error = 0;
         let success = 0;
         let alreadyJoined = 0;
+        let max100 = 0;
+        let userNotFound = 0;
 
         console.log("We fetched " + json.members.length + " users from the API");
     
@@ -88,6 +90,8 @@ async join(interaction, amount) {
             const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
             if (!user) {
                 error++;
+                userNotFound++;
+                console.log("User " + userData.userID + " not found to make him join the server.");
                 continue;
             }
                     
@@ -102,10 +106,12 @@ async join(interaction, amount) {
                 .catch((erro) => {
                     error++;
                     console.log(erro);
+                    if (erro.text.includes("You are at the 100 server limit.")) max100++;
                     console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
                 });
             }
-            await new Promise(r => setTimeout(r, 1000));
+            const delay = Math.random() * (2000) + 500;
+            await new Promise(r => setTimeout(r, delay));
         }
     
         await msg.edit({
@@ -115,7 +121,7 @@ async join(interaction, amount) {
         await msg.edit({
             embeds: [{
                 title: '🧑 NOAuth Joinall',
-                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}`,
+                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}`,
                 color: constants.color
             }]
         });
