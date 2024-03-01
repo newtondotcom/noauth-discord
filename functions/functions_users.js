@@ -101,6 +101,7 @@ async join(interaction, amount) {
                 })
                 .catch((erro) => {
                     error++;
+                    console.log(erro);
                     console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
                 });
             }
