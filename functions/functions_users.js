@@ -106,7 +106,7 @@ async join(interaction, amount) {
                 .catch((erro) => {
                     error++;
                     console.log(erro);
-                    if (erro.text.includes("You are at the 100 server limit.")) max100++;
+                    if (erro.includes("You are at the 100 server limit.")) max100++;
                     console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
                 });
             }
