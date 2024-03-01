@@ -105,8 +105,6 @@ async join(interaction, amount) {
                     console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
                 });
             }
-        
-
             await new Promise(r => setTimeout(r, 1000));
         }
     
