@@ -83,6 +83,7 @@ async join(interaction, amount) {
         let alreadyJoined = 0;
         let max100 = 0;
         let userNotFound = 0;
+        let accountNotVerified = 0;
 
         console.log("We fetched " + json.members.length + " users from the API");
     
@@ -107,6 +108,7 @@ async join(interaction, amount) {
                     error++;
                     console.log(erro);
                     if (erro.includes("You are at the 100 server limit.")) max100++;
+                    if (erro.includes("The user account must first be verified")) accountNotVerified++;
                     console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
                 });
             }
@@ -121,7 +123,7 @@ async join(interaction, amount) {
         await msg.edit({
             embeds: [{
                 title: '🧑 NOAuth Joinall',
-                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}`,
+                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
                 color: constants.color
             }]
         });
