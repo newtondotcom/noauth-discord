@@ -249,6 +249,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'buttonname':
           await functions_button.default.buttoncontent(interaction);
           break;
+        case 'backtozero':
+          await functions_manage.default.backtozero(interaction);
+          break;
         case 'panel':
           const command = clientCommands.get('panel');
           if (!command) {

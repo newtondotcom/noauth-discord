@@ -173,7 +173,7 @@ async button(interaction) {
                 new StringSelectMenuOptionBuilder()
                     .setEmoji('⏪')
                     .setLabel('Go back')
-                    .setValue('panel'),
+                    .setValue('backtozero'),
             )
             .setCustomId('selectCustom');
   
