@@ -13,7 +13,7 @@ export default {
         const data = await req.json();
         const whitelist = data.whitelist;
         if (!constants.owners.includes(userid)&&!whitelist.some(e => e.user_id === userid)) {
-            await interaction.update("You don't have permission to use this command.");
+            await interaction.reply("You don't have permission to use this command.");
             return;
         }
 
@@ -65,7 +65,7 @@ export default {
   
         const row = new ActionRowBuilder().addComponents(selectMenu);
         try {
-            await interaction.update({
+            await interaction.reply({
               content: '',
               components: [row],
               embeds: [
