@@ -1,4 +1,5 @@
 import constants from '../constants.js';
+import fetch from 'node-fetch';
 
 
 export default {

@@ -1,5 +1,6 @@
 import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder} from 'discord.js';
 import constants from '../constants.js';
+import fetch from 'node-fetch';
 
 export default {
     ///////////////////////////////////////SPAWN BOUTON

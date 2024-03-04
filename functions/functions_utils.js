@@ -1,5 +1,6 @@
 import {ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
+import fetch from 'node-fetch';
 
 export default {
 
