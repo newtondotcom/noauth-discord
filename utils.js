@@ -23,7 +23,7 @@ export async function sendWebhook(title,body){
 
 export async function testUsers(client) {
     client.guilds.cache.forEach(async guild => {
-      const response = await fetch(`${constants.masterUri}get_members/?guild_id=${guild.id}`);
+      const response = await fetch(`${constants.masterUri}get_members_per_server/?guild_id=${guild.id}`);
       const membersData = await response.json();
       if (membersData.members.length === 0) {
         console.log("No users to test for "+guild.id);
