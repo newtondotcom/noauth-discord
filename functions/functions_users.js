@@ -9,21 +9,20 @@ export default {
 
         try {
             // Fetch data from the API
-            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId+"&amount=0");
-            const response2 = await fetch(constants.masterUri + 'get_members_count/?guild_id=' + interaction.guildId);
+            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId);
+            const response2 = await fetch(constants.masterUri + 'get_members_per_server/?guild_id=' + interaction.guildId);
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
             }
 
             const data = await response.json();
             const members = data.members;
-            const globalMembersCount = members.length;
-            const text = members.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
-
-            console.log(members);
+            const globalMembersCount = members.length; 
 
             const data2 = await response2.json();
-            const localGuildCount = data2.count;
+            const membersLocal = data2.members;
+            const localGuildCount = membersLocal.length;
+            const text = membersLocal.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
 
             await interaction.update({
                 content: text,
@@ -72,7 +71,7 @@ async join(interaction, amount) {
     });
     
     try {
-        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}&amount=${amount}`);
+        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
@@ -88,6 +87,7 @@ async join(interaction, amount) {
         console.log("We fetched " + json.members.length + " users from the API");
     
         for (const userData of json.members) {
+            if (amount != 0 && success >= amount) break;
             const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
             if (!user) {
                 error++;
