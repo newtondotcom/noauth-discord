@@ -107,26 +107,26 @@ async join(interaction, amount) {
                 })
                 .catch((erro) => {
                     error++;
-                    console.log(erro);
-                    if (erro.includes("You are at the 100 server limit.")) max100++;
-                    if (erro.includes("The user account must first be verified")) accountNotVerified++;
-                    console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
+                    const LocalError = erro.toString();
+                    console.log(LocalError);
+                    if (LocalError.includes("You are at the 100 server limit.")) max100++;
+                    if (LocalError.includes("The user account must first be verified")) accountNotVerified++;
+                    if (LocalError.includes("Invalid OAuth2 access token")) console.log("Invalid OAuth2 access token");
                 });
             }
+            await msg.edit({
+                embeds: [{
+                    title: '🧑 NOAuth Joinall',
+                    description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
+                    color: constants.color
+                }]
+            });
             const delay = Math.random() * (2000) + 500;
             await new Promise(r => setTimeout(r, delay));
         }
     
         await msg.edit({
-            content: `**Joined \`${success}\` users**  `
-        });
-    
-        await msg.edit({
-            embeds: [{
-                title: '🧑 NOAuth Joinall',
-                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
-                color: constants.color
-            }]
+            content: `**Joined succesfully \`${success}\` users**  `
         });
         } catch (error) {
             console.error(error);
