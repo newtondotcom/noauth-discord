@@ -1,6 +1,7 @@
 import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
 import fetch from 'node-fetch';
+import e from 'express';
 
 
 export default {
@@ -23,10 +24,9 @@ export default {
             const data2 = await response2.json();
             const membersLocal = data2.members;
             const localGuildCount = membersLocal.length;
-            const text = membersLocal.splice(0, 50).map((member) => `<@${member.userID}>`).join(' ');
 
             await interaction.update({
-                content: text,
+                content: "",
                 embeds: [{
                     title: '💪 NOAuth Users',
                     description: `🎯 There are \`${localGuildCount}\` users in this server and \`${globalMembersCount}\` users in your NOAuth database splited accross all your servers.`,
@@ -74,7 +74,7 @@ export default {
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
-
+    
         const json = await response.json();
         let error = 0;
         let success = 0;
@@ -82,36 +82,52 @@ export default {
         let max100 = 0;
         let userNotFound = 0;
         let accountNotVerified = 0;
-
+    
         console.log("We fetched " + json.members.length + " users from the API");
-
+    
         for (const userData of json.members) {
             if (amount != 0 && success >= amount) break;
-            const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
-            if (!user) {
-                error++;
-                userNotFound++;
-                console.log("User " + userData.userID + " not found to make him join the server.");
-                continue;
-            }
-                    
-            if (interaction.guild.members.cache.get(userData.userID)) {
-                alreadyJoined++;
-            } else {
-                await interaction.guild.members.add(user, { accessToken: userData.access_token })
-                .then(() => {
-                    success++;
-                    console.log("Joined " + user.username + " in the server : " + interaction.guild.name);
-                })
-                .catch((erro) => {
+            try {
+                const user = await interaction.client.users.fetch(userData.userID).catch(() => { });
+                if (!user) {
                     error++;
-                    const LocalError = erro.toString();
-                    console.log(LocalError);
-                    if (LocalError.includes("You are at the 100 server limit.")) max100++;
-                    if (LocalError.includes("The user account must first be verified")) accountNotVerified++;
-                    if (LocalError.includes("Invalid OAuth2 access token")) console.log("Invalid OAuth2 access token");
+                    userNotFound++;
+                    console.log("User " + userData.userID + " not found to make him join the server.");
+                    continue;
+                }
+    
+                if (interaction.guild.members.cache.get(userData.userID)) {
+                    alreadyJoined++;
+                } else {
+                    await interaction.guild.members.add(user, { accessToken: userData.access_token })
+                        .then(() => {
+                            success++;
+                            console.log("Joined " + user.username + " in the server : " + interaction.guild.name);
+                        })
+                        .catch((erro) => {
+                            error++;
+                            const LocalError = erro.toString();
+                            console.log(LocalError);
+                            if (LocalError.includes("You are at the 100 server limit.")) max100++;
+                            if (LocalError.includes("The user account must first be verified")) accountNotVerified++;
+                            if (LocalError.includes("Invalid OAuth2 access token")) console.log("Invalid OAuth2 access token");
+                        });
+                }
+                await msg.edit({
+                    embeds: [{
+                        title: '🧑 NOAuth Joinall',
+                        description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
+                        color: constants.color
+                    }]
                 });
+                const delay = Math.random() * (2000) + 500;
+                await new Promise(r => setTimeout(r, delay));
             }
+            catch (error) {
+                console.error(error);
+                error++;
+            }
+    
             await msg.edit({
                 embeds: [{
                     title: '🧑 NOAuth Joinall',
@@ -119,21 +135,11 @@ export default {
                     color: constants.color
                 }]
             });
-            const delay = Math.random() * (2000) + 500;
-            await new Promise(r => setTimeout(r, delay));
         }
-
-        await msg.edit({
-            content: `**Joined \`${success}\` users**  `
-        });
     
         await msg.edit({
-            embeds: [{
-                title: '🧑 NOAuth Joinall',
-                description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
-                color: constants.color
-            }]
+            content: `**Joined successfully \`${success}\` users**  `
         });
-    },
-
-};
+    
+    }  
+}
