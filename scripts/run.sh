@@ -11,7 +11,7 @@ input_file="$1"
 
 # Specify the image name and tag
 image_name="newtondotcom/noauthdiscord"
-image_tag="latest-arm64"
+image_tag="latest"
 
 # Pull the latest image
 docker pull "$image_name:$image_tag"

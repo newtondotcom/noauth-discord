@@ -1,4 +1,4 @@
-import { ModalBuilder,TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
+import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 import constants from '../constants.js';
 import fetch from 'node-fetch';
 
@@ -18,12 +18,12 @@ export default {
 
             const data = await response.json();
             const members = data.members;
-            const globalMembersCount = members.length; 
+            const globalMembersCount = members.length;
 
             const data2 = await response2.json();
             const membersLocal = data2.members;
             const localGuildCount = membersLocal.length;
-            const text = membersLocal.splice(0,50).map((member) => `<@${member.userID}>`).join(' ');
+            const text = membersLocal.splice(0, 50).map((member) => `<@${member.userID}>`).join(' ');
 
             await interaction.update({
                 content: text,
@@ -36,47 +36,45 @@ export default {
         } catch (error) {
             console.error(error);
             await interaction.update({
-                content : "An error occurred while fetching data from the API.",
+                content: "An error occurred while fetching data from the API.",
                 embeds: []
             });
         }
     },
 
-        //// SELECT COUNT JOIN
-        async selectjoin(interaction) {
-            const modal = new ModalBuilder()
-                .setCustomId('countuser')
-                .setTitle('Final step');
-        
-            const count = new TextInputBuilder()
-                .setCustomId('count')
-                .setLabel("Number of people you want to join")
-                .setStyle(TextInputStyle.Short)
-        
-            const countActionRow = new ActionRowBuilder().addComponents(count);
-        
-            modal.addComponents(countActionRow);
-        
-            // Reply to the interaction with the modal
-            await interaction.showModal(modal);
-        },
-        
+    //// SELECT COUNT JOIN
+    async selectjoin(interaction) {
+        const modal = new ModalBuilder()
+            .setCustomId('countuser')
+            .setTitle('Final step');
 
-/////////////////JOIN
+        const count = new TextInputBuilder()
+            .setCustomId('count')
+            .setLabel("Number of people you want to join")
+            .setStyle(TextInputStyle.Short)
 
-async join(interaction, amount) {
-    
-    let msg = await interaction.update({
-        content: '**Joining users...**',
-        embeds: []
-    });
-    
-    try {
+        const countActionRow = new ActionRowBuilder().addComponents(count);
+
+        modal.addComponents(countActionRow);
+
+        // Reply to the interaction with the modal
+        await interaction.showModal(modal);
+    },
+
+
+    /////////////////JOIN
+
+    async join(interaction, amount) {
+
+        let msg = await interaction.update({
+            content: '**Joining users...**',
+            embeds: []
+        });
         const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
-    
+
         const json = await response.json();
         let error = 0;
         let success = 0;
@@ -86,41 +84,46 @@ async join(interaction, amount) {
         let accountNotVerified = 0;
 
         console.log("We fetched " + json.members.length + " users from the API");
-    
+
         for (const userData of json.members) {
             if (amount != 0 && success >= amount) break;
-            const user = await interaction.client.users.fetch(userData.userID).catch(() => {});
-            if (!user) {
-                error++;
-                userNotFound++;
-                console.log("User " + userData.userID + " not found to make him join the server.");
-                continue;
-            }
-                    
-            if (interaction.guild.members.cache.get(userData.userID)) {
-                alreadyJoined++;
-            } else {
-                await interaction.guild.members.add(user, { accessToken: userData.access_token })
-                .then(() => {
-                    success++;
-                    console.log("Joined " + user.username + " in the server : " + interaction.guild.name);
-                })
-                .catch((erro) => {
+            try {
+                const user = await interaction.client.users.fetch(userData.userID).catch(() => { });
+                if (!user) {
                     error++;
-                    console.log(erro);
-                    if (erro.includes("You are at the 100 server limit.")) max100++;
-                    if (erro.includes("The user account must first be verified")) accountNotVerified++;
-                    console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
-                });
+                    userNotFound++;
+                    console.log("User " + userData.userID + " not found to make him join the server.");
+                    continue;
+                }
+
+                if (interaction.guild.members.cache.get(userData.userID)) {
+                    alreadyJoined++;
+                } else {
+                    await interaction.guild.members.add(user, { accessToken: userData.access_token })
+                        .then(() => {
+                            success++;
+                            console.log("Joined " + user.username + " in the server : " + interaction.guild.name);
+                        })
+                        .catch((erro) => {
+                            error++;
+                            console.log(erro);
+                            if (erro.includes("You are at the 100 server limit.")) max100++;
+                            if (erro.includes("The user account must first be verified")) accountNotVerified++;
+                            console.error("An error occurred while joining " + user.username + " in the server : " + interaction.guild.name);
+                        });
+                }
+            } catch (e) {
+                error++;
+                console.error(e);
             }
             const delay = Math.random() * (2000) + 500;
             await new Promise(r => setTimeout(r, delay));
         }
-    
+
         await msg.edit({
             content: `**Joined \`${success}\` users**  `
         });
-    
+
         await msg.edit({
             embeds: [{
                 title: '🧑 NOAuth Joinall',
@@ -128,12 +131,6 @@ async join(interaction, amount) {
                 color: constants.color
             }]
         });
-        } catch (error) {
-            console.error(error);
-            await msg.edit({
-                content: 'An error occurred while processing the request.'
-            });
-        }
     },
 
 };
