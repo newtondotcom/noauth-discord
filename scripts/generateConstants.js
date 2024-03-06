@@ -20,7 +20,8 @@ var constants = {
     color: ${apiData.color},
     webhook: '${apiData.webhook}',
     name: '${apiData.name}',
-    masterUri: '${apiData.masterUri}'
+    masterUri: '${apiData.masterUri}',
+    header : {'Authorization': 'Api-Key test'}
 };
 
 export default constants;
