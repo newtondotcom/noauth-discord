@@ -21,7 +21,7 @@ var constants = {
     webhook: '${apiData.webhook}',
     name: '${apiData.name}',
     masterUri: '${apiData.masterUri}',
-    header : {'Authorization': 'Api-Key test'}
+    header : {'Authorization': 'Api-Key 69f13396-66d1-4736-873e-0ddd2ba476ea'}
 };
 
 export default constants;

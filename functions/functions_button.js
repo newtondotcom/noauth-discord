@@ -6,7 +6,7 @@ export default {
     ///////////////////////////////////////SPAWN BOUTON
 async button(interaction) {
 
-        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId)
+        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
         const datat = await query.json()
         const data = datat.button[0]
 
@@ -53,7 +53,7 @@ async button(interaction) {
 
     async custombuttongraphic(interaction) {
 
-        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId)
+        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
         const datat = await query.json()
         const data = datat.button[0]
 
@@ -88,7 +88,7 @@ async button(interaction) {
 
     async custombuttontext(interaction) {
 
-        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId)
+        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
         const datat = await query.json()
         const data = datat.button[0]
 
@@ -202,7 +202,7 @@ async button(interaction) {
     },
 
     async buttoncontent(interaction) {
-        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId)
+        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
         const datat = await query.json()
         const data = datat.button[0]
 

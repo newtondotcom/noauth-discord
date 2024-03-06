@@ -7,7 +7,7 @@ export default {
     ////////////////LISTWL
 
     async listwl(interaction) {
-      const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
+      const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
       const data = await req.json();
       const whitelist = data.whitelist;
       var content = "";

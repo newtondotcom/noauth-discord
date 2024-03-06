@@ -166,7 +166,7 @@ export default {
     ///////////////////MANAGEWLREMOVE
 
     async managewlremove(interaction) {
-        const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
+        const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const data = await req.json();
         const userArray = data.whitelist;
         const selectMenuGame = new StringSelectMenuBuilder()
@@ -202,7 +202,7 @@ export default {
 
     async backtozero(interaction) {        
         const userid = interaction.user.id;
-        const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`);
+        const req = await fetch(constants.masterUri + `get_whitelist/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const data = await req.json();
         const whitelist = data.whitelist;
         if (!constants.owners.includes(userid)&&!whitelist.some(e => e.user_id === userid)) {
