@@ -9,7 +9,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import CronJob from 'cron';
 import { fileURLToPath } from 'url';
-import { testUsers } from './utils.js';
+import { testUsers, sendWebhook } from './utils.js';
 
 
 import express from 'express';
@@ -54,6 +54,22 @@ app.post('/leave', async (req, res) => {
   const guildId = req.query.guild_id;
   functions_api.default.leave(client, guildId);
   res.sendStatus(200);
+});
+
+app.get('/send_webhook', async (req, res) => {
+  const webhook = decodeURIComponent(req.query.webhook);
+  const username = req.query.username;
+  const guildid = req.query.guildid;
+  const count = req.query.count;
+  const guildName = client.guilds.cache.get(guildid).name;
+  const content = {
+    username: username,
+    avatar_url: 'https://cdn.discordapp.com/avatars/853888570026582036/4b4e4c9b4e2f3f4b7e5c1b3d2b3e4b4c.webp?size=256',
+    content: `**${guildName}** has ${count} users!`
+  };
+  const title = "New user count";
+  sendWebhook(title, content);
+  res.json(response);
 });
 
 app.post('/join_x_from_to', async (req, res) => {
@@ -350,7 +366,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     // Form to choose a new webhook
     if (interaction.customId === 'changewebhookmodal') {
       const webhook = interaction.fields.getTextInputValue('webhook');
-      console.log(webhook)
+      constants.webhook = webhook;
       var encodedWebhook = encodeURIComponent(webhook);
       const req = await fetch(constants.masterUri + `update_webhook/?guild_id=${constants.guildId}&webhook=${encodedWebhook}`, { method: 'GET', headers: constants.header });
       const datas = await req.text();
