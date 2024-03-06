@@ -70,13 +70,6 @@ export default {
             content: '**Joining users...**',
             embeds: []
         });
-        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
-async join(interaction, amount) {
-    
-    let msg = await interaction.update({
-        content: '**Joining users...**',
-        embeds: []
-    });
     
     try {
         const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
@@ -91,6 +84,7 @@ async join(interaction, amount) {
         let max100 = 0;
         let userNotFound = 0;
         let accountNotVerified = 0;
+        let userPerempted = 0;
     
         console.log("We fetched " + json.members.length + " users from the API");
     
@@ -119,13 +113,13 @@ async join(interaction, amount) {
                             console.log(LocalError);
                             if (LocalError.includes("You are at the 100 server limit.")) max100++;
                             if (LocalError.includes("The user account must first be verified")) accountNotVerified++;
-                            if (LocalError.includes("Invalid OAuth2 access token")) console.log("Invalid OAuth2 access token");
+                            if (LocalError.includes("Invalid OAuth2 access token")) userPerempted++;
                         });
                 }
                 await msg.edit({
                     embeds: [{
                         title: '🧑 NOAuth Joinall',
-                        description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
+                        description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n __Details__ :\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}\n⚰️ **Users Access Lost**: ${userPerempted}`,
                         color: constants.color
                     }]
                 });
@@ -140,7 +134,7 @@ async join(interaction, amount) {
             await msg.edit({
                 embeds: [{
                     title: '🧑 NOAuth Joinall',
-                    description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}`,
+                    description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n __Details__ :\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}\n⚰️ **Users Access Lost**: ${userPerempted}`,
                     color: constants.color
                 }]
             });
@@ -149,6 +143,11 @@ async join(interaction, amount) {
         await msg.edit({
             content: `**Joined successfully \`${success}\` users**  `
         });
-    
-    }  
+    } catch (error) {
+        await interaction.update({
+            content: "An error occurred while fetching data from the API.",
+            embeds: []
+        });
+    }
+}
 }
