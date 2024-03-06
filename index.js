@@ -138,7 +138,7 @@ client.on("ready", async () => {
 client.on('guildMemberAdd', async (member) => {
   const userId = member.user.id;
   const server = member.guild.id;
-  const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${server}`, { method: 'POST', headers: constants.header });
+  const data = await fetch(`${constants.masterUri}join/?userID=${userId}&guildID=${server}`, { method: 'GET', headers: constants.header });
   /*
   const datas = await data.text();
   const tempRole = member.guild.roles.cache.get(datas);
@@ -158,18 +158,18 @@ client.on('guildMemberAdd', async (member) => {
 
 client.on('guildMemberRemove', async (member) => {
   const userId = member.user.id;
-  const data = await fetch(`${constants.masterUri}left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'POST' , headers: constants.header});
+  const data = await fetch(`${constants.masterUri}left/?userID=${userId}&guildID=${constants.guildId}`, { method: 'GET' , headers: constants.header});
 });
 
 client.on('guildCreate', async (guild) => {
   const guildId = guild.id;
-  const data = await fetch(`${constants.masterUri}guild_joined/?guild_id=${constants.guildId}&guild_joined=${guildId}`, { method: 'POST' , headers: constants.header});
+  const data = await fetch(`${constants.masterUri}guild_joined/?guild_id=${constants.guildId}&guild_joined=${guildId}`, { method: 'GET' , headers: constants.header});
   const datas = await data.text();
 });
 
 client.on('guildDelete', async (guild) => {
   const guildId = guild.id;
-  const data = await fetch(`${constants.masterUri}guild_left/?guild_id=${constants.guildId}&guild_left=${guildId}`, { method: 'POST' , headers: constants.header});
+  const data = await fetch(`${constants.masterUri}guild_left/?guild_id=${constants.guildId}&guild_left=${guildId}`, { method: 'GET' , headers: constants.header});
   const datas = await data.text();
 });
 
@@ -275,7 +275,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const title = interaction.fields.getTextInputValue('title');
     const description = interaction.fields.getTextInputValue('description');
     const footer = interaction.fields.getTextInputValue('footer');
-    const response = await fetch(constants.masterUri + `set_button_text/?guild_id=${constants.guildId}&name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&footer=${encodeURIComponent(footer)}`, { method: 'POST', headers: constants.header });
+    const response = await fetch(constants.masterUri + `set_button_text/?guild_id=${constants.guildId}&name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&footer=${encodeURIComponent(footer)}`, { method: 'GET', headers: constants.header });
     const datas = await response.text();
     await interaction.update({
       content: 'Button updated!',
@@ -289,7 +289,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   
     const parsedColor = parseInt(color);
     if (!isNaN(parsedColor) && Number.isInteger(parsedColor)) {
-      const response = await fetch(constants.masterUri + `set_button_graphic/?guild_id=${constants.guildId}&image=${encodeURIComponent(image)}&color=${encodeURIComponent(parsedColor.toString())}`, { method: 'POST', headers: constants.header });
+      const response = await fetch(constants.masterUri + `set_button_graphic/?guild_id=${constants.guildId}&image=${encodeURIComponent(image)}&color=${encodeURIComponent(parsedColor.toString())}`, { method: 'GET', headers: constants.header });
       const data = await response.text();
       await interaction.update({
         content: 'Button updated!',
@@ -304,7 +304,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.customId === 'custombuttoncontent') {
     const content = interaction.fields.getTextInputValue('content');
     console.log(content)
-    const response = await fetch(constants.masterUri + `set_button_content/?guild_id=${constants.guildId}&content=${encodeURIComponent(content)}`, { method: 'POST', headers: constants.header });
+    const response = await fetch(constants.masterUri + `set_button_content/?guild_id=${constants.guildId}&content=${encodeURIComponent(content)}`, { method: 'GET', headers: constants.header });
     const datas = await response.text();
     await interaction.update({
       content: 'Button updated!',
@@ -315,7 +315,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Form to choose the id of the user to manage
   if (interaction.customId === 'managewladd') {
     const id = interaction.fields.getTextInputValue('id');
-    const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}&author=${interaction.user.id}`, { method: 'POST', headers: constants.header });
+    const req = await fetch(constants.masterUri + `add_whitelist/?guild_id=${constants.guildId}&user_id=${id}&author=${interaction.user.id}`, { method: 'GET', headers: constants.header });
     const data = await req.text();
     await interaction.update({
       content: 'User added!',
@@ -325,7 +325,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // after listed all users in the type bar
   if (interaction.customId === 'managewlremove') {
     const id = interaction.values[0];
-    const req = await fetch(constants.masterUri + `remove_whitelist/?guild_id=${constants.guildId}&user_id=${id}`, { method: 'POST', headers: constants.header });
+    const req = await fetch(constants.masterUri + `remove_whitelist/?guild_id=${constants.guildId}&user_id=${id}`, { method: 'GET', headers: constants.header });
     const data = await req.text();
     await interaction.update({
       content: 'User removed!',
@@ -352,7 +352,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const webhook = interaction.fields.getTextInputValue('webhook');
       console.log(webhook)
       var encodedWebhook = encodeURIComponent(webhook);
-      const req = await fetch(constants.masterUri + `update_webhook/?guild_id=${constants.guildId}&webhook=${encodedWebhook}`, { method: 'POST', headers: constants.header });
+      const req = await fetch(constants.masterUri + `update_webhook/?guild_id=${constants.guildId}&webhook=${encodedWebhook}`, { method: 'GET', headers: constants.header });
       const datas = await req.text();
       await interaction.update({
         content: 'Webhook updated!',
@@ -361,7 +361,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (interaction.customId === 'selectroletoadd') {
       const role = interaction.values[0];
-      const query = await fetch(constants.masterUri + `set_role/?guild_id=${interaction.guildId}&role=${role}`, { method: 'POST', headers: constants.header });
+      const query = await fetch(constants.masterUri + `set_role/?guild_id=${interaction.guildId}&role=${role}`, { method: 'GET', headers: constants.header });
       const datas = await query.text();
       await functions_button.default.managecustom(interaction);
     } 
