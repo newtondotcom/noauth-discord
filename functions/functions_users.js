@@ -10,7 +10,7 @@ export default {
     async users(interaction) {
 
         try {
-            // Fetch data from the API
+            const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId, {method: 'GET',headers: constants.header});
             const response2 = await fetch(constants.masterUri + 'get_members_per_server/?guild_id=' + interaction.guildId, {method: 'GET',headers: constants.header});
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
