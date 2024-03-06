@@ -71,6 +71,15 @@ export default {
             embeds: []
         });
         const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`);
+async join(interaction, amount) {
+    
+    let msg = await interaction.update({
+        content: '**Joining users...**',
+        embeds: []
+    });
+    
+    try {
+        const response = await fetch(`${constants.masterUri}get_members/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }

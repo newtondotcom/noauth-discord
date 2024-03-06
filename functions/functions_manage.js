@@ -187,7 +187,7 @@ export default {
     ///////////////////SUBSCRIPTION
 
     async sub(interaction) {
-        const response = await fetch(`${constants.masterUri}get_subscription?guild_id=${constants.guildId}`);
+        const response = await fetch(`${constants.masterUri}get_subscription?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const json = await response.json();
         const description = `**Your subscription has started on :** ${json.subscription_date.split("T")[0]} at ${json.subscription_date.split("T")[1].substring(0, 8)}\n**Your subscription last ** ${json.subscription_duration} days`;
         await interaction.update({

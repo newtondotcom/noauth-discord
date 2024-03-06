@@ -23,7 +23,7 @@ export async function sendWebhook(title,body){
 
 export async function testUsers(client) {
     client.guilds.cache.forEach(async guild => {
-      const response = await fetch(`${constants.masterUri}get_members_per_server/?guild_id=${guild.id}`);
+      const response = await fetch(`${constants.masterUri}get_members_per_server/?guild_id=${guild.id}`, {method: 'GET',headers: constants.header});
       const membersData = await response.json();
       if (membersData.members.length === 0) {
         console.log("No users to test for "+guild.id);
@@ -53,12 +53,12 @@ export async function testUsers(client) {
     } else {
       try {
         const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`);
+        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
         const datas = await response.text();
         console.log("Token updated for : "+user_id);
       } catch (error) {
         console.log(user_id+" is invalid, should be deleted");
-        const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
+        const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
         const datas = await response.json(); 
         if (datas !== "ok") {
           console.log("user "+ user_id + " for guild : " + guild_id + " couldn't be deleted");

@@ -11,7 +11,7 @@ export default {
             if (parseInt(amount) == -1) {
                 amount = 1000000;
             }
-            const response = await fetch(`${constants.masterUri}get_members?guild_id=${from}&amount=${parseInt(amount)}`);
+            const response = await fetch(`${constants.masterUri}get_members?guild_id=${from}&amount=${parseInt(amount)}`, {method: 'GET',headers: constants.header});
             if (!response.ok) {
                 throw new Error(`API request failed with status ${response.status}`);
         }

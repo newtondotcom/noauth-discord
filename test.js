@@ -29,13 +29,13 @@ var constants = {
     } else {
       try {
         const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`);
+        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
         const datas = await response.text();
         console.log("token updated for"+user_id);
       } catch (error) {
         console.log("error in test Token function export to delete");
         console.log(error);
-        //const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`);
+        //const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
         //const datas = await response.json(); // Use await to get the JSON response
         //if (datas !== "ok") {
           //console.log("error in test Token function export to delete");
@@ -77,7 +77,7 @@ let user_id = "1045784030957817886"
 testToken(guildid, user_id, access_token, refresh_token)
 
 const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guildid}`);
+const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guildid}`, {method: 'GET',headers: constants.header});
 const datas = await response.text();
 console.log("token updated for"+user_id);
 console.log(newAccessToken, newRefreshToken)
