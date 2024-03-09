@@ -1,4 +1,5 @@
 #!/bin/sh
+sleep 2
 
 node scripts/generateConstants.js
 
