@@ -28,7 +28,7 @@ export default {
                 content: "",
                 embeds: [{
                     title: '💪 NOAuth Users',
-                    description: `🎯 There are \`${localGuildCount}\` users in this server and \`${globalMembersCount}\` users in your NOAuth database splited accross all your servers.`,
+                    description: `Already in the server : ${localGuildCount} \n Total : \`${globalMembersCount}\` 🎯 There are \`${localGuildCount}\` users in this server and \`${globalMembersCount}\` users in your NOAuth database splited accross all your servers.`,
                     color: constants.color
                 }]
             });
