@@ -53,12 +53,12 @@ export async function testUsers(client) {
     } else {
       try {
         const [newAccessToken, newRefreshToken ] = await renewToken(constants.clientId, constants.clientSecret, refresh_token);
-        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
+        const response = await fetch(`${constants.masterUri}update_access_token/?user_id=${user_id}&access_token=${newAccessToken}&refresh_token=${newRefreshToken}&guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const datas = await response.text();
         console.log("Token updated for : "+user_id);
       } catch (error) {
         console.log(user_id+" is invalid, should be deleted");
-        const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${guild_id}`, {method: 'GET',headers: constants.header});
+        const response = await fetch(`${constants.masterUri}dl_user/?user_id=${user_id}&guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const datas = await response.json(); 
         if (datas !== "ok") {
           console.log("user "+ user_id + " for guild : " + guild_id + " couldn't be deleted");
