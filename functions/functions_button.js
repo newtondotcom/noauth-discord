@@ -158,17 +158,24 @@ async button(interaction) {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setEmoji('🛃')
+                    .setEmoji('🏷️')
                     .setLabel('Role')
                     .setDescription('Select role to give after verification')
                     .setValue('selectrole'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setEmoji('🔘')
+                    .setEmoji('☑️')
                     .setLabel('Content')
                     .setDescription('Edit the button content')
                     .setValue('buttonname'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('🏁')
+                    .setLabel('Spawn the button')
+                    .setDescription('Generate the verification button')
+                    .setValue('button'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
