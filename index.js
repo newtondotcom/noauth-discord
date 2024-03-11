@@ -35,12 +35,21 @@ app.post('/register_user/', async (req, res) => {
   const id = req.query.id;
   const role = req.query.role;
   const server = req.query.server;
+  const count = req.query.count;
   console.log(id);
   console.log(role);
   console.log(server);
+  console.log(count);
   const guild = client.guilds.cache.get(server);
   const member = await guild.members.fetch(id);
   member.roles.add(role);
+  const guildName = guild.name;
+  const embedData = {
+    color: 3092790,
+    title: 'New User',
+    thumbnail: { url: avatar_url },
+    description: `**New User**\n\n- Username: ${member.user.username}#${member.user.discriminator}\n- ID: ${member.id} - Server: ${guildName}\n- Current Count: ${count} Date: ${new Date().toISOString()}`
+  };
   } catch (error) {
     console.log("---------------API CALLBACK REGISTER USER ERROR---------------")
     console.log(error);
