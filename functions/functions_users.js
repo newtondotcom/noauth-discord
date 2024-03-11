@@ -28,7 +28,7 @@ export default {
                 content: "",
                 embeds: [{
                     title: '💪 NOAuth Users',
-                    description: `**✅ Already in the server :** \`${localGuildCount}\` \n **🎯 Total :** \`${globalMembersCount}\` \n **🗑️ revoked :**\`...\` `,
+                    description: `**✅ Already in the server :** \`${localGuildCount}\` \n **🎯 Total :** \`${globalMembersCount}\` \n **🗑️ Revoked :**\`...\` `,
                     color: constants.color
                 }]
             });
