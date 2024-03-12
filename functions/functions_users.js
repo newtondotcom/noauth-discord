@@ -1,4 +1,4 @@
-import {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
+import {ModalBuilder,TextInputBuilder, TextInputStyle, ButtonBuilder , ButtonStyle, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 import constants from '../constants.js';
 import fetch from 'node-fetch';
 import e from 'express';
@@ -45,37 +45,6 @@ export default {
         }
     },
 
-    //// MENU JOIN
-    async menujoin(interaction) {
-        const selectMenu = new StringSelectMenuBuilder()
-            .setPlaceholder('Select an option')
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setEmoji('⏩')
-                    .setLabel('Speed')
-                    .setDescription('Manage the speed')
-                    .setValue('joinspeed'),
-            )
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setEmoji('🚀')
-                    .setLabel('Start')
-                    .setDescription('Set the number of joins and start the session.')
-                    .setValue('selectjoin'),
-            )
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setEmoji('❌')
-                    .setLabel('Cancel')
-                    .setDescription('Back.')
-                    .setValue('manageuser'),
-            )
-            .setCustomId('selectUser');
-  
-            const row = new ActionRowBuilder().addComponents(selectMenu);
-            await interaction.update({ content: '', components: [row] });
-        },
-
         async joinspeed(interaction) {
             const selectMenu = new StringSelectMenuBuilder()
                 .setPlaceholder('Select an option')
@@ -100,13 +69,7 @@ export default {
                         .setDescription('each 1s')
                         .setValue('max'),
                 )
-                .addOptions(
-                    new StringSelectMenuOptionBuilder()
-                        .setEmoji('✅')
-                        .setLabel('Approved')
-                        .setValue('menujoin'),
-                )
-                .setCustomId('selectUser');
+                .setCustomId('selectspeed');
       
         const row = new ActionRowBuilder().addComponents(selectMenu);
         await interaction.update({ content: '', components: [row] });
@@ -157,6 +120,14 @@ export default {
         let userPerempted = 0;
     
         console.log("We fetched " + json.members.length + " users from the API");
+
+        const cancel = new ButtonBuilder()
+        .setCustomId('canceljoin')
+        .setLabel('Cancel')
+        .setStyle(ButtonStyle.Secondary);
+
+        const row = new ActionRowBuilder()
+        .addComponents(cancel);
     
         for (const userData of json.members) {
             if (amount != 0 && success >= amount) break;
@@ -191,7 +162,8 @@ export default {
                         title: '🧑 NOAuth Joinall',
                         description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n __Details__ :\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}\n⚰️ **Users Access Lost**: ${userPerempted}`,
                         color: constants.color
-                    }]
+                    }],
+                    components: [row]
                 });
                 const delay = Math.random() * (2000) + 500;
                 await new Promise(r => setTimeout(r, delay));
@@ -214,7 +186,8 @@ export default {
             content: `**Joined successfully \`${success}\` users**  `
         });
     } catch (error) {
-        await interaction.update({
+        console.log(error);
+        await msg.edit({
             content: "An error occurred while fetching data from the API.",
             embeds: []
         });
