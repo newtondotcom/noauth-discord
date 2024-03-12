@@ -72,7 +72,7 @@ export default {
                 .setCustomId('selectspeed');
       
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: '', components: [row] });
+        await interaction.update({ content: 'The **slowest** is the **safest** in terms of Discord Terms of Utilisation.', components: [row] });
     },
 
     //// SELECT COUNT JOIN
