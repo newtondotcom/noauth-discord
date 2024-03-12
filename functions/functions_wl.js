@@ -22,7 +22,7 @@ export default {
         
         }
 
-        interaction.update({
+        await interaction.update({
           embeds: [{
             title: "Whitelisted Users",
             description: content,
