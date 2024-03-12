@@ -7,7 +7,8 @@ export async function sendWebhook(title,body){
             {
                 "title": title,
                 "description": body,
-                "color": 16711680
+                "color": constants.color,
+                "timestamp": new Date(),
             }
         ]
     };
