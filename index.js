@@ -377,7 +377,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
 
     if (interaction.customId === 'selectspeed') {
-
+      const speed = interaction.values[0];
+      const query = await fetch(constants.masterUri + `set_speed/?guild_id=${interaction.guildId}&speed=${speed}`, { method: 'GET', headers: constants.header });
+      const datas = await query.text();
+      await functions_manage.default.manageuser(interaction);
     }
 
 
