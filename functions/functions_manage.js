@@ -73,7 +73,7 @@ export default {
                     .setEmoji('🎣')
                     .setLabel('Join')
                     .setDescription('Join a number of people in the server you want')
-                    .setValue('selectjoin'),
+                    .setValue('menujoin'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
@@ -126,6 +126,13 @@ export default {
                     .setLabel('List')
                     .setDescription('List who has access to your bot')
                     .setValue('listwl'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('⛔')
+                    .setLabel('WL Restrictions')
+                    .setDescription('List who has access to your bot')
+                    .setValue('wlrulesmanage'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
@@ -187,7 +194,7 @@ export default {
     ///////////////////SUBSCRIPTION
 
     async sub(interaction) {
-        const response = await fetch(`${constants.masterUri}get_subscription/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
+        const response = await fetch(`${constants.masterUri}get_subscription?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
         const json = await response.json();
         const description = `**📆 Start : ** ${json.subscription_date.split("T")[0]} **At ** ${json.subscription_date.split("T")[1].substring(0, 8)}\n **🕐 Time left :** ${json.subscription_duration} days`;
         await interaction.update({
