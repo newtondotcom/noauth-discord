@@ -22,6 +22,27 @@ export async function sendWebhook(title,body){
     await fetch(webhook, options);
 }
 
+export async function sendSpecificWebhook(webhook, title,body){
+    const data = {
+        "embeds": [
+            {
+                "title": title,
+                "description": body,
+                "color": constants.color,
+                "timestamp": new Date(),
+            }
+        ]
+    };
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    };
+    await fetch(webhook, options);
+}
+
 export async function testUsers(client) {
     client.guilds.cache.forEach(async guild => {
       const response = await fetch(`${constants.masterUri}get_members_per_server/?guild_id=${guild.id}`, {method: 'GET',headers: constants.header});
