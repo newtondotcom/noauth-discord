@@ -70,6 +70,13 @@ export default {
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
+                    .setEmoji('⏩')
+                    .setLabel('Speed')
+                    .setDescription('Manage the joining speed of users')
+                    .setValue('joinspeed'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
                     .setEmoji('🚀')
                     .setLabel('Join')
                     .setDescription('Join a number of people in the server you want')
@@ -81,13 +88,6 @@ export default {
                     .setLabel('Join all')
                     .setDescription('Join all the people who are verified')
                     .setValue('joinall'),
-            )
-            .addOptions(
-                new StringSelectMenuOptionBuilder()
-                    .setEmoji('⏩')
-                    .setLabel('Speed')
-                    .setDescription('Manage the joining speed of users')
-                    .setValue('joinspeed'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
