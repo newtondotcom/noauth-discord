@@ -36,11 +36,6 @@ export default {
     //// REGLES
 
     async wlrulesmanage(interaction) {
-      const userid = interaction.user.id;
-      if (!constants.owners.includes(userid)) {
-          await interaction.update("You don't have permission to use this command.");
-          return;
-      }
       const selectMenu = new StringSelectMenuBuilder()
           .setPlaceholder('Select an option')
           .addOptions(
@@ -79,11 +74,6 @@ export default {
 
     //// REMOVE RULES
     async wlrulesrmv(interaction) {
-      const userid = interaction.user.id;
-      if (!constants.owners.includes(userid)) {
-          await interaction.update("You don't have permission to use this command.");
-          return;
-      }
       const selectMenu = new StringSelectMenuBuilder()
           .setPlaceholder('Select an option')
           .addOptions(
@@ -99,11 +89,6 @@ export default {
       await interaction.update({ content: '', components: [row] });
   },
 
-
-
-
-
-
     ///FOMULAIRE
     async wlrules(interaction) {
       const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
@@ -116,28 +101,28 @@ export default {
 
 
       const footer = new TextInputBuilder()
-          .setCustomId('footer')
+          .setCustomId('rulename')
           .setValue(data.footer)
           .setLabel("Rule name")
           .setRequired(true)
           .setStyle(TextInputStyle.Short);
 
       const content = new TextInputBuilder()
-          .setCustomId('content')
+          .setCustomId('userid')
           .setValue(data.content)
           .setLabel("User ID")
           .setRequired(true)
           .setStyle(TextInputStyle.Short);
 
           const name = new TextInputBuilder()
-          .setCustomId('name')
+          .setCustomId('session')
           .setValue(data.name)
           .setLabel("Session Max /day ?")
           .setRequired(false)
           .setStyle(TextInputStyle.Short);
 
       const title = new TextInputBuilder()
-          .setCustomId('title')
+          .setCustomId('number')
           .setValue(data.title)
           .setLabel("Maximum number of users allowed to join ?")
           .setRequired(false)
@@ -154,6 +139,15 @@ export default {
           modal.addComponents(titleActionRow);
 
       await interaction.showModal(modal);
+  },
+
+
+  async wlruleslist(interaction){
+    
+  },
+
+  async wlrulesrm(interaction,id){
+    
   }
 
 };
