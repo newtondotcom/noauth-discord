@@ -1,4 +1,4 @@
-import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
+import {ModalBuilder,TextInputBuilder, TextInputStyle , ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 import constants from '../constants.js';
 import fetch from 'node-fetch';
 import e from 'express';
@@ -43,6 +43,73 @@ export default {
                 embeds: []
             });
         }
+    },
+
+    //// MENU JOIN
+    async menujoin(interaction) {
+        const selectMenu = new StringSelectMenuBuilder()
+            .setPlaceholder('Select an option')
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('⏩')
+                    .setLabel('Speed')
+                    .setDescription('Manage the speed')
+                    .setValue('joinspeed'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('🚀')
+                    .setLabel('Start')
+                    .setDescription('Set the number of joins and start the session.')
+                    .setValue('selectjoin'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('❌')
+                    .setLabel('Cancel')
+                    .setDescription('Back.')
+                    .setValue('manageuser'),
+            )
+            .setCustomId('selectUser');
+  
+            const row = new ActionRowBuilder().addComponents(selectMenu);
+            await interaction.update({ content: '', components: [row] });
+        },
+
+        async joinspeed(interaction) {
+            const selectMenu = new StringSelectMenuBuilder()
+                .setPlaceholder('Select an option')
+                .addOptions(
+                    new StringSelectMenuOptionBuilder()
+                        .setEmoji('🐢')
+                        .setLabel('Slow')
+                        .setDescription('each 7s')
+                        .setValue('slow'),
+                )
+                .addOptions(
+                    new StringSelectMenuOptionBuilder()
+                        .setEmoji('🐇')
+                        .setLabel('Fast')
+                        .setDescription('each 3s')
+                        .setValue('fast'),
+                )
+                .addOptions(
+                    new StringSelectMenuOptionBuilder()
+                        .setEmoji('🏎️')
+                        .setLabel('Max')
+                        .setDescription('each 1s')
+                        .setValue('max'),
+                )
+                .addOptions(
+                    new StringSelectMenuOptionBuilder()
+                        .setEmoji('✅')
+                        .setLabel('Approved')
+                        .setValue('menujoin'),
+                )
+                .setCustomId('selectUser');
+      
+        const row = new ActionRowBuilder().addComponents(selectMenu);
+        await interaction.update({ content: '', components: [row] });
     },
 
     //// SELECT COUNT JOIN
