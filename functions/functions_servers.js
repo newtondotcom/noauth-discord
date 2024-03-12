@@ -10,7 +10,7 @@ export default {
 
         interaction.client.guilds.cache.forEach(guild => {
             if (guild.id == constants.masterDiscordGuildID) return;
-            serverList.push(`\`${guild.name}\` | \`${guild.id}\``);
+            serverList.push(`\`${guild.name}\` | 🆔 \`${guild.id}\``);
         });
 
         const description =  " 🔶  " + serverList.join('\n \n 🔶 ');

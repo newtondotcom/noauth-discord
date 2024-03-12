@@ -221,13 +221,6 @@ export default {
         )
         .addOptions(
             new StringSelectMenuOptionBuilder()
-                .setEmoji('🔘')
-                .setLabel('Spawn the button')
-                .setDescription('Generate the verification button')
-                .setValue('button'),
-        )
-        .addOptions(
-            new StringSelectMenuOptionBuilder()
                 .setEmoji('🤖')
                 .setLabel('About your bot')
                 .setDescription('Manage your bot')
