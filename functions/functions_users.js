@@ -1,7 +1,6 @@
 import {ModalBuilder,TextInputBuilder, TextInputStyle, ButtonBuilder , ButtonStyle, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 import constants from '../constants.js';
 import fetch from 'node-fetch';
-import e from 'express';
 
 
 export default {
@@ -87,10 +86,7 @@ export default {
             .setStyle(TextInputStyle.Short)
 
         const countActionRow = new ActionRowBuilder().addComponents(count);
-
         modal.addComponents(countActionRow);
-
-        // Reply to the interaction with the modal
         await interaction.showModal(modal);
     },
 
@@ -128,9 +124,14 @@ export default {
 
         const row = new ActionRowBuilder()
         .addComponents(cancel);
-    
+
+        let userAsked = "";
+        if (amount != 0) userAsked = " " + amount + " users asked to join";
+        else userAsked = " All users asked to join";
+
         for (const userData of json.members) {
             if (amount != 0 && success >= amount) break;
+            if (constants.pauseJoin && constants.pauseJoin == true) break;
             try {
                 const user = await interaction.client.users.fetch(userData.userID).catch(() => { });
                 if (!user) {
@@ -172,19 +173,27 @@ export default {
                 console.error(error);
                 error++;
             }
-    
             await msg.edit({
                 embeds: [{
-                    title: '🧑 NOAuth Joinall',
+                    title: '🧑 NOAuth -' + userAsked,
                     description: `ℹ️ **Already in server**: ${alreadyJoined}\n✅ **Success**: ${success}\n❌ **Error**: ${error}\n __Details__ :\n💯 **100-server Limit**: ${max100}\n🔍 **Users not found**: ${userNotFound}\n🧯 **Accounts not verified**: ${accountNotVerified}\n⚰️ **Users Access Lost**: ${userPerempted}`,
                     color: constants.color
                 }]
             });
         }
     
-        await msg.edit({
-            content: `**Joined successfully \`${success}\` users**  `
-        });
+        if (constants.pauseJoin && constants.pauseJoin == true) {
+            await msg.edit({
+                content: "The join process has been paused.",
+                embeds: []
+            });
+            constants.pauseJoin = false;
+        } else {
+            await msg.edit({
+                content: `**Joined successfully \`${success}\` users**  `,
+                embeds: []
+            });
+        }
     } catch (error) {
         console.log(error);
         await msg.edit({

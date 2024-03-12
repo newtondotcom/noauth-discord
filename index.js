@@ -383,6 +383,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await functions_manage.default.manageuser(interaction);
     }
 
+    if (interaction.customId === 'canceljoin') {
+      constants.pauseJoin = true;
+      await functions_manage.default.manageuser(interaction);
+    }
+
 
     if (!interaction.isChatInputCommand()) return;
 
