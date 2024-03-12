@@ -177,6 +177,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'button':
           await functions_button.default.button(interaction);
           break;
+        case 'buttonpreview':
+          await functions_button.default.buttonpreview(interaction);
+          break;
         case 'custombuttongraphic':
           await functions_button.default.custombuttongraphic(interaction);
           break;
