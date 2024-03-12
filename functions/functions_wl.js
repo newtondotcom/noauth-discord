@@ -97,7 +97,8 @@ export default {
 
       const modal = new ModalBuilder()
           .setCustomId('wlrules')
-          .setTitle('Wl Restrictions');
+          .setTitle('Wl Restrictions')
+          ;
 
 
       const footer = new TextInputBuilder()
@@ -117,14 +118,14 @@ export default {
           const name = new TextInputBuilder()
           .setCustomId('session')
           .setValue(data.name)
-          .setLabel("Session Max /day ?")
+          .setLabel("Session Max /day ? (0 for ∞)")
           .setRequired(false)
           .setStyle(TextInputStyle.Short);
 
       const title = new TextInputBuilder()
           .setCustomId('number')
           .setValue(data.title)
-          .setLabel("Maximum number of users allowed to join ?")
+          .setLabel("Max nb of users to join ? (0 for ∞)")
           .setRequired(false)
           .setStyle(TextInputStyle.Short);
 
