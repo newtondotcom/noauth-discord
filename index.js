@@ -9,7 +9,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import CronJob from 'cron';
 import { fileURLToPath } from 'url';
-import { testUsers, sendWebhook } from './utils.js';
+import { testUsers, sendWebhook, sendSpecificWebhook } from './utils.js';
 
 
 import express from 'express';
@@ -36,30 +36,29 @@ app.post('/register_user/', async (req, res) => {
   const role = req.query.role;
   const server = req.query.server;
   const count = req.query.count;
-  console.log(id);
-  console.log(role);
-  console.log(server);
-  console.log(count);
-  const guild = client.guilds.cache.get(server);
-  const member = await guild.members.fetch(id);
-  member.roles.add(role);
-  const guildName = guild.name;
-  const embedData = {
-    color: 3092790,
-    title: 'New User',
-    thumbnail: { url: avatar_url },
-    description: `**New User**\n\n- Username: ${member.user.username}#${member.user.discriminator}\n- ID: ${member.id} - Server: ${guildName}\n- Current Count: ${count} Date: ${new Date().toISOString()}`
-  };
+  const webhook = decodeURIComponent(req.query.webhook);
+  let body = "";
+  try {
+    const guild = client.guilds.cache.get(server);
+    const member = await guild.members.fetch(id);
+    member.roles.add(role);
+    const guildName = guild.name;
+    body = `Username: ${member.user.username}#${member.user.discriminator}\n- ID: ${member.id} - Server: ${guildName}\n- Current count: ${count}`
+  } catch (error) {
+    body = `Current count: ${count}`
+    console.log("Server "+ server +" not found");
+  }
+  sendSpecificWebhook(webhook, "New user registered", body);
+  res.sendStatus(200);
   } catch (error) {
     console.log("---------------API CALLBACK REGISTER USER ERROR---------------")
     console.log(error);
   }
-  res.sendStatus(200);
 });
 
 //API ENDPOINTS FOR THE MASTER BOT
 
-app.post('/leave', async (req, res) => {
+app.get('/leave', async (req, res) => {
   const guildId = req.query.guild_id;
   functions_api.default.leave(client, guildId);
   res.sendStatus(200);
@@ -81,7 +80,7 @@ app.get('/send_webhook', async (req, res) => {
   res.json(response);
 });
 
-app.post('/join_x_from_to', async (req, res) => {
+app.get('/join_x_from_to', async (req, res) => {
   const amount = req.query.amount;
   const from = req.query.from;
   const to = req.query.to;
