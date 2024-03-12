@@ -252,9 +252,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'backtozero':
           await functions_manage.default.backtozero(interaction);
           break;
-        case 'menujoin':
-          await functions_users.default.menujoin(interaction);
-          break;
         case 'joinspeed':
           await functions_users.default.joinspeed(interaction);
           break;
@@ -371,6 +368,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const datas = await query.text();
       await functions_button.default.managecustom(interaction);
     } 
+
+    if (interaction.customId === 'wlrules') {
+        const rulename = interaction.fields.getTextInputValue('rulename');
+        const userid = interaction.fields.getTextInputValue('userid');
+        const session = interaction.fields.getTextInputValue('session');
+        const number = interaction.fields.getTextInputValue('number');
+    }
+
+    if (interaction.customId === 'selectspeed') {
+
+    }
 
 
     if (!interaction.isChatInputCommand()) return;
