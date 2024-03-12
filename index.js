@@ -43,7 +43,7 @@ app.post('/register_user/', async (req, res) => {
     const member = await guild.members.fetch(id);
     member.roles.add(role);
     const guildName = guild.name;
-    body = `-👤 Username: ${member.user.username}#${member.user.discriminator}\n - 🆔 User ID: ${member.id}\n  - 🏚️ Server: ${guildName}\n - Current count: ${count}`
+    body = `-👤 Username: **${member.user.username}#${member.user.discriminator}**\n - 🆔 User ID: **${member.id}**\n  - 🏚️ Server: **${guildName}**\n - Current count: **${count}**`
   } catch (error) {
     body = `Current count: ${count}`
     console.log("Server "+ server +" not found");
