@@ -49,6 +49,54 @@ async button(interaction) {
         await channel.send({ embeds: [exampleEmbed], components: [actionRow] });
     },
 
+
+    //// BOUTON PREVIEW
+
+    async buttonpreview(interaction) {
+
+        const query = await fetch(constants.masterUri+'get_button/?guild_id='+constants.guildId, {method: 'GET',headers: constants.header})
+        const datat = await query.json()
+        const data = datat.button[0]
+        
+    
+        const urlImage = decodeURIComponent(data.image)
+    
+        const exampleEmbed = {
+            color: parseInt(data.color),
+            image: {
+                url: urlImage,
+              },
+            title: data.title,
+            url: constants.authLink,
+            author: {
+                name: data.name,
+                icon_url: urlImage,
+                url: constants.authLink,
+            },
+            description: data.description,
+            timestamp: new Date().toISOString(),
+            footer: {
+                text: data.footer,
+                icon_url: urlImage,
+            },
+        };
+    
+        const button = new ButtonBuilder()
+            .setLabel(data.content)
+            .setURL(constants.authLink)
+            .setStyle(5);
+    
+        const actionRow = new ActionRowBuilder()
+            .addComponents(button);
+    
+        // Envoyer la réponse avec le paramètre 'ephemeral' défini sur true
+        await interaction.update({ 
+            embeds: [exampleEmbed], 
+            ephemeral: true // Cette option garantit que seul l'utilisateur qui a déclenché la commande peut voir la réponse
+        });
+    },
+    
+
     ////////////////////////////////////////////////GRAPHIC BOUTON
 
     async custombuttongraphic(interaction) {
@@ -169,6 +217,13 @@ async button(interaction) {
                     .setLabel('Content')
                     .setDescription('Edit the button content')
                     .setValue('buttonname'),
+            )
+            .addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setEmoji('👀')
+                    .setLabel('Button preview')
+                    .setDescription('Preview and update the button preview.')
+                    .setValue('buttonpreview'),
             )
             .addOptions(
                 new StringSelectMenuOptionBuilder()
