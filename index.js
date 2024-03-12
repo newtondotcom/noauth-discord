@@ -56,45 +56,6 @@ app.post('/register_user/', async (req, res) => {
   }
 });
 
-//API ENDPOINTS FOR THE MASTER BOT
-
-app.get('/leave', async (req, res) => {
-  const guildId = req.query.guild_id;
-  functions_api.default.leave(client, guildId);
-  res.sendStatus(200);
-});
-
-app.get('/send_webhook', async (req, res) => {
-  const webhook = decodeURIComponent(req.query.webhook);
-  const username = req.query.username;
-  const guildid = req.query.guildid;
-  const count = req.query.count;
-  const guildName = client.guilds.cache.get(guildid).name;
-  const content = {
-    username: username,
-    avatar_url: 'https://cdn.discordapp.com/avatars/853888570026582036/4b4e4c9b4e2f3f4b7e5c1b3d2b3e4b4c.webp?size=256',
-    content: `**${guildName}** has ${count} users!`
-  };
-  const title = "New user count";
-  sendWebhook(title, content);
-  res.json(response);
-});
-
-app.get('/join_x_from_to', async (req, res) => {
-  const amount = req.query.amount;
-  const from = req.query.from;
-  const to = req.query.to;
-  const { success, error, alreadyJoined } = functions_api.join_from_to(client, amount, from, to);
-  const response = {
-    success,
-    error,
-    alreadyJoined
-  };
-  res.json(response);
-});
-
-
-
 //DISCORD
 const clientCommands = new Collection();
 
