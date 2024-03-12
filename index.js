@@ -1,4 +1,4 @@
-import {Client, Events, Collection, ActivityType} from 'discord.js';
+import {Client, Events, Collection, ActivityType, ALLOWED_EXTENSIONS} from 'discord.js';
 const client = new Client({
   intents: 32767,
 });
@@ -43,7 +43,7 @@ app.post('/register_user/', async (req, res) => {
     const member = await guild.members.fetch(id);
     member.roles.add(role);
     const guildName = guild.name;
-    body = `- Username: ${member.user.username}#${member.user.discriminator}\n- User ID: ${member.id}\n - Server: ${guildName}\n- Current count: ${count}`
+    body = `- Username: ${member.user.username}#${member.user.discriminator}\n - User ID: ${member.id}\n - Server: ${guildName}\n- Current count: ${count}`
   } catch (error) {
     body = `Current count: ${count}`
     console.log("Server "+ server +" not found");
@@ -204,6 +204,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
         case 'managewlremove':
           await functions_manage.default.managewlremove(interaction);
           break;
+        case 'wlrulesmanage':
+          await functions_wl.default.wlrulesmanage(interaction);
+          break;
+        case 'wlruleslist':
+          await functions_wl.default.wlruleslist(interaction);
+          break;
+        case 'wlrulesrmv':
+          await functions_wl.default.wlrulesrmv(interaction);
+          break;
+        case 'wlrules':
+          await functions_wl.default.wlrules(interaction);
+          break;
         case 'users':
           await functions_users.default.users(interaction);
           break;
@@ -236,6 +248,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
           break;
         case 'backtozero':
           await functions_manage.default.backtozero(interaction);
+          break;
+        case 'menujoin':
+          await functions_users.default.menujoin(interaction);
+          break;
+        case 'joinspeed':
+          await functions_users.default.joinspeed(interaction);
           break;
         case 'panel':
           const command = clientCommands.get('panel');
