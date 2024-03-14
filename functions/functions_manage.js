@@ -150,7 +150,7 @@ export default {
             .setCustomId('selectBot');
 
         const row = new ActionRowBuilder().addComponents(selectMenu);
-        await interaction.update({ content: '', components: [row] });
+        await interaction.update({ content: '', components: [row] ,embeds: []});
     },
 
     //////////////////MANAGEWLADD
