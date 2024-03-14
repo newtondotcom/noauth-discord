@@ -115,6 +115,7 @@ export default {
         let accountNotVerified = 0;
         let userPerempted = 0;
     
+        const speed = constants.speed;
         console.log("We fetched " + json.members.length + " users from the API");
 
         const cancel = new ButtonBuilder()
@@ -166,7 +167,7 @@ export default {
                     }],
                     components: [row]
                 });
-                const delay = Math.random() * (2000) + 500;
+                const delay = Math.random() * (1000) + speed*1000;
                 await new Promise(r => setTimeout(r, delay));
             }
             catch (error) {
