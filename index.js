@@ -370,22 +370,36 @@ client.on(Events.InteractionCreate, async (interaction) => {
     } 
 
     if (interaction.customId === 'wlrules') {
-        const rulename = interaction.fields.getTextInputValue('rulename');
         const userid = interaction.fields.getTextInputValue('userid');
         const session = interaction.fields.getTextInputValue('session');
         const number = interaction.fields.getTextInputValue('number');
+        const guild_id = constants.guildId;
+        const req = await fetch(constants.masterUri + `add_whitelist_rule/?guild_id=${guild_id}&user_id=${userid}&joinlimit=${number}&sessionlimit=${session}`, { method: 'GET', headers: constants.header });
+        const datas = await req.text();
+        await functions_wl.default.wlrulesmanage(interaction);
     }
 
     if (interaction.customId === 'selectspeed') {
-      const speed = interaction.values[0];
-      const query = await fetch(constants.masterUri + `set_speed/?guild_id=${interaction.guildId}&speed=${speed}`, { method: 'GET', headers: constants.header });
+      const speedString = interaction.values[0];
+      let speed ;
+      if (speedString === "slow") speed = 7;
+      if (speedString === "fast") speed = 3;
+      if (speedString === "max") speed = 1;
+      const query = await fetch(constants.masterUri + `set_speed/?guild_id=${constants.guildId}&speed=${speed}`, { method: 'GET', headers: constants.header });
       const datas = await query.text();
       await functions_manage.default.manageuser(interaction);
     }
 
-    if (interaction.customId === 'canceljoin') {
+    if (interaction.customId === 'canceljoin') { 
       constants.pauseJoin = true;
       await functions_manage.default.manageuser(interaction);
+    }
+
+    if (interaction.customId === 'wlrulermreq') {
+      const id = interaction.fields.getTextInputValue('ruleid');
+      const req = await fetch(constants.masterUri + `rm_whitelist_rule/?rule_id=${id}`, { method: 'GET', headers: constants.header });
+      const datas = await req.text();
+      await functions_wl.default.wlrulesmanage(interaction);
     }
 
 
