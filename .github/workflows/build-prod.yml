@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+name: Build PROD
 
 env:
   DOCKER_TAG : newtondotcom/noauthdiscord:latest
