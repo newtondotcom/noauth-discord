@@ -68,25 +68,27 @@ export default {
           .setCustomId('selectBot');
 
       const row = new ActionRowBuilder().addComponents(selectMenu);
-      await interaction.update({ content: '', components: [row] });
+      await interaction.update({ content: '', components: [row], embeds: []});
   },
 
 
     //// REMOVE RULES
     async wlrulesrmv(interaction) {
-      const selectMenu = new StringSelectMenuBuilder()
-          .setPlaceholder('Select an option')
-          .addOptions(
-            new StringSelectMenuOptionBuilder()
-                .setEmoji('🔴')
-                .setLabel('Rule 1')
-                .setDescription('Give access to your bot')
-                .setValue('wlrulesmanage'),
-          )
-          .setCustomId('selectBot');
+      const modal = new ModalBuilder()
+          .setCustomId('wlrulermreq')
+          .setTitle('Wl Restrictions');
 
-      const row = new ActionRowBuilder().addComponents(selectMenu);
-      await interaction.update({ content: '', components: [row] });
+      const name = new TextInputBuilder()
+          .setCustomId('ruleid')
+          .setValue(" ")
+          .setLabel("Rule ID")
+          .setRequired(true)
+          .setStyle(TextInputStyle.Short);
+
+          const nameActionRow = new ActionRowBuilder().addComponents(name);
+          modal.addComponents(nameActionRow);
+
+      await interaction.showModal(modal);
   },
 
     ///FOMULAIRE
@@ -97,16 +99,7 @@ export default {
 
       const modal = new ModalBuilder()
           .setCustomId('wlrules')
-          .setTitle('Wl Restrictions')
-          ;
-
-
-      const footer = new TextInputBuilder()
-          .setCustomId('rulename')
-          .setValue(data.footer)
-          .setLabel("Rule name")
-          .setRequired(true)
-          .setStyle(TextInputStyle.Short);
+          .setTitle('Wl Restrictions');
 
       const content = new TextInputBuilder()
           .setCustomId('userid')
@@ -129,12 +122,9 @@ export default {
           .setRequired(false)
           .setStyle(TextInputStyle.Short);
 
-          const footerActionRow = new ActionRowBuilder().addComponents(footer);
           const nameActionRow = new ActionRowBuilder().addComponents(name);
           const titleActionRow = new ActionRowBuilder().addComponents(title);
           const contentActionRow = new ActionRowBuilder().addComponents(content);
-  
-          modal.addComponents(footerActionRow);
           modal.addComponents(contentActionRow);
           modal.addComponents(nameActionRow);
           modal.addComponents(titleActionRow);
@@ -144,11 +134,29 @@ export default {
 
 
   async wlruleslist(interaction){
-    
-  },
+   const req = await fetch(constants.masterUri + `get_whitelist_rules/?guild_id=${constants.guildId}`, {method: 'GET',headers: constants.header});
+    const data = await req.json();
+    const rules = data.rules;
+    var content = "";
+      content = " **ID | User | Session Limit | Join Limit** \n"
+      for (let i in rules) {
+        content += `\`${rules[i].id}\` ${interaction.client.users.cache.get(rules[i].user_id).tag} | \`${rules[i].sessionlimit}\`| \`${rules[i].joinlimit}\` \n`;
+      }
 
-  async wlrulesrm(interaction,id){
-    
+      if (content == "") {
+        content = "No rules for now, try to add one";
+      } else {
+        content = `${content}`;
+      
+      }
+
+      await interaction.update({
+        embeds: [{
+          title: "Rules",
+          description: content,
+          color: constants.color,
+        }]
+      });
   }
 
 };
