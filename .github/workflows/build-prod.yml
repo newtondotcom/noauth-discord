@@ -4,9 +4,7 @@ env:
   DOCKER_TAG : newtondotcom/noauthdiscord:latest
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   docker:
