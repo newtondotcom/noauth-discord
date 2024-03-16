@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:18-alpine
 
 RUN mkdir -p /usr/src/bot
 
@@ -6,6 +6,7 @@ WORKDIR /usr/src/bot
 
 COPY . .
 
+RUN npm install -g pnpm
 RUN pnpm install
 
 RUN --mount=type=secret,id=MASTER_URL \
