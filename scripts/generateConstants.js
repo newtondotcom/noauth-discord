@@ -2,7 +2,7 @@ let botname = "bashox";
 
 import 'dotenv/config'
 import fs from 'fs/promises';
-const masterUri = process.env.MASTER_URI;
+const masterUri = process.env.MASTER_URL;
 const apiKey = process.env.API_KEY;
 
 async function generateConstantsFile() {
