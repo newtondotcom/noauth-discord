@@ -4,6 +4,8 @@ RUN mkdir -p /usr/src/bot
 
 WORKDIR /usr/src/bot
 
+EXPOSE 5000
+
 COPY . .
 
 RUN npm install -g pnpm
