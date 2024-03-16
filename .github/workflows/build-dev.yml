@@ -1,8 +1,5 @@
 name: Build DEV
 
-env:
-  DOCKER_TAG : newtondotcom/noauthdiscorddev:latest
-
 on:
   push:
     branches:
@@ -26,8 +23,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.DOCKER_TAG }}
+          tags: ${{ secrets.DOCKER_TAG_DEV }}
           platforms: linux/amd64, linux/arm64
           secrets: |
-            MASTER_URL=${{ secrets.MASTER_URL }}
-            API_KEY=${{ secrets.API_KEY }}
+            "MASTER_URL=${{ secrets.MASTER_URL }}"
+            "API_KEY=${{ secrets.API_KEY }}"
