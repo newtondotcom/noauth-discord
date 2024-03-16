@@ -41,7 +41,7 @@ async function getConstants() {
     const dic = {};
     dic.name = botname;
     dic.masterUri = masterUri;
-    const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name);
+    const req = await fetch(dic.masterUri + 'get_params/?name=' + dic.name, {method: 'GET', headers: {'Authorization': apiKey}});
     const data = await req.json();
     dic.token = data.token;
     dic.clientId = data.clientId;
