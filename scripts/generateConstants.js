@@ -1,7 +1,9 @@
 let botname = "bashox";
 
+import 'dotenv/config'
 import fs from 'fs/promises';
-let masterUri = "http://141.145.217.120:4000/"
+const masterUri = process.env.MASTER_URI;
+const apiKey = process.env.API_KEY;
 
 async function generateConstantsFile() {
     console.log('Generating constants.js file...');
@@ -21,7 +23,7 @@ var constants = {
     webhook: '${apiData.webhook}',
     name: '${apiData.name}',
     masterUri: '${apiData.masterUri}',
-    header : {'Authorization': 'Api-Key 69f13396-66d1-4736-873e-0ddd2ba476ea'}
+    header : {'Authorization': '${apiKey}'},
 };
 
 export default constants;
