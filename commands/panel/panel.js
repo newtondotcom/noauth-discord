@@ -65,7 +65,7 @@ export default {
                 {
                   color: 0xff8000,
                   title: `🆔  Manage your NOAuth bot`,
-                  description: '**Welcome to your NOAuth.**\n **There are some rules to read before use. \n `[1]` Do not resell the bot ❌ \n `[2]`...** \n \n If you have purchased this bot from an individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). You will be rewarded.',
+                  description: '**Welcome to your NOAuth.**\n **There are some rules to read before use. \n `[1]` Do not resell the bot ❌ \n `[2]` We are open for any questions or suggestion** \n \n If you have purchased this bot from an individual, please report it [here](https://discord.com/channels/1005570403932049458/1005573106779304016/1129072045246914630). You will be rewarded.',
                 },
               ],
               ephemeral: true 
