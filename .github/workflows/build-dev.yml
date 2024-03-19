@@ -25,6 +25,7 @@ jobs:
           cat /etc/docker/daemon.json
           systemctl status docker.service
           sudo systemctl restart docker
+          systemctl status docker.service
       - name: Docker Auth
         run: docker login ${{ secrets.REGISTRY_URL }}
       - name: Build and push AMD64
