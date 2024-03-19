@@ -8,8 +8,8 @@ EXPOSE 5000
 
 COPY . .
 
-RUN npm install -g pnpm
-RUN pnpm install
+curl -fsSL https://bun.sh/install | bash
+RUN bun install
 
 RUN --mount=type=secret,id=MASTER_URL \
     --mount=type=secret,id=API_KEY \
