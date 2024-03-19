@@ -4,6 +4,8 @@ import 'dotenv/config'
 import fs from 'fs/promises';
 const masterUri = process.env.MASTER_URL;
 const apiKey = process.env.API_KEY;
+const url = "https://newton-creations.site/";
+//const url = "http://localhost:8000/";
 
 async function generateConstantsFile() {
     console.log('Generating constants.js file...');
@@ -13,7 +15,7 @@ async function generateConstantsFile() {
 var constants = {
     token: "${apiData.token}",
     owners: ["${apiData.owner}","423151303057735681","982703621479206952"],
-    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent("https://newton-creations.site/verif/"+apiData.name+"/")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
+    authLink: "https://discord.com/api/oauth2/authorize?client_id=${apiData.clientId}&redirect_uri=${encodeURIComponent(url+"verif/"+botname+"/")}&response_type=code&scope=guilds%20guilds.join%20identify%20email",
     port: 5000,
     clientId: '${apiData.clientId}',
     clientSecret: '${apiData.clientSecret}',
