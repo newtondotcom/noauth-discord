@@ -163,6 +163,7 @@ client.on("messageCreate", async (message) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
+  await interaction.deferReply({ ephemeral: true });
   if (interaction.customId === 'selectCommand' || interaction.customId === 'selectCustom' || interaction.customId === 'selectUser'|| interaction.customId === 'selectBot'){
     const commandI = interaction.values[0];
     console.log(commandI)
