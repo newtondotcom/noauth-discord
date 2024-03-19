@@ -12,4 +12,4 @@ bun deploy-commands.js
 sleep 2
 
 # Start the main application (index.js)
-bun dev
+bun start
