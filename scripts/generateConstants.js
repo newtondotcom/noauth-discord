@@ -2,8 +2,12 @@ let botname = "bashox";
 
 import 'dotenv/config'
 import fs from 'fs/promises';
+import fetch from 'node-fetch';
+
+
 const masterUri = process.env.MASTER_URL;
 const apiKey = process.env.API_KEY;
+
 let url = " ";
 if (botname == "test"){
     url = "http://localhost:8000/";
