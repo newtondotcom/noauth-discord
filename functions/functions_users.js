@@ -10,7 +10,6 @@ export default {
 
         try {
             const response = await fetch(constants.masterUri + 'get_members/?guild_id=' + constants.guildId, {method: 'GET',headers: constants.header});
-            const response2 = await fetch(constants.masterUri + 'get_members_per_server/?guild_id=' + interaction.guildId, {method: 'GET',headers: constants.header});
             const response3 = await fetch(constants.masterUri + 'get_revoked/?guild_id=' + constants.guildId, {method: 'GET',headers: constants.header});
             if (!response.ok) {
                 throw new Error(`Failed to fetch data from the API. Status: ${response.status}`);
@@ -20,9 +19,15 @@ export default {
             const members = data.members;
             const globalMembersCount = members.length;
 
-            const data2 = await response2.json();
-            const membersLocal = data2.members;
-            const localGuildCount = membersLocal.length;
+            let localGuildCount = 0;
+            for (const member of members) {
+                try {
+                    await interaction.guild.members.fetch(member.userID);
+                    localGuildCount++;
+                }
+                catch (error) {
+                }
+            }
 
             const data3 = await response3.json();
             const membersRevoked = data3.revoked;
@@ -31,7 +36,7 @@ export default {
                 content: "",
                 embeds: [{
                     title: '💪 NOAuth Users',
-                    description: `**✅ Already in the server :** \`${localGuildCount}\` \n **🎯 Total :** \`${globalMembersCount}\` \n **🗑️ Revoked :**\`${membersRevoked}\` `,
+                    description: `**✅ Already in this server :** \`${localGuildCount}\` \n **🎯 Total :** \`${globalMembersCount}\` \n **🗑️ Revoked :**\`${membersRevoked}\` `,
                     color: constants.color
                 }]
             });
