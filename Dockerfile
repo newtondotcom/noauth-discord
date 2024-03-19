@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM oven/bun
 
 RUN mkdir -p /usr/src/bot
 
@@ -8,7 +8,6 @@ EXPOSE 5000
 
 COPY . .
 
-curl -fsSL https://bun.sh/install | bash
 RUN bun install
 
 RUN --mount=type=secret,id=MASTER_URL \
