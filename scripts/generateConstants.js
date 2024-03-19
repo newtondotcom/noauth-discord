@@ -4,8 +4,13 @@ import 'dotenv/config'
 import fs from 'fs/promises';
 const masterUri = process.env.MASTER_URL;
 const apiKey = process.env.API_KEY;
-const url = "https://newton-creations.site/";
-//const url = "http://localhost:8000/";
+let url = " ";
+if (botname == "test"){
+    url = "http://localhost:8000/";
+}
+else{
+    url = "https://newton-creations.site/";
+}
 
 async function generateConstantsFile() {
     console.log('Generating constants.js file...');
