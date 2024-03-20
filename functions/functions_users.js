@@ -19,16 +19,6 @@ export default {
             const members = data.members;
             const globalMembersCount = members.length;
 
-            let localGuildCount = 0;
-            for (const member of members) {
-                try {
-                    await interaction.guild.members.fetch(member.userID);
-                    localGuildCount++;
-                }
-                catch (error) {
-                }
-            }
-
             const data3 = await response3.json();
             const membersRevoked = data3.revoked;
 
@@ -36,7 +26,8 @@ export default {
                 content: "",
                 embeds: [{
                     title: '💪 NOAuth Users',
-                    description: `**✅ Already in this server :** \`${localGuildCount}\` \n **🎯 Total :** \`${globalMembersCount}\` \n **🗑️ Revoked :**\`${membersRevoked}\` `,
+                    //**✅ Already in this server :** \`${localGuildCount}\` \n 
+                    description: `**🎯 Total :** \`${globalMembersCount}\` \n **🗑️ Revoked :**\`${membersRevoked}\` `,
                     color: constants.color
                 }]
             });
